@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Backend\API\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Http\Resources\Auth\UserRegisterResource;
-use App\Http\Resources\Auth\UserLoginpResource;
+use App\Http\Resources\Auth\AuthResource;
 use App\Http\Requests\Auth\UserLoginRequest;
 use Illuminate\Http\Request;
 use App\Models\User; 
+use App\Models\Admin;
 use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use Illuminate\Validation\ValidationException;
@@ -24,7 +25,7 @@ class AuthController extends Controller
      * 
      *  */    
     public function register(UserRegisterRequest $request, User $user) {
-        // dd('tes');
+    
         try {
             DB::beginTransaction();
             $user = $user->create($request->validated());
@@ -35,6 +36,7 @@ class AuthController extends Controller
 
             DB::commit();
 
+            $admin = Admin::first();
             if ($user) {
                 $postMail = [
                     'email' => [$admin->email],
@@ -81,7 +83,7 @@ class AuthController extends Controller
         }
         $user->role = "user";
         
-        return new UserLoginpResource($user);
+        return new AuthResource($user);
     }
 
     /**
