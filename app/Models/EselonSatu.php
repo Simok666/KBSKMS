@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EselonSatu extends Model
 {
@@ -17,6 +18,14 @@ class EselonSatu extends Model
     protected $fillable = [
         'nama_satuan_kerja_eselon_1'
     ];
+
+    /**
+     * Get the user that owns the eselon satu.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * Get the eselon 2 that owns the Eselon.

@@ -16,13 +16,16 @@ class RoleSeeder extends Seeder
     {
         $createRoleSeeder = [
             [
-                'nama_role' => 'knowledge_contributor'
+                'nama_role' => 'Knowledge Contributor'
             ],
             [
-                'nama_role' => 'knowledge_verificator'
+                'nama_role' => 'Knowledge Verificator'
             ],
             [
-                'nama_role' => 'pimpinan'
+                'nama_role' => 'Knowledge Seeker'
+            ],
+            [
+                'nama_role' => 'Pimpinan'
             ],
         ];
 

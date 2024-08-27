@@ -1,4 +1,4 @@
-@extends('layout.admin')
+@extends('admin.layout.admin')
 
 @section('title', 'Users')
 @section('title_page', 'Users')
@@ -9,11 +9,10 @@
         <h4 class="card-title"></h4>
     </div>
     <div class="card-body">
-        @include('components.table-pagenation', ['table' => 'users' , 'url' => '/api/v1/operator/getUser' , 'headers' => [
-            "Name",
+        @include('admin.components.table-pagenation', ['table' => 'users' , 'url' => '/api/v1/admin/users' , 'headers' => [
+            "Nama",
             "Email",
-            "Library",
-            "Address",
+            "Nip",
             "Status",
             "Action"
         ] , 'pagination' => true])
@@ -83,72 +82,40 @@
                     <tbody>
                         <tr>
                             <th>Name</th>
-                            <td data-bind-name></td>
+                            <td data-bind-nama></td>
                         </tr>
                         <tr>
                             <th>Email</th>
                             <td data-bind-email></td>
                         </tr>
                         <tr>
-                            <th>Pic</th>
-                            <td data-bind-pic_name></td>
+                            <th>Nip</th>
+                            <td data-bind-nip></td>
                         </tr>
                         <tr>
-                            <th>Leader Name</th>
-                            <td data-bind-leader_instance_name></td>
+                            <th>Satuan Kerja Eselon 1</th>
+                            <td data-bind-satuan_kerja_eselon_1></td>
                         </tr>
                         <tr>
-                            <th>Library Name</th>
-                            <td data-bind-library_name></td>
+                            <th>Satuan Kerja Eselon 2</th>
+                            <td data-bind-satuan_kerja_eselon_2></td>
                         </tr>
                         <tr>
-                            <th>Head Library Name</th>
-                            <td data-bind-head_library_name></td>
+                            <th>Satuan Kerja Eselon 3</th>
+                            <td data-bind-satuan_kerja_eselon_3></td>
                         </tr>
                         <tr>
-                            <th>NPP</th>
-                            <td data-bind-npp></td>
+                            <th>Nama jabatan</th>
+                            <td data-bind-nama_jabatan></td>
                         </tr>
                         <tr>
-                            <th>Address</th>
-                            <td data-bind-address></td>
+                            <th>Fungsi</th>
+                            <td data-bind-fungsi></td>
                         </tr>
-                        <tr>
-                            <th>Map Coordinates</th>
-                            <td data-bind-map_coordinates></td>
-                        </tr>
-                        <tr>
-                            <th>Village</th>
-                            <td data-bind-village></td>
-                        </tr>
-                        <tr>
-                            <th>Subdistrict</th>
-                            <td data-bind-subdistrict></td>
-                        </tr>
-                        <tr>
-                            <th>City</th>
-                            <td data-bind-city></td>
-                        </tr>
-                        <tr>
-                            <th>Province</th>
-                            <td data-bind-province></td>
-                        </tr>
-                        <tr>
-                            <th>Phone Number</th>
-                            <td data-bind-number_telephone></td>
-                        </tr>
-                        <tr>
-                            <th>Website</th>
-                            <td data-bind-website></td>
-                        </tr>
-                        <tr>
-                            <th>Library Email</th>
-                            <td data-bind-library_email></td>
-                        </tr>
-                        <tr>
+                        {{-- <tr>
                             <th>Image</th>
                             <td data-bind-image></td>
-                        </tr>
+                        </tr> --}}
                     </tbody>
                 </table>
             </div>
@@ -172,19 +139,19 @@
     function formatusers(data) {
         var result = "";
         $.each(data, function(index, data) {
+            console.log(data)
             result += `
                 <tr>
-                    <td>${data.name}</td>
+                    <td>${data.nama}</td>
                     <td>${data.email}</td>
-                    <td>${empty(data.library_name) ? "-" : data.library_name}</td>
-                    <td>${data.address}</td>
+                    <td>${empty(data.nip) ? "-" : data.nip}</td>
                     <td>
                         ${data.is_verified == '1' ? `<span class="badge bg-success">Verified</span>` : ``}
                         ${data.is_verified == '0' ? `<span class="badge bg-danger">Not Verified</span>` : ``}
                     </td>
                     <td>
-                        <a href="#" class="btn btn-info btn-icon btn-sm btn-detail" title="Detail" data-name="${data.name}" data-email="${data.email}" data-id="${data.id}"><span class="bi bi-info-circle"> </span></a>
-                        ${data.is_verified == '0' ? `<a  href="#" data-bs-toggle="modal" data-bs-target="#warning" class="btn btn-warning btn-icon btn-sm btn-verify" title="Verify" data-name="${data.name}" data-email="${data.email}" data-id="${data.id}"><span class="bi bi-check2"> </span></a>` : ``}
+                        <a href="#" class="btn btn-info btn-icon btn-sm btn-detail" title="Detail" data-name="${data.nama}" data-email="${data.email}" data-id="${data.id}"><span class="bi bi-info-circle"> </span></a>
+                        ${data.is_verified == '0' ? `<a  href="#" data-bs-toggle="modal" data-bs-target="#warning" class="btn btn-warning btn-icon btn-sm btn-verify" title="Verify" data-name="${data.nama}" data-email="${data.email}" data-id="${data.id}"><span class="bi bi-check2"> </span></a>` : ``}
                 </tr>
             `
         });
@@ -200,7 +167,7 @@
     $("#user-verify").on('submit', function(e) {
         e.preventDefault();
         let id = $(this).find("#user_id").val();
-        let url = `${baseUrl}/api/v1/operator/verified/${id}`;
+        let url = `${baseUrl}/api/v1/admin/verified/${id}`;
         let data = {
             "is_verified" : 1
         };
@@ -219,7 +186,7 @@
     $(document).on('click', '.btn-detail', function() {
         $('#detailUser').modal('show');
         loading($("#detailUser") , true);
-        ajaxData(`${baseUrl}/api/v1/operator/getUser`, 'GET', {
+        ajaxData(`${baseUrl}/api/v1/admin/users`, 'GET', {
             "id" : $(this).data('id')
         }, function(resp) {
             loading($("#detailUser") , false);
@@ -233,20 +200,7 @@
                 if (index == "image") return;
                 $('#detailUser').find(`[data-bind-${index}]`).html(data);
             });
-            {{-- $('#detailUser').find('[data-bind-id]').html(result.id);
-            $('#detailUser').find('[data-bind-name]').html(result.name);
-            $('#detailUser').find('[data-bind-email]').html(result.email);
-            $('#detailUser').find('[data-bind-instance-name]').html(result.instance_name);
-            $('#detailUser').find('[data-bind-pic-name]').html(result.pic_name);
-            $('#detailUser').find('[data-bind-address]').html(result.address);
-            $('#detailUser').find('[data-bind-village]').html(result.village);
-            $('#detailUser').find('[data-bind-subdistrict]').html(result.subdistrict);
-            $('#detailUser').find('[data-bind-city]').html(result.city);
-            $('#detailUser').find('[data-bind-province]').html(result.province);
-            $('#detailUser').find('[data-bind-number-telephone]').html(result.number_telephone);
-            $('#detailUser').find('[data-bind-map-coordinates]').html(result.map_coordinates);
-            $('#detailUser').find('[data-bind-library-email]').html(result.library_email);
-            $('#detailUser').find('[data-bind-is-verified]').html(result.is_verified); --}}
+
             if (!empty(result.image)) {
                 result.image.forEach(function(image) {
                     $('#detailUser').find('[data-bind-image]').html(`<a href="${image.url}" target="_blank">View Image</a>`);

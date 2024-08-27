@@ -8,9 +8,12 @@
 </head>
 <body>
     <?php if($postMail['status'] == 'auth') { ?>
-        <p><strong>Name:</strong> {{ $postMail['body']->nama }}</p>
+        <p><strong>Name:</strong> {{ $postMail['body']->name }}</p>
         <p><strong>Email:</strong> {{ $postMail['body']->email }}</p>
         <p><strong>Nip:</strong> {{ $postMail['body']->nip }}</p>
-    <?php }?>
+    <?php } else if ($postMail['status'] == 'verifikasi') { ?>
+        <p> Akun anda sudah di verifikasi oleh admin KBS KMS</p>
+   <?php }?>
+    
 </body>
 </html>

@@ -14,6 +14,7 @@ use App\Models\Fungsi;
 use App\Jobs\SendEmailJob;
 use App\Http\Resources\Backend\Admin\DataEselonFungsiResource;
 use DB;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 class AdminController extends Controller
 {
@@ -24,9 +25,9 @@ class AdminController extends Controller
      * 
      */
     public function getUser () {
-
         return UserResources::collection(
-            User::when(request()->filled("id"), function ($query){
+            User::with('eselon_satu', 'eselon_dua', 'eselon_tiga', 'fungsi')
+            ->when(request()->filled("id"), function ($query){
                 $query->where('id', request("id"));
             })->paginate($request->limit ?? "10")
         );

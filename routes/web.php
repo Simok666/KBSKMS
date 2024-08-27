@@ -11,8 +11,8 @@ Route::group(['suffix' => '.html'], function () {
 
         return view($view);
     });
-    
-    Route::get('/{view?}', function ($view = "") {
+
+Route::get('/{view?}', function ($view = "") {
         $view = str_replace(["-", ".html"], [".", ""], $view);
         if (!view()->exists($view)) {
             abort(404);

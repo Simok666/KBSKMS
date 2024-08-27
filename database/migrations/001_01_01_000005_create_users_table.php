@@ -15,17 +15,23 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('nip');
-            $table->text('satuan_kerja_eselon_3');
-            $table->text('satuan_kerja_eselon_2');
-            $table->text('satuan_kerja_eselon_1');
+            $table->unsignedBigInteger('id_satuan_kerja_eselon_3');
+            $table->unsignedBigInteger('id_satuan_kerja_eselon_2');
+            $table->unsignedBigInteger('id_satuan_kerja_eselon_1');
             $table->string('email')->unique();
             $table->text('nama_jabatan');
-            $table->text('fungsi');
+            $table->unsignedBigInteger('id_fungsi');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_verified')->default(false);
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('id_satuan_kerja_eselon_1')->references('id')->on('eselon_satus')->onDelete('cascade');
+            $table->foreign('id_satuan_kerja_eselon_2')->references('id')->on('eselon_duas')->onDelete('cascade');
+            $table->foreign('id_satuan_kerja_eselon_3')->references('id')->on('eselon_tigas')->onDelete('cascade');
+            $table->foreign('id_fungsi')->references('id')->on('fungsis')->onDelete('cascade');
+
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

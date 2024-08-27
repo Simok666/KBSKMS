@@ -24,13 +24,13 @@ class UserRegisterRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:3', 'max:250'],
             'nip' => ['required', 'numeric', 'min:3'],
-            'satuan_kerja_eselon_3' => ['required', 'string', 'min:3', 'max:250'],
-            'satuan_kerja_eselon_2' => ['required', 'string', 'min:3', 'max:250'],
-            'satuan_kerja_eselon_1' => ['required', 'string', 'min:3', 'max:250'],
+            'id_satuan_kerja_eselon_1' => ['required', 'numeric'],
+            'id_satuan_kerja_eselon_2' => ['required', 'numeric'],
+            'id_satuan_kerja_eselon_3' => ['required', 'numeric'],
             'roles' => ['required', 'array'],
             'roles.*' => ['exists:roles,id'],
             'nama_jabatan' => ['required', 'string', 'min:3', 'max:250'],
-            'fungsi' => ['required', 'string', 'min:3', 'max:250'],
+            'id_fungsi' => ['required', 'numeric'],
             'email' => ['required','email', 'min:3', 'max:250'],
             'password' => ['required'],
             

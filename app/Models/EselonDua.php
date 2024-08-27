@@ -21,6 +21,14 @@ class EselonDua extends Model
     ];
 
     /**
+     * Get the user that owns the eselon satu.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * belongs to eselon
      */
     public function eselon(): BelongsTo

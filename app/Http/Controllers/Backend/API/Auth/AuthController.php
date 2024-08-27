@@ -11,10 +11,16 @@ use App\Http\Resources\Auth\UserAccountResource;
 use Illuminate\Http\Request;
 use App\Models\User; 
 use App\Models\Admin;
+use App\Jobs\SendEmailJob;
 use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\Backend\Admin\DataEselonFungsiResource;
+use App\Models\EselonSatu;
+use App\Models\EselonDua;
+use App\Models\EselonTiga;
+use App\Models\Fungsi;
 
 class AuthController extends Controller
 {
@@ -35,8 +41,6 @@ class AuthController extends Controller
                 $user->roles()->attach($request->roles);
             }
 
-            DB::commit();
-
             $admin = Admin::first();
             if ($user) {
                 $postMail = [
@@ -47,7 +51,7 @@ class AuthController extends Controller
                 ];
             }
             dispatch(new SendEmailJob($postMail));
-
+            DB::commit();
             return new UserRegisterResource($user);
         } catch (\Illuminate\Database\QueryException $ex) {
             DB::rollBack();
@@ -99,6 +103,45 @@ class AuthController extends Controller
         $user->role = "user";
         
         return new AuthResource($user);
+    }
+
+    /**
+     * Get data Eselon
+     * 
+     * @param EselonSatu $eselonSatu
+     */
+    public function getEselon(EselonSatu $eselonSatu) {
+        return DataEselonFungsiResource::collection($eselonSatu->all());
+    }
+
+    /**
+     * get Data eselon dua
+     * 
+     * @param Request $request
+     * @param EselonDua $eselonDua
+     */
+    public function getEselonDua(Request $request, EselonDua $eselonDua) {
+        return DataEselonFungsiResource::collection($eselonDua::where('id_eselon_satu', $request->id_eselon_satu)->get() ?? null);
+    }
+
+    /**
+     * get Data eselon tiga
+     * 
+     * @param Request $request
+     * @param EselonTiga $eselonTiga
+     */
+    public function getEselonTiga(Request $request, EselonTiga $eselonTiga) {
+        return DataEselonFungsiResource::collection($eselonTiga::where('id_eselon_dua', $request->id_eselon_dua)->get() ?? null);
+    }
+
+    /**
+     * get Data eselon tiga
+     * 
+     * @param Request $request
+     * @param Fungsi $fungsi
+     */
+    public function getFungsi(Request $request, Fungsi $fungsi) {
+        return DataEselonFungsiResource::collection($fungsi::where('id_eselon_tiga', $request->id_eselon_tiga)->get() ?? null);
     }
 
     /**

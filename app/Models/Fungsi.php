@@ -20,6 +20,13 @@ class Fungsi extends Model
     ];
 
     /**
+     * Get the user that owns the eselon satu.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    /**
      * belongs to eselon 3
      */
     public function eselons_tiga(): BelongsTo
