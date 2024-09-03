@@ -5,8 +5,13 @@ var req = {
 };
 
 const menuByRole = {
-    "admin" : ["admin-dashboard", "admin-eselon", "admin-eselondua", "admin-eselontiga", "admin-fungsi", "admin-userlist"],
-    "user" : ["dashboard","profile-perpustakaan", "profile-komponent" , "profile-buktifisik"],
+    "admin" : ["admin-dashboard", "admin-eselon", ,"admin-eselondua", "admin-eselontiga", "admin-fungsi", "admin-userlist", "knowledge-contributor", "admin-kategori", "knowledge-verificator"],
+    "user" : {
+        "Knowledge Contributor" : ["admin-dashboard","knowledge-contributor"],
+        "Knowledge Verificator" : ["knowledge-verificator"],
+        "Knowledge Seeker": [],
+        "Pimpinan": [],
+    },
     "operator" : ["dashboard", "users", "libraries", "proofOfWork", "komponent", "verifikator", "pleno", "googleform", "settingComponent"],
     "verifikator_desk" : ["dashboard", "libraries", "proofOfWork", "komponent", "verifikator-desk"],
     "verifikator_field" : ["dashboard", "libraries", "proofOfWork", "komponent", "verifikator-field"],
@@ -44,6 +49,21 @@ const sidebarItems = [
       url: "admin-userlist",
       icon: "bi bi-person",
       label: "User"
+    },
+    {
+      url: "admin-kategori",
+      icon: "bi bi-pen-fill",
+      label: "Kategori"
+    },
+    {
+      url: "knowledge-contributor",
+      icon: "bi bi-journal",
+      label: "Konten Pengetahuan"
+    },
+    {
+      url: "knowledge-verificator",
+      icon: "bi bi-journal-check",
+      label: "Verifikasi Konten"
     },
     {
       url: "libraries",
@@ -233,53 +253,141 @@ function checkLogin() {
 
 function checkUserAccess(){
     const role = session("role");
-    console.log(menuByRole[role]);
-    const accessMenu = menuByRole[`${role}`].filter(item => {
-        let pathname = window.location.pathname.replace(/\.html$/, '').replace(/[/]/g, '');
-        let menuUrl = item.replace(/_/g, '-');
-        if (item == "*") return true;
-        return pathname == menuUrl
-    });
+    let accessMenu = [];
+    if(role == 'user') {
+        ajaxData(baseUrl + '/api/v1/getRoles', 'POST', {}, function (resp) {
+            const userRoles = resp.data;
+            
+            userRoles.forEach( userRole => {
+                const roleMenu = menuByRole['user'][userRole.nama_role] || [];
+                accessMenu = accessMenu.concat(roleMenu); 
+            })
 
-    if (empty(accessMenu)) {
-        toast("Access Denied", 'danger');
-        setTimeout(function(){
-            // redirect to login
-            window.location = baseUrl + '/auth-login.html';
-        }, 300);
+            accessMenu = accessMenu.filter(item => {
+                let pathname = window.location.pathname.replace(/\.html$/, '').replace(/[/]/g, '');
+                let menuUrl = item.replace(/_/g, '-');
+                if (item == "*") return true;
+                return pathname == menuUrl
+            }); 
+
+            if (empty(accessMenu)) {
+                toast("Access Denied", 'danger');
+                setTimeout(function(){
+                    // redirect to login
+                    window.location = baseUrl + '/auth-login.html';
+                }, 300);
+            }
+            
+        }, function(data) {
+            toast(data.responseJSON.message ?? data.responseJSON.error, 'warning');
+            setTimeout(deleteSession, 300);
+        });
+    } else {
+        accessMenu = menuByRole[`${role}`].filter(item => {
+            let pathname = window.location.pathname.replace(/\.html$/, '').replace(/[/]/g, '');
+            let menuUrl = item.replace(/_/g, '-');
+            if (item == "*") return true;
+            return pathname == menuUrl
+        });    
+
+        if (empty(accessMenu)) {
+            toast("Access Denied", 'danger');
+            setTimeout(function(){
+                // redirect to login
+                window.location = baseUrl + '/auth-login.html';
+            }, 300);
+        }
     }
+    
 }
 
 function setMenuByRole(){
     const role = session("role");
-    const menu = menuByRole[role];
-    const sidebarMenu = sidebarItems.filter(item => {
-        let menuUrl = item.url.replace(/_/g, '-');
-        return menu.includes(menuUrl)
-    });
 
-    // add list menu
-    sidebarMenu.forEach(function(item){
-        let menuItem = `
-        <li class="sidebar-item  ">
-            <a href="${item.url}.html" class='sidebar-link'>
-                <i class="bi ${item.icon}"></i>
-                <span>${item.label}</span>
-            </a>
-        </li>
-        `
-        $(".sidebar-menu .menu").append(menuItem);
-    });
+    if(role == 'user') {
+        ajaxData(baseUrl + '/api/v1/getRoles', 'POST', {}, function (resp) {
+            const userRoles = resp.data 
+            
+            userRoles.forEach(userRole => {
+                const menu = menuByRole[role][userRole.nama_role];
+                const sidebarMenu = sidebarItems.filter(item => {
+                    let menuUrl = item.url.replace(/_/g, '-');
+                    return menu.includes(menuUrl)
+                });
 
-    // active menu
-    $(".sidebar-menu .menu .sidebar-item").each(function(index, menu){
-        let pathname = window.location.pathname.replace(/[/-]/g, '');
-        let urlSidebar = $(this).find("a").attr("href").replace(/[/-]/g, '');
-        const hrefRegex = new RegExp(`^${urlSidebar.replace(/\//g, '')}$`);
-        if(hrefRegex.test(pathname)){
-            $(this).addClass("active");
-        }
-    });
+                sidebarMenu.forEach(function(item){
+                    let menuItem = `
+                    <li class="sidebar-item  ">
+                        <a href="${item.url}.html" class='sidebar-link'>
+                            <i class="bi ${item.icon}"></i>
+                            <span>${item.label}</span>
+                        </a>
+                    </li>
+                    
+                                    
+                    `
+                    $(".sidebar-menu .menu").append(menuItem);
+                });
+                
+                $(".sidebar-menu .menu .sidebar-item").each(function(index, menu){
+                    let pathname = window.location.pathname.replace(/[/-]/g, '');
+                    let urlSidebar = $(this).find("a").attr("href").replace(/[/-]/g, '');
+                    const hrefRegex = new RegExp(`^${urlSidebar.replace(/\//g, '')}$`);
+                    if(hrefRegex.test(pathname)){
+                        $(this).addClass("active");
+                    }
+                });
+            })
+
+            
+        }, function(data) {
+            toast(data.responseJSON.message ?? data.responseJSON.error, 'warning');
+            setTimeout(deleteSession, 300);
+        });
+    } else {
+        const menu = menuByRole[role];
+        const sidebarMenu = sidebarItems.filter(item => {
+            let menuUrl = item.url.replace(/_/g, '-');
+            return menu.includes(menuUrl)
+        });
+        
+        // add list menu
+        sidebarMenu.forEach(function(item){
+            let menuItem = `
+            <li class="sidebar-item  ">
+                <a href="${item.url}.html" class='sidebar-link'>
+                    <i class="bi ${item.icon}"></i>
+                    <span>${item.label}</span>
+                </a>
+            </li>
+            
+                            
+            `
+            $(".sidebar-menu .menu").append(menuItem);
+        });
+
+    //     <li class="sidebar-item has-sub">
+    //     <a class="sidebar-link" href="#" >
+    //         <i class="bi bi-stack"> 
+    //         </i>
+    //     <span>Components</span>                    
+    //     </a>
+    //     <ul class="submenu submenu-closed">
+    //         <li class="submenu-item"> Tester</li>
+    //     </ul>
+    // </li>
+
+        // active menu
+        $(".sidebar-menu .menu .sidebar-item").each(function(index, menu){
+            let pathname = window.location.pathname.replace(/[/-]/g, '');
+            let urlSidebar = $(this).find("a").attr("href").replace(/[/-]/g, '');
+            const hrefRegex = new RegExp(`^${urlSidebar.replace(/\//g, '')}$`);
+            if(hrefRegex.test(pathname)){
+                $(this).addClass("active");
+            }
+        });
+    }
+    
 }
 
 function checkSpecialAction(resp) {

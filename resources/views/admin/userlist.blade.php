@@ -2,7 +2,7 @@
 
 @section('title', 'Users')
 @section('title_page', 'Users')
-@section('desc_page', 'List of all users')
+@section('desc_page', 'List semua user')
 @section('content')
 <div class="card">
     <div class="card-header">

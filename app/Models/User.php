@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
@@ -55,24 +56,32 @@ class User extends Authenticatable
         ];
     }
 
-    public function eselon_satu(): HasOne {
-        return $this->HasOne(EselonSatu::class, 'id');
+    public function eselon_satu(): BelongsTo {
+        return $this->belongsTo(EselonSatu::class, 'id_satuan_kerja_eselon_1');
     }
     
-    public function eselon_dua(): HasOne {
-        return $this->HasOne(EselonDua::class, 'id');
+    public function eselon_dua(): BelongsTo {
+        return $this->belongsTo(EselonDua::class, 'id_satuan_kerja_eselon_2');
     }
     
-    public function eselon_tiga(): HasOne {
-        return $this->HasOne(EselonTiga::class, 'id');
+    public function eselon_tiga(): BelongsTo {
+        return $this->belongsTo(EselonTiga::class, 'id_satuan_kerja_eselon_3');
     }
 
-    public function fungsi(): HasOne {
-        return $this->HasOne(Fungsi::class, 'id');
+    public function fungsi(): BelongsTo {
+        return $this->belongsTo(Fungsi::class, 'id_fungsi');
     }
 
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_users', 'user_id', 'role_id');
+    }
+
+    /**
+     * Get the contributor that owns the kategori.
+     */
+    public function contributor(): HasMany
+    {
+        return $this->hasMany(Contributor::class, 'id_user_contributor');
     }
 }

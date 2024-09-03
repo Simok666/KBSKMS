@@ -8,6 +8,7 @@ use App\Http\Resources\Auth\UserRegisterResource;
 use App\Http\Resources\Auth\AuthResource;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Resources\Auth\UserAccountResource;
+use App\Http\Resources\Auth\UserRolesResource;
 use Illuminate\Http\Request;
 use App\Models\User; 
 use App\Models\Admin;
@@ -142,6 +143,17 @@ class AuthController extends Controller
      */
     public function getFungsi(Request $request, Fungsi $fungsi) {
         return DataEselonFungsiResource::collection($fungsi::where('id_eselon_tiga', $request->id_eselon_tiga)->get() ?? null);
+    }
+
+    /**
+     * get roles account
+     * 
+     * @param Role $role
+     * @param User $user
+     */
+    public function getUsersRoles(Request $request, Role $role, User $user) {
+        $users = $user::find($request->user()->id);
+        return UserRolesResource::collection($users->roles);
     }
 
     /**

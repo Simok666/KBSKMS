@@ -22,9 +22,9 @@ class Fungsi extends Model
     /**
      * Get the user that owns the eselon satu.
      */
-    public function user(): BelongsTo
+    public function user(): HasMany
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class, 'id_fungsi');
     }
     /**
      * belongs to eselon 3

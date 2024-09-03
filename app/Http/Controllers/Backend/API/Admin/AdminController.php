@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\Backend\Admin\UserResources;
 use App\Http\Requests\Backend\Admin\AdminVerifiedRequest;
+use App\Http\Requests\Backend\Admin\KategoriRequest;
 use App\Models\User;
 use App\Models\EselonSatu;
 use App\Models\EselonDua;
@@ -15,6 +16,8 @@ use App\Jobs\SendEmailJob;
 use App\Http\Resources\Backend\Admin\DataEselonFungsiResource;
 use DB;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use App\Models\Kategori;
+use App\Http\Resources\Backend\Admin\KategoriResources;
 
 class AdminController extends Controller
 {
@@ -234,6 +237,47 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * get all data from kategori
+     * 
+     * @param Kategori $kategori
+     */
+    public function getKategori(Kategori $kategori) {
+        return KategoriResources::collection(
+            Kategori::when(request()->filled("id"), function ($query){
+                $query->where('id', request("id"));
+            })->paginate($request->limit ?? "10")
+        );
+    }
 
+    /**
+     * add or update data kategori
+     * 
+     * @param KategoriRequest $request
+     * @param Kategori $kategori
+     */
+    public function kategori(Request $request, Kategori $kategori) {
+        try {
+          DB::beginTransaction();   
+          $data = collect($request->repeater)->map(function ($item) use ($kategori) {
+              $kategori::updateOrCreate(
+                  [
+                      'id' => $item['id'] ?? null,
+                  ],
+                  [
+                      'nama_kategori' => $item['nama_kategori'],
+                  ]
+              );
+          DB::commit();
+          });
+          return response()->json(['message' => 'Kategori has been created or updated successfully'], 201);
+        } catch(\Illuminate\Database\QueryException $ex) {
+            DB::rollBack();
+            return response()->json(['error' => 'An error occurred creating data: ' . $ex->getMessage()], 400);
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'An error occurred while creating data: ' . $e->getMessage()], 400);
+        }
+    }
 
 }

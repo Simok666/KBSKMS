@@ -23,9 +23,9 @@ class EselonTiga extends Model
     /**
      * Get the user that owns the eselon satu.
      */
-    public function user(): BelongsTo
+    public function user(): HasMany
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class, 'id_satuan_kerja_eselon_3');
     }
     
     /**

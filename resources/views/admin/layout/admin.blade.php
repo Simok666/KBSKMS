@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penilaian Perpustakaan @yield("title")</title>
+    <title>KMSKBS | Admin @yield("title")</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -169,6 +169,7 @@
             </footer>
         </div>
     </div>
+    <script src="{{ asset('admin/static/js/components/sidebar.js') }}" type="module"></script>
     <script src="{{ asset('admin/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('admin/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('admin/js/mazer.js') }}"></script>
