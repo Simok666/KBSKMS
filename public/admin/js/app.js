@@ -237,9 +237,21 @@ function checkLogin() {
     } else {
         ajaxData(baseUrl + '/api/v1/user', 'POST', {}, function (resp) {
             $(".display-user-name").html(resp.data.name);
-            let role = (resp.data.role == "user" ? "PIC" : resp.data.role); ;
+            let role = (resp.data.role == "user" ? "user" : resp.data.role); ;
             $(".display-user-role").html(role);
             setSession("role", resp.data.role);
+            if (role == "user") {
+                let isVerificator = resp.data.dataRole.find((element) => element.nama_role == "Knowledge Verificator");
+                setSession("id", resp.data.id);
+                if (Object.keys(isVerificator).length === 0) {
+                    setSession("data-role-verificator", "tidak");
+                } else {
+                    setSession("data-role-verificator", "ada");
+
+                }
+            } else {
+                setSession("data-role-verificator", "tidak");
+            }
             setSession("is_upload_google_form", resp.data.is_upload_google_form);
             checkUserAccess()
             setMenuByRole();

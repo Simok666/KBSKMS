@@ -16,32 +16,48 @@ class CheckRoleMiddleware
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
         $roleIds = [];
-        
-        if ($request->getPathInfo() === '/api/v1/pengetahuan' || $request->getPathInfo() === '/api/v1/addOrUpdatePengetahuan' 
-        || $request->getPathInfo() === '/api/v1/listKategori' || $request->getPathInfo() === '/api/v1/listUser' ) {
+
+        $staticRoutes = [
+            '/api/v1/pengetahuan',
+            '/api/v1/addOrUpdatePengetahuan',
+            '/api/v1/listKategori',
+            '/api/v1/listUser'
+        ];
+
+        $dynamicRoutes = [
+            '/api/v1/revisi/{id}',
+            '/api/v1/publish/{id}',
+            '/api/v1/komentar/{id}',
+        ];
+
+        $path = $request->getPathInfo();
+    
+        if (in_array($path, $staticRoutes)) {
             $roleIds = ['type.user' => 'role:user', 'type.admin' => 'role:admin'];
         }
 
+        foreach ($dynamicRoutes as $route) {
+            $pattern = '#^' . preg_replace('/\{[^}]+\}/', '[^/]+', $route) . '$#';
+            if (preg_match($pattern, $path)) {
+                $roleIds = ['type.user' => 'role:user', 'type.admin' => 'role:admin'];
+                break;
+            }
+        }
+
         $allowedRoleIds = [];
-       
-        foreach ($roles as $role)
-        {
-           if(isset($roleIds[$role]))
-           {
-               $allowedRoleIds[] = $roleIds[$role];
-           }
+        foreach ($roles as $role) {
+            if (isset($roleIds[$role])) {
+                $allowedRoleIds[] = $roleIds[$role];
+            }
         }
-        $allowedRoleIds = array_unique($allowedRoleIds); 
-        
-        if(auth()->user()) {
-          if(in_array(auth()->user()->currentAccessToken()->getAttributeValue('abilities')[0], $allowedRoleIds)) {
-            return $next($request);
-          }
+        $allowedRoleIds = array_unique($allowedRoleIds);
+
+        if (auth()->user()) {
+            if (in_array(auth()->user()->currentAccessToken()->getAttributeValue('abilities')[0], $allowedRoleIds)) {
+                return $next($request);
+            }
         }
 
-        return response()->json(['message' => 'youre not allowed to accsess this route'], 405);
-
-
-        return $next($request);
+        return response()->json(['message' => 'You are not allowed to access this route'], 405);
     }
 }

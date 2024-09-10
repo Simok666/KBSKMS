@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('dekskripsi');
             $table->unsignedBigInteger('id_kategori');
             $table->string('tag');
-            $table->unsignedBigInteger('id_user_contributor');
+            $table->unsignedBigInteger('id_user_contributor')->nullable();
             $table->enum('tipe', ['internal', 'public'])->nullable();
             $table->timestamps();
 

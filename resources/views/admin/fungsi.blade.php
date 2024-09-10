@@ -71,6 +71,7 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
+        getListEselonDua()
         let dataEselon = $("#data-eselon");
         const getData = ajaxData(`${baseUrl}/api/v1/admin/getEselonFungsi?filter=fungsi`, 'GET', [], function(resp) {
             if (!empty(resp.data)) {
@@ -111,7 +112,6 @@
     
 
     $(document).on('click', '.btn-add-eselon', function() {
-        getListEselonDua()
         $('#modal-add-fungsi').modal('show');
         $('#modal-add-fungsi').find('form')[0].reset();
     });

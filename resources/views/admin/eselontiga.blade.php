@@ -71,6 +71,7 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
+        getListEselonDua();
         let dataEselon = $("#data-eselon");
         const getData = ajaxData(`${baseUrl}/api/v1/admin/getEselonFungsi?filter=eselonTiga`, 'GET', [], function(resp) {
             if (!empty(resp.data)) {
@@ -111,7 +112,6 @@
     
 
     $(document).on('click', '.btn-add-eselon', function() {
-        getListEselonDua()
         $('#modal-add-eselon-tiga').modal('show');
         $('#modal-add-eselon-tiga').find('form')[0].reset();
     });
@@ -137,7 +137,7 @@
         ajaxData(url, 'GET', [], function(resp) {
             let data = resp.data;
             let option = ``;
-            console.log(data);
+    
             data.eselonDua.forEach(element => {
                 console.log(element)
                 option += `<option value="${element.id}">${element.nama_satuan_kerja_eselon_2}</option>`;

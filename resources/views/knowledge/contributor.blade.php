@@ -17,10 +17,10 @@
     <div class="card-body">
         @include('admin.components.table-pagenation', ['table' => 'contributors' , 'url' => '/api/v1/pengetahuan' , 'headers' => [
             "Judul",
-            "Dekskripsi",
             "Image Thumbnail",
             "Lampiran",
             "Tipe Konten",
+            "Status Konten",
             "Action"
         ] , 'pagination' => true])
     </div>
@@ -55,7 +55,13 @@
                         </tr>
                         <tr>
                             <th>Dekskripsi</th>
-                            <td data-bind-dekskripsi></td>
+                            <td data-bind-dekskripsi>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control sumernote-perpustakaan" id="summer-note" name="repeater[0][dekskripsi]" placeholder="dekskripsi" required></textarea>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <th>Nama Kategori</th>
@@ -91,7 +97,7 @@
     </div>
 </div>
 
-<div class="modal fade text-left" id="edit-pengetahuan" tabindex="-1" role="dialog"
+<div class="modal fade text-left" id="modal-edit-pengetahuan" tabindex="-1" role="dialog"
     aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
         role="document">
@@ -111,7 +117,7 @@
                         <span class="visually-hidden"></span>
                     </div>
                 </div>
-                <form class="after-loading" id="form-perpustakaan">
+                <form class="after-loading" id="form-perpustakaan-edit">
                     <table class="table table-striped after-loading">
                         <tbody>
                             <tr>
@@ -126,7 +132,7 @@
                                 <td >
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <textarea class="form-control sumernote-perpustakaan" id="summer-note" name="repeater[0][dekskripsi]" placeholder="dekskripsi" required></textarea>
+                                            <textarea class="form-control sumernote-perpustakaan-edit" id="summer-note" name="repeater[0][dekskripsi]" placeholder="dekskripsi" data-bind-dekskripsi value="" required></textarea>
                                         </div>
                                     </div>
                                 </td>
@@ -160,7 +166,7 @@
                             <tr>
                                 <th scope="row">User Contributor</th>
                                 <td>
-                                    <select name="repeater[0][id_user_contributor]" class="form-control list-user" data-bind-id_user_contributor value="" required>
+                                    <select name="repeater[0][id_user_contributor]" class="form-control list-user" data-bind-id_user_contributor value="">
                                         <option value="" selected>Tidak ada</option>
                                     </select>
                                 </td>
@@ -185,7 +191,7 @@
                     <i class="bx bx-x d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Close</span>
                 </button>
-                <button type="submit" form="form-perpustakaan" class="btn btn-primary ml-1">
+                <button type="submit" form="form-perpustakaan-edit" class="btn btn-primary ml-1">
                     <span class="d-none d-sm-block">Accept</span>
                 </button>
             </div>
@@ -235,13 +241,13 @@
                             <tr>
                                 <th scope="row">Image Thumbnail</th>
                                 <td> 
-                                    <input type="file" name="repeater[0][image_thumbnail][]" class="form-control" required> 
+                                    <input type="file" name="repeater[0][image_thumbnail][]" class="form-control" accept="image/*" required > 
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Lampiran</th>
                                 <td> 
-                                    <input type="file" name="repeater[0][upload_lampiran][]" class="form-control" required> 
+                                    <input type="file" name="repeater[0][upload_lampiran][]" class="form-control" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf" required> 
                                 </td>
                             </tr>
                             <tr>
@@ -261,7 +267,7 @@
                             <tr>
                                 <th scope="row">User Contributor</th>
                                 <td>
-                                    <select name="repeater[0][id_user_contributor]" class="form-control list-user" required>
+                                    <select name="repeater[0][id_user_contributor]" class="form-control list-user">
                                         <option value="" selected>Tidak ada</option>
                                     </select>
                                 </td>
@@ -298,22 +304,37 @@
 <script src="{{ asset('admin/vendors/summernote/summernote-lite.min.js') }}"></script>
 <script>
     $(document).ready(function() {
+        getListKategori()
+        getListUsers()
         GetData(req,"contributors", formatcontributors);
     });
 
     function formatcontributors(data) {
         var result = "";
         $.each(data, function(index, data) {
+            let idUser = 0;
+            let role = session("role");
+            
+            if( session("id") ) {
+                idUser = session("id");
+            }
             result += `
                 <tr>
                     <td>${data.judul}</td>
-                    <td>${data.dekskripsi}</td>
                     <td>${!empty(data.image_thumbnail) ? `<a href="#" class="openPopup" link="${data.image_thumbnail[0].url}">View File</a> `: "-"}</td>
                     <td>${!empty(data.upload_lampiran) ? `<a href="#" class="openPopup" link="${data.upload_lampiran[0].url}">View File</a> `: "-"}</td>
                     <td>${data.tipe}</td>
+                    <td> ${data.status === "verifikasi" 
+                    ? `<span class="badge bg-warning">sedang di verifikasi</span>` 
+                    : data.status === "revisi" 
+                    ? `<span class="badge bg-danger">revisi</span>` 
+                    : data.status === "publish" 
+                    ? `<span class="badge bg-info">published</span>` 
+                    : ''} </td>
                     <td>
-                        <a href="#" class="btn btn-info btn-icon btn-sm btn-detail" title="Detail" data-id="${data.id}"><span class="bi bi-info-circle"> </span></a>
-                        <a href="#" class="btn btn-warning btn-sm btn-edit-pengetahuan mb-1" title="edit konten" data-id="${data.id}"><span class="bi bi-pencil"> </span></a>
+                    ${data.id_user == idUser || role == 'admin' ? `<a href="#" class="btn btn-info btn-icon btn-sm btn-detail" title="Detail" data-id="${data.id}"><span class="bi bi-info-circle"> </span></a>` : `<div class="stats-icon red" ><span class="bi bi-x-octagon-fill"> </span></div>`} 
+                    ${data.id_user == idUser || role == 'admin' ? `<a href="#" class="btn btn-warning btn-sm btn-edit-pengetahuan" title="edit konten" data-id="${data.id}"><span class="bi bi-pencil"> </span></a>` : `<div class="stats-icon red" style="margin-right: 5px;"><span class="bi bi-x-octagon-fill"> </span></a></div>`}    
+                    </td>
                 </tr>
             `
         });
@@ -347,8 +368,7 @@
     }
 
     $(document).on('click', '.btn-add-pengetahuan', function() {
-        getListKategori()
-        getListUsers()
+        
         $('#modal-pengetahuan').modal('show');
         $('#modal-pengetahuan').find('form')[0].reset();
         settingSummerNote($(".sumernote-perpustakaan"))
@@ -386,18 +406,20 @@
     
     $("#form-perpustakaan").on('submit', function(e) {
         e.preventDefault();
-        let url = `${baseUrl}/api/v1/addOrUpdatePengetahuan/`;
+        let url = `${baseUrl}/api/v1/addOrUpdatePengetahuan`;
         const data = new FormData(this);
         loadingButton($(this))
         ajaxDataFile(url, 'POST', data, function(resp) {
             toast("Data has been saved");
-            $('#modal-perpustakaan').modal('hide');
+            $('#modal-pengetahuan').modal('hide');
             loadingButton($("#form-perpustakaan"), false)
             GetData(req,"contributors", formatcontributors);
         }, function(data) {
             loadingButton($("#form-perpustakaan"), false)
         });
     });
+
+
 
     $(document).on('click', '.openPopup', function() {
         window.open($(this).attr('link'), 'popup', 'width=800,height=600');
@@ -438,6 +460,10 @@
             } else {
                 $('#detailPengetahuan').find('[data-bind-upload_lampiran]').html(`-`);
             }
+
+            $("#detailPengetahuan").find('.sumernote-perpustakaan').val(result.dekskripsi).trigger('change');
+
+            settingSummerNote($(".sumernote-perpustakaan"))
         },
         function() {
             loading($("#detailPengetahuan"));
@@ -448,10 +474,9 @@
     });
 
     $(document).on('click', '.btn-edit-pengetahuan', function() {
-        getListKategori();
-        getListUsers();
-        $('#edit-pengetahuan').modal('show');
-        loading($("#edit-pengetahuan") , true);
+      
+        $('#modal-edit-pengetahuan').modal('show');
+        loading($("#modal-edit-pengetahuan") , true);
     
         ajaxData(`${baseUrl}/api/v1/pengetahuan`, 'GET', {
             "id" : $(this).data('id')
@@ -460,39 +485,51 @@
     
             if (!result) {
                 setTimeout(() => {
-                    $('#edit-pengetahuan').modal('hide')
+                    $('#modal-edit-pengetahuan').modal('hide')
                     toast("Data not found", 'warning');
                 }, 1000);
                 return;
             }
-            loading($("#edit-pengetahuan") , false);
+            loading($("#modal-edit-pengetahuan") , false);
         
             $.each(result, function(index, data) {
-                console.log(index);
+               
                 if (index == "image_thumbnail" || index == "upload_lampiran" ) return;
-                $('#edit-pengetahuan').find(`[data-bind-${index}]`).val(data).attr('value', data);
+                $('#modal-edit-pengetahuan').find(`[data-bind-${index}]`).val(data).attr('value', data);
             });
                 
             if (!empty(result.data_perpustakaan_image)) {
                 result.data_perpustakaan_image.forEach(function(image) {
-                    $('#edit-pengetahuan').find('[data-bind-data_perpustakaan_image]').html(`<a href="${image.url}" target="_blank">View Image</a>`);
+                    $('#modal-edit-pengetahuan').find('[data-bind-data_perpustakaan_image]').html(`<a href="${image.url}" target="_blank">View Image</a>`);
                 });
             } else {
-                $('#edit-pengetahuan').find('[data-bind-image]').html(`-`);
+                $('#modal-edit-pengetahuan').find('[data-bind-image]').html(`-`);
             }
+            
+            $("#modal-edit-pengetahuan").find('.sumernote-perpustakaan-edit').summernote('code', result.dekskripsi);
 
-            $("#edit-pengetahuan").find('[name=user_id]').val(result.user_id);
-            $("#edit-pengetahuan").find('[name=library_id]').val(result.library_id);
-            $("#edit-pengetahuan").find('.dropdown-status-perpustakaan').val(result.status_verifikasi).trigger('change');
-            $("#edit-pengetahuan").find('.sumernote-perpustakaan').val(result.dekskripsi).trigger('change');
-
-            settingSummerNote($(".sumernote-perpustakaan"))
+            settingSummerNote($(".sumernote-perpustakaan-edit"))
         },
         function() {
-            loading($("#modal-perpustakaan"));
+            loading($("#modal-edit-pengetahuan"));
             setTimeout(function() {
                 $('#detailLibrary').modal('hide');
             }, 1000);
+        });
+    });
+
+    $("#form-perpustakaan-edit").on('submit', function(e) {
+        e.preventDefault();
+        let url = `${baseUrl}/api/v1/addOrUpdatePengetahuan`;
+        const data = new FormData(this);
+        loadingButton($(this))
+        ajaxDataFile(url, 'POST', data, function(resp) {
+            toast("Data has been saved");
+            $('#modal-edit-pengetahuan').modal('hide');
+            loadingButton($("#form-perpustakaan-edit"), false)
+            GetData(req,"contributors", formatcontributors);
+        }, function(data) {
+            loadingButton($("#form-perpustakaan-edit"), false)
         });
     });
 </script>

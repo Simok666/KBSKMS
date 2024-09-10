@@ -29,6 +29,11 @@ class Contributor extends Model implements HasMedia
         'upload_lampiran[]',
         'id_user_contributor',
         'tipe',
+        'status',
+        'status_verifikator',
+        'id_user',
+        'id_admin',
+        'role'
     ];
 
     /**
@@ -42,5 +47,15 @@ class Contributor extends Model implements HasMedia
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id_user_contributor');
+    }
+
+    public function userIdKonten(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function adminIdKonten(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'id_user');
     }
 }

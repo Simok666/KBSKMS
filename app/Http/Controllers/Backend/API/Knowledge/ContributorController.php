@@ -9,6 +9,9 @@ use App\Http\Resources\Backend\ContributorResource;
 use DB;
 use App\Models\Kategori;
 use App\Models\User;
+use App\Models\Role;
+use App\Jobs\SendEmailJob;
+use App\Models\Admin;
 
 class ContributorController extends Controller
 {
@@ -16,16 +19,17 @@ class ContributorController extends Controller
      * add or update contributor
      * 
      * @param Contributor $contributor
+     * @param User $user
      */
-    public function contributor(Request $request, Contributor $contributor) {
+    public function contributor(Request $request, Contributor $contributor, User $user, Admin $admin) {
         try {
           DB::beginTransaction();   
-          $data = collect($request->repeater)->map(function ($item) use ($contributor) {
+          $data = collect($request->repeater)->map(function ($item) use ($request, $contributor, $admin, $user) {
              $textEditor = $item['dekskripsi'];
             
              if(!empty($textEditor)) {
                 $dom = new \domdocument();
-                $dom->loadHtml($textEditor, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                @$dom->loadHtml($textEditor, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
                 $images = $dom->getElementsByTagName('img');
                
                 foreach($images as $key => $img) {
@@ -49,7 +53,10 @@ class ContributorController extends Controller
             } else {
                 $detail = null;
             }
-            
+
+             $role = $request->user()->currentAccessToken()->abilities;
+             $role = explode(':', $role[0])[1] ?? "";
+
              $dataContributor = $contributor::updateOrCreate(
                   [
                       'id' => $item['id'] ?? null,
@@ -61,6 +68,11 @@ class ContributorController extends Controller
                       'tag' => $item['tag'],
                       'id_user_contributor' => $item['id_user_contributor'] ?? null,
                       'tipe' => $item['tipe'],
+                      'status' => "verifikasi",
+                      'status_verifikator' => (boolean) false,
+                      'id_user' => ($role == "user") ? $request->user()->id : null,
+                      'id_admin' => ($role == "admin") ? $request->user()->id : null,
+                      'role' => $role,
                   ]
               );
 
@@ -76,6 +88,33 @@ class ContributorController extends Controller
                         $dataContributor->clearMediaCollection('upload_lampiran');
                         $dataContributor->addMedia($upload_lampiran)->toMediaCollection('upload_lampiran');
                     }
+                }
+
+                $admin = $admin::first();
+                $users = $user::with('roles')->whereHas('roles', function ($query) {
+                    $query->where('role_id', 2);
+                })->get();
+                if ($dataContributor) {
+                    foreach ($users as $user ) {
+                        
+                            $postMail = [
+                                'email' => [$user['email']],
+                                'title' => 'Konten Pengetahuan baru sudah di buat dan sedang di verifikasi',
+                                'status' => 'konten',
+                                'body' => $dataContributor,
+                            ];
+                    
+                        dispatch(new SendEmailJob($postMail));
+                    }
+                    
+                    $postAdmin = [
+                        'email' => [$admin->email],
+                        'title' => 'Konten Pengetahuan baru sudah di buat mohon di check untuk di publish atau revisi',
+                        'status' => 'verifikator',
+                        'body' => $dataContributor,
+                    ];
+
+                    dispatch(new SendEmailJob($postAdmin));
                 }
           });
 
@@ -97,7 +136,6 @@ class ContributorController extends Controller
      * @param Contributor $contributor
      */
     public function getContributor(Contributor $contributor) {
-        // dd(request("id"));
         return ContributorResource::collection(
             $contributor::with('kategori', 'user')
             ->when(request()->filled("id"), function ($query){

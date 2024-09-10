@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\Api\Auth\AdminAuthController;
 use App\Http\Controllers\Backend\Api\Admin\AdminController;
 use App\Http\Controllers\Backend\Api\Knowledge\ContributorController;
 use App\Http\Middleware\UserMiddleware;
+use App\Http\Controllers\Backend\Api\Knowledge\VerificatorController;
 
 
 Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
@@ -27,6 +28,10 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('listKategori', [ContributorController::class, 'listKategori'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin']);
     Route::get('listUser', [ContributorController::class, 'listUser'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin']);
     
+    Route::put('publish/{id}', [VerificatorController::class, 'publish'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin']);
+    Route::put('revisi/{id}', [VerificatorController::class, 'revisi'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin']);
+    Route::put('komentar/{id}', [VerificatorController::class, 'komentar'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin']);
+
     Route::post('admin/login', [AdminAuthController::class, 'login']);
 });
 

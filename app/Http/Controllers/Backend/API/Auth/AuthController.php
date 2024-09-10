@@ -77,11 +77,17 @@ class AuthController extends Controller
      * function get user access
      * 
      * @param Request $request
+     * @param User $user
      */
-    public function getUserAccount(Request $request) {
+    public function getUserAccount(Request $request, User $user) {
         $user = $request->user();
         $role = $request->user()->currentAccessToken()->abilities;
         $role = explode(':', $role[0])[1] ?? "";
+        $user["dataRole"] = [];
+        if ($role == "user") {
+            $user["dataRole"] = $user::find($user->id)->roles;
+            $user["id"] = $user->id;
+        }
         $user["role"] = $role;
         return new UserAccountResource($user);
     }

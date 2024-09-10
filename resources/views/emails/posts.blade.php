@@ -13,7 +13,13 @@
         <p><strong>Nip:</strong> {{ $postMail['body']->nip }}</p>
     <?php } else if ($postMail['status'] == 'verifikasi') { ?>
         <p> Akun anda sudah di verifikasi oleh admin KBS KMS</p>
-   <?php }?>
+   <?php } else if ($postMail['status'] == 'konten') { ?>
+        <p> Konten pengetahuan baru sudah di buat oleh user atau admin</p>
+   <?php } else if ($postMail['status'] == 'published') { ?> 
+        <p> Konten Anda sudah di publish oleh Admin</p>
+    <?php} else if ($postMail['status'] == 'revisi') { ?>
+        <p> Konten Anda sudah di revisi oleh Admin</p>
+    <?php }?>
     
 </body>
 </html>

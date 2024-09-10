@@ -169,7 +169,7 @@
             </footer>
         </div>
     </div>
-    <script src="{{ asset('admin/static/js/components/sidebar.js') }}" type="module"></script>
+    {{-- <script src="{{ asset('admin/static/js/components/sidebar.js') }}" type="module"></script> --}}
     <script src="{{ asset('admin/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('admin/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('admin/js/mazer.js') }}"></script>

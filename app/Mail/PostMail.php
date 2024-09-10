@@ -30,7 +30,7 @@ class PostMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Post Mail',
+            subject: $this->postMail['title'],
             from: new Address('rachmadfidhani33@gmail.com', 'KMS KBS'),
         );
     }

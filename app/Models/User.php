@@ -78,6 +78,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user that owns the konten.
+     */
+    public function userKonten(): BelongsToMany
+    {
+        return $this->hasMany(Contributor::class, 'id_user');
+    }
+
+    /**
      * Get the contributor that owns the kategori.
      */
     public function contributor(): HasMany

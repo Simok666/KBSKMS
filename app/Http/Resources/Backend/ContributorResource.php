@@ -24,10 +24,13 @@ class ContributorResource extends JsonResource
             'image_thumbnail' => ImageResource::collection($this->getMedia('image_thumbnail')), 
             'upload_lampiran' => ImageResource::collection($this->getMedia('upload_lampiran')),
             'tag' => $this->tag,
-            'user_contributor' => $this->user->name, 
+            'user_contributor' => $this->user->name ?? null, 
             'id_user_contributor' => $this->id_user_contributor,
             'id_kategori' => $this->id_kategori,
-            'tipe' => $this->tipe
+            'tipe' => $this->tipe,
+            'status' => $this->status,
+            'status_verifikator' => $this->status_verifikator,
+            'id_user' => $this->id_user
         ];
     }
 }

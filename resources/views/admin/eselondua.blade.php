@@ -71,6 +71,7 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
+        getListGrade();
         let dataEselon = $("#data-eselon");
         const getData = ajaxData(`${baseUrl}/api/v1/admin/getEselonFungsi?filter=eselonDua`, 'GET', [], function(resp) {
             if (!empty(resp.data)) {
@@ -110,7 +111,6 @@
     
 
     $(document).on('click', '.btn-add-eselon', function() {
-        getListGrade()
         $('#modal-add-eselon-dua').modal('show');
         $('#modal-add-eselon-dua').find('form')[0].reset();
     });

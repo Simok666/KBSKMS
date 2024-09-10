@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Admin extends Authenticatable
 {
@@ -40,4 +41,13 @@ class Admin extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+
+    /**
+     * Get the user that owns the konten.
+     */
+    public function adminKonten(): BelongsToMany
+    {
+        return $this->hasMany(Contributor::class, 'id_user');
+    }
 }
