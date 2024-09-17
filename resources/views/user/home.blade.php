@@ -4,22 +4,45 @@
 @section('title_page', 'Home')
 @section('desc_page', '')
 @section('content')
+@section('styles')
+  <style>
+        /* Container for responsive iframe */
+    .responsive-iframe-container {
+        position: relative;
+        padding-bottom: 56.25%; /* This maintains a 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000;
+    }
+
+    /* Style for iframe */
+    .responsive-iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0; /* Optional: remove iframe border */
+    }
+  </style>
+@endsection
 
   <main class="main">
 
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
-      <img src="{{ asset('user/assets/img/hero-bg-2.jpg') }}" alt="" class="hero-bg">
+      <img src="{{asset('user/assets/img/hero-bg-2.jpg')}}" alt="" class="hero-bg">
 
       <div class="container">
         <div class="row gy-4 justify-content-between">
           <div class="col-lg-4 order-lg-last hero-img" data-aos="zoom-out" data-aos-delay="100">
-            <img src="{{ asset('user/assets/img/hero-img.png') }}" class="img-fluid animated" alt="">
+            <img src="{{asset('user/assets/img/hero-img.png')}}" class="img-fluid animated" alt="">
           </div>
 
           <div class="col-lg-6  d-flex flex-column justify-content-center" data-aos="fade-in">
-            <h1>Selamat Datang di <span>KMSKBS</span></h1>
-            <p>ini detail tentang KMSKBS</p>
+            <h1>Empower your system with all-in-one<span> Knowledge Hub</span></h1>
+            <p>Selamat Datang di Knowledge Management System Kementerian Perhubungan bernama<br/> <b>Transportation Knowledge-Hub System (Trak-Hubs)</b></p>
             <div class="d-flex">
               <a href="#about" class="btn-get-started">Get Started</a>
               <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
@@ -53,9 +76,9 @@
         <div class="row align-items-xl-center gy-5">
 
           <div class="col-xl-5 content">
-            <h3>Tentang Kami</h3>
-            <h2>KMS KBS</h2>
-            <p>Detail Tentang Kami</p>
+            <h3>About Us</h3>
+            <h2>Trak-Hubs</h2>
+            <p>Trak-Hubs adalah KMS Kementerian Perhubuangan yang dikembangkan pada tahun 2024 hasil kerjasama Kementerian Perhubungan dengan BRIN.</p>
             <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
           </div>
 
@@ -65,32 +88,32 @@
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="icon-box">
                   <i class="bi bi-buildings"></i>
-                  <h3>Service 1</h3>
-                  <p>ini adalah data service 1</p>
+                  <h3>Fitur Knowledge Base dan Best Practices Database</h3>
+                  <p>Fitur ini adalah wadah pengetahuan dan pengalaman yang dikelola di Kementerian Perhubungan</p>
                 </div>
               </div> <!-- End Icon Box -->
 
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="icon-box">
                   <i class="bi bi-clipboard-pulse"></i>
-                  <h3>Service 2</h3>
-                  <p>ini adalah data service 2</p>
+                  <h3>Fitur Prediksi sarana transportasi</h3>
+                  <p>Fitur ini untuk memprediksi traffic kendaraan dan pergerakan penumpang di sarana transportasi untuk menunjang kebijakan</p>
                 </div>
               </div> <!-- End Icon Box -->
 
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
                 <div class="icon-box">
                   <i class="bi bi-command"></i>
-                  <h3>Service 3</h3>
-                  <p>ini adalah data service 3</p>
+                  <h3>Fitur Knowledge-based Chat berbasis LLM</h3>
+                  <p>Fitur ini untuk mempermudah sivitas Kemenhub dalam menelusur informasi dan pengetahuan berbasis chat dengan pengetahuan spesifik</p>
                 </div>
               </div> <!-- End Icon Box -->
 
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
                 <div class="icon-box">
                   <i class="bi bi-graph-up-arrow"></i>
-                  <h3>Service 4</h3>
-                  <p>ini adalah data service 4 </p>
+                  <h3>Fitur Analisis Sentimen</h3>
+                  <p>Fitur ini digunakan untuk mengetahui sentimen masyarakat terkait sarana transportasi berdasarkan titik simpul sarana sebagai pendukung rekomendasi kebijakan</p>
                 </div>
               </div> <!-- End Icon Box -->
 
@@ -102,13 +125,88 @@
 
     </section><!-- /About Section -->
 
+    <!-- Details Section -->
+    <section id="details" class="details section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Details</h2>
+        <div><span>Rincian Fitur</span> <span class="description-title">Cerdas</span></div>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4 align-items-center features-item">
+		
+          <div class="col-md-5 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="100">
+            <img src="{{asset('user/assets/img/details-1.png')}}" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
+            <h3>Rincian Fitur Knowledge Base dan Best Practices Database</h3>
+
+            <ul>
+              <li><i class="bi bi-check"></i><span>Gamifikasi untuk mendukung praktik Knowledge Management berbasis partisipatif</span></li>
+              <li><i class="bi bi-check"></i> <span>Dashboard Monitoring kinerja untuk pimpinan</span></li>
+              <li><i class="bi bi-check"></i> <span>Statistik pemanfaatan konten pengetahuan</span></li>
+            </ul>
+          </div>
+        </div><!-- Features Item -->
+
+        <div class="row gy-4 align-items-center features-item">
+          <div class="col-md-5 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+            <img src="{{asset('user/assets/img/details-2.png')}}" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7 order-2 order-md-1" data-aos="fade-up" data-aos-delay="200">
+            <h3>Rincian Fitur Prediksi sarana transportasi</h3>
+            <ul>
+              <li><i class="bi bi-check"></i><span>Prediksi jumlah penumpang dan jumlah kendaraan di sarana transportasi </span></li>
+              <li><i class="bi bi-check"></i> <span>Rekomendasi lokasi dan waktu untuk peningkatan layanan transportasi</span></li>
+              <li><i class="bi bi-check"></i> <span>Indeks kesenjangan sarana </span></li>
+            </ul>
+          </div>
+        </div><!-- Features Item -->
+
+        <div class="row gy-4 align-items-center features-item">
+          <div class="col-md-5 d-flex align-items-center" data-aos="zoom-out">
+            <img src="{{asset('user/assets/img/details-3.png')}}" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7" data-aos="fade-up">
+            <h3>Rincian Fitur Knowledge-based Chat berbasis LLM</h3>
+            
+            <ul>
+              <li><i class="bi bi-check"></i> <span>Penelusuran informasi dan pengetahuan spesifik berbasis chat/ conversational</span></li>
+              <li><i class="bi bi-check"></i><span>Text Generative terkait Dokumen Kementerian Perhubungan</span></li>
+              <li><i class="bi bi-check"></i> <span>Mempermudah pemahaman Dokumen Peraturan Kementerian Perhubungan</span>.</li>
+            </ul>
+          </div>
+        </div><!-- Features Item -->
+
+        <div class="row gy-4 align-items-center features-item">
+          <div class="col-md-5 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out">
+            <img src="{{asset('user/assets/img/details-4.png')}}" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7 order-2 order-md-1" data-aos="fade-up">
+            <h3>Rincian Fitur Analisis Sentimenn</h3>
+            
+            <ul>
+              <li><i class="bi bi-check"></i> <span>Informasi persentase sentimen dari setiap titik lokasi infrastruktur sarana transportasi</span></li>
+              <li><i class="bi bi-check"></i><span>Monitoring penilaian publik berdasarkan sentimennya dalam satu dashboard terkait sarana transportasi</span></li>
+              <li><i class="bi bi-check"></i> <span>Dashboard peta sebaran infrastruktur dengan nilai sentimen dan dapat dilihat detil informasinya</span>.</li>
+            </ul>
+          </div>
+        </div><!-- Features Item -->
+
+      </div>
+
+    </section><!-- /Details Section -->
+
     <!-- Features Section -->
     <section id="features" class="features section">
 
       <div class="container">
-        <h2 class="text-center mb-4">Kotak Analisis Sentimen</h2>
+        <h2 class="text-left mb-4">Kategori Konten Pengetahuan beragam</h2>
 
-        <div class="row gy-4">
+        <div class="row gy-4" id="kategori-container">
 
           <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="100">
             <div class="features-item">
@@ -197,61 +295,15 @@
         </div>
 
       </div>
-      <div class="container mt-5">
-        <h2 class="text-center mb-4">Pencarian Sarana Transportasi</h2>
-        
-        <!-- Simple Search -->
-        <div class="mb-4">
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Enter your search query" aria-label="Search">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </form>
-        </div>
-
-        <!-- Advanced Search Toggle -->
-        <div class="mb-4">
-            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#advancedSearch" aria-expanded="false" aria-controls="advancedSearch">
-                Advanced Search
-            </button>
-        </div>
-
-        <!-- Advanced Search Options -->
-        <div class="collapse" id="advancedSearch">
-            <div class="card card-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="searchQuery" class="form-label">Search Query</label>
-                        <input type="text" class="form-control" id="searchQuery" placeholder="Enter your search query">
-                    </div>
-                    <div class="mb-3">
-                        <label for="category" class="form-label">Category</label>
-                        <select class="form-select" id="category">
-                            <option selected>Select a category</option>
-                            <option value="1">Category 1</option>
-                            <option value="2">Category 2</option>
-                            <option value="3">Category 3</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="docType" class="form-label">Document Type</label>
-                        <select class="form-select" id="docType">
-                            <option selected>Select document type</option>
-                            <option value="text">Text</option>
-                            <option value="video">Video</option>
-                            <option value="image">Image</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
-            </div>
-        </div>
-    </div>
+      
     </section><!-- /Features Section -->
 
     <!-- Stats Section -->
-    <section id="stats" class="stats section light-background">
+    <section id="statistik" class="stats section light-background">
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
+        
+        <h2 class="text-left mb-4">Statistik Konten Pengetahuan</h2>
 
         <div class="row gy-4">
 
@@ -259,31 +311,31 @@
             <i class="bi bi-share-fill"></i>
             <div class="stats-item">
               <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Share Konten</p>
+              <p>Jumlah konten pengetahuan yang dipublish</p>
             </div>
           </div><!-- End Stats Item -->
 
           <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-journal-richtext"></i>
+            <i class="bi bi-stars"></i>
             <div class="stats-item">
               <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Konten Pengetahuan</p>
+              <p>Jumlah konten pengetahuan dengan rating tinggi</p>
             </div>
           </div><!-- End Stats Item -->
 
           <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-headset"></i>
+            <i class="bi bi-share-fill"></i>
             <div class="stats-item">
               <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
-              <p>data data lain</p>
+              <p>Jumlah konten pengetahuan yang di share di media sosial</p>
             </div>
           </div><!-- End Stats Item -->
 
           <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-people"></i>
+            <i class="bi bi-person-add"></i>
             <div class="stats-item">
               <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-              <p>data data lain 2</p>
+              <p>Jumlah konten pengetahuan hasil kolaborasi</p>
             </div>
           </div><!-- End Stats Item -->
 
@@ -293,179 +345,31 @@
 
     </section><!-- /Stats Section -->
 
-    <!-- Details Section -->
-    {{-- <section id="details" class="details section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Details</h2>
-        <div><span>Check Our</span> <span class="description-title">Details</span></div>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4 align-items-center features-item">
-          <div class="col-md-5 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="100">
-            <img src="{{ asset('user/assets/img/details-1.png"')}}' class="img-fluid" alt="">
-          </div>
-          <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
-            <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
-            <p class="fst-italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <ul>
-              <li><i class="bi bi-check"></i><span> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-              <li><i class="bi bi-check"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-              <li><i class="bi bi-check"></i> <span>Ullam est qui quos consequatur eos accusamus.</span></li>
-            </ul>
-          </div>
-        </div><!-- Features Item -->
-
-        <div class="row gy-4 align-items-center features-item">
-          <div class="col-md-5 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
-            <img src="{{ asset('user/assets/img/details-2.png')}}" class="img-fluid" alt="">
-          </div>
-          <div class="col-md-7 order-2 order-md-1" data-aos="fade-up" data-aos-delay="200">
-            <h3>Corporis temporibus maiores provident</h3>
-            <p class="fst-italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum
-            </p>
-          </div>
-        </div><!-- Features Item -->
-
-        <div class="row gy-4 align-items-center features-item">
-          <div class="col-md-5 d-flex align-items-center" data-aos="zoom-out">
-            <img src="{{ asset('user/assets/img/details-3.png')}}" class="img-fluid" alt="">
-          </div>
-          <div class="col-md-7" data-aos="fade-up">
-            <h3>Sunt consequatur ad ut est nulla consectetur reiciendis animi voluptas</h3>
-            <p>Cupiditate placeat cupiditate placeat est ipsam culpa. Delectus quia minima quod. Sunt saepe odit aut quia voluptatem hic voluptas dolor doloremque.</p>
-            <ul>
-              <li><i class="bi bi-check"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-              <li><i class="bi bi-check"></i><span> Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-              <li><i class="bi bi-check"></i> <span>Facilis ut et voluptatem aperiam. Autem soluta ad fugiat</span>.</li>
-            </ul>
-          </div>
-        </div><!-- Features Item -->
-
-        <div class="row gy-4 align-items-center features-item">
-          <div class="col-md-5 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out">
-            <img src="{{ asset('user/assets/img/details-4.png')}}" class="img-fluid" alt="">
-          </div>
-          <div class="col-md-7 order-2 order-md-1" data-aos="fade-up">
-            <h3>Quas et necessitatibus eaque impedit ipsum animi consequatur incidunt in</h3>
-            <p class="fst-italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum
-            </p>
-          </div>
-        </div><!-- Features Item -->
-
-      </div>
-
-    </section> --}}
-    <!-- /Details Section -->
 
     <!-- Gallery Section -->
-    {{-- <section id="gallery" class="gallery section">
+    <section id="gallery" class="gallery section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Gallery</h2>
-        <div><span>Check Our</span> <span class="description-title">Gallery</span></div>
+        <h2>Multimedia</h2>
+        <div><span>Konten Pengetahuan</span> <span class="description-title">Multimedia</span></div>
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row g-0">
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('user/assets/img/gallery/gallery-1.jpg')}}" class="glightbox" data-gallery="images-gallery">
-                <img src="{{ asset('user/assets/img/gallery/gallery-1.jpg')}}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('user/user/assets/img/gallery/gallery-2.jpg')}}" class="glightbox" data-gallery="images-gallery">
-                <img src="{{ asset('user/assets/img/gallery/gallery-2.jpg')}}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('user/assets/img/gallery/gallery-3.jpg')}}" class="glightbox" data-gallery="images-gallery">
-                <img src="{{ asset('user/assets/img/gallery/gallery-3.jpg')}}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('user/assets/img/gallery/gallery-4.jpg')}}" class="glightbox" data-gallery="images-gallery">
-                <img src="{{ asset('user/assets/img/gallery/gallery-4.jpg')}}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('user/assets/img/gallery/gallery-5.jpg')}}" class="glightbox" data-gallery="images-gallery">
-                <img src="{{ asset('user/assets/img/gallery/gallery-5.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('user/assets/img/gallery/gallery-6.jpg ')}}" class="glightbox" data-gallery="images-gallery">
-                <img src="{{ asset('user/assets/img/gallery/gallery-6.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('user/assets/img/gallery/gallery-7.jpg')}}" class="glightbox" data-gallery="images-gallery">
-                <img src="{{ asset('user/assets/img/gallery/gallery-7.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('user/assets/img/gallery/gallery-8.jpg')}}" class="glightbox" data-gallery="images-gallery">
-                <img src="{{ asset('user/assets/img/gallery/gallery-8.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
+        <div class="row g-0" id="multimedia-kontainer">
 
         </div>
 
       </div>
 
-    </section> --}}
+    </section>
     <!-- /Gallery Section -->
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials section dark-background">
 
-      <img src="assets/img/testimonials-bg.jpg" class="testimonials-bg" alt="">
+      <img src="{{asset('user/assets/img/testimonials-bg.jpg')}}" class="testimonials-bg" alt="">
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
@@ -642,294 +546,128 @@
 
     </section> --}}
     <!-- /Team Section -->
-    <section id="team" class="team section">
+
+    {{-- <section id="team" class="team section">
         <!-- Carousel wrapper -->
         <div class="container section-title" data-aos="fade-up">
             <h2>Konten Pengetahuan</h2>
             <div><span>Cek Konten</span> <span class="description-title">Pengetahuan</span></div>
         </div><!-- End Section Title -->
-    </section>
+        
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 text-center">
+                
+              </div>
+              <div class="col-md-12">
+                <div class="featured-carousel owl-carousel" id="konten-pengetahuan">
+                  
     
-    <div
-    id="carouselMultiItemExample"
-    data-mdb-carousel-init class="carousel slide carousel-dark text-center"
-    data-mdb-ride="carousel"
-    >
-  <!-- Controls -->
-  <div class="d-flex justify-content-center mb-4">
-    <button data-mdb-button-init
-      class="carousel-control-prev position-relative"
-      type="button"
-      data-mdb-target="#carouselMultiItemExample"
-      data-mdb-slide="prev"
-    >
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button data-mdb-button-init
-      class="carousel-control-next position-relative"
-      type="button"
-      data-mdb-target="#carouselMultiItemExample"
-      data-mdb-slide="next"
-    >
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-  <!-- Inner -->
-  <div class="carousel-inner py-4">
-    <!-- Single item -->
-    <div class="carousel-item active">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card">
-              <img
-                src="https://static.republika.co.id/uploads/member/images/news/cgqszy8q7h.jpg"
-                class="card-img-top"
-                alt="Waterfall"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Konten Kereta Api</h5>
-                <p class="card-text">
-                  Ini adalah konten kereta api
-                </p>
-                <a href="#!" data-mdb-ripple-init class="btn btn-primary">Button</a>
+                  
+                </div>
               </div>
             </div>
           </div>
+        
+    </section> --}}
 
-          <div class="col-lg-4 d-none d-lg-block">
-            <div class="card">
-              <img
-                src="https://citarumharum.jabarprov.go.id/eusina/uploads/2022/06/jumatc2.jpeg"
-                class="card-img-top"
-                alt="Sunset Over the Sea"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Konte Berkebun</h5>
-                <p class="card-text">
-                  ini konten berkebun
-                </p>
-                <a href="#!" data-mdb-ripple-init class="btn btn-primary">Button</a>
-              </div>
-            </div>
-          </div>
+    
+    
 
-          <div class="col-lg-4 d-none d-lg-block">
-            <div class="card">
-              <img
-                src="https://st3.depositphotos.com/11596486/14672/i/1600/depositphotos_146721865-stock-photo-chef-cooking-in-the-kitchen.jpg"
-                class="card-img-top"
-                alt="Sunset over the Sea"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Konten Memasak</h5>
-                <p class="card-text">
-                  ini konten memasak
-                </p>
-                <a href="#!" data-mdb-ripple-init class="btn btn-primary">Button</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Single item -->
-    <div class="carousel-item">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 col-md-12">
-            <div class="card">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp"
-                class="card-img-top"
-                alt="Fissure in Sandstone"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Konten Masak</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk
-                  of the card's content.
-                </p>
-                <a href="#!" data-mdb-ripple-init class="btn btn-primary">Button</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 d-none d-lg-block">
-            <div class="card">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/new/standard/nature/185.webp"
-                class="card-img-top"
-                alt="Storm Clouds"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk
-                  of the card's content.
-                </p>
-                <a href="#!" data-mdb-ripple-init class="btn btn-primary">Button</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 d-none d-lg-block">
-            <div class="card">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/new/standard/nature/186.webp"
-                class="card-img-top"
-                alt="Hot Air Balloons"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk
-                  of the card's content.
-                </p>
-                <a href="#!" data-mdb-ripple-init class="btn btn-primary">Button</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Single item -->
-    <div class="carousel-item">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-            <div class="card">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/new/standard/nature/187.webp"
-                class="card-img-top"
-                alt="Peaks Against the Starry Sky"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk
-                  of the card's content.
-                </p>
-                <a href="#!" data-mdb-ripple-init class="btn btn-primary">Button</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 mb-4 mb-lg-0 d-none d-lg-block">
-            <div class="card">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/new/standard/nature/188.webp"
-                class="card-img-top"
-                alt="Bridge Over Water"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk
-                  of the card's content.
-                </p>
-                <a href="#!" data-mdb-ripple-init class="btn btn-primary">Button</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 mb-4 mb-lg-0 d-none d-lg-block">
-            <div class="card">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/new/standard/nature/189.webp"
-                class="card-img-top"
-                alt="Purbeck Heritage Coast"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk
-                  of the card's content.
-                </p>
-                <a href="#!" data-mdb-ripple-init class="btn btn-primary">Button</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Inner -->
-</div>
-<!-- Carousel wrapper -->
 
     <!-- Pricing Section -->
-    {{-- <section id="pricing" class="pricing section">
+    <section id="search" class="search section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Pricing</h2>
-        <div><span>Check Our</span> <span class="description-title">Pricing</span></div>
+        <h2>Search</h2>
+        <div><span>Penelusuran</span> <span class="description-title">Konten Pengetahuan</span></div>
+		
       </div><!-- End Section Title -->
+	  
+      <div class="container mt-4">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <form id="search-pengetahuan" class="input-group">
+              <input type="text" name="nama_kategori" class="form-control" placeholder="Search for...">
+              <button type="submit" class="btn btn-primary btn-search">
+                <i class="fa fa-search"></i> Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </div><br/>
 
+
+		
       <div class="container">
 
-        <div class="row gy-4">
+
+        <div class="row gy-4" id="search-konten-pengetahuan">
 
           <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
             <div class="pricing-item">
-              <h3>Free Plan</h3>
-              <p class="description">Ullam mollitia quasi nobis soluta in voluptatum et sint palora dex strater</p>
-              <h4><sup>$</sup>0<span> / month</span></h4>
-              <a href="#" class="cta-btn">Start a free trial</a>
-              <p class="text-center small">No credit card required</p>
-              <ul>
-                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-                <li class="na"><i class="bi bi-x"></i> <span>Pharetra massa massa ultricies</span></li>
-                <li class="na"><i class="bi bi-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-                <li class="na"><i class="bi bi-x"></i> <span>Voluptate id voluptas qui sed aperiam rerum</span></li>
-                <li class="na"><i class="bi bi-x"></i> <span>Iure nihil dolores recusandae odit voluptatibus</span></li>
+              <h3>Kategori 1</h3>
+              <p class="description">Deskripsi Kategori...</p>
+              
+              <h5>Jumlah konten pengetahuan yang dipublish</p>
+              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span></h5><br/>
+			  
+		          <ul>
+                <li><span>Sub Kategori 1.1</span>
+                <li><span>Sub Kategori 1.2</span>
+                <li><span>Sub Kategori 1.3</span>
+                <li><span>Sub Kategori 1.4</span>
+                <li><span>Sub Kategori 1.5</span>
+                <li><span>Sub Kategori 1.6</span>
+                <li><span>Sub Kategori 1.7</span>
+                <li><span>Sub Kategori 1.8</span>				
               </ul>
+
             </div>
           </div><!-- End Pricing Item -->
 
-          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
-            <div class="pricing-item featured">
-              <p class="popular">Popular</p>
-              <h3>Business Plan</h3>
-              <p class="description">Ullam mollitia quasi nobis soluta in voluptatum et sint palora dex strater</p>
-              <h4><sup>$</sup>29<span> / month</span></h4>
-              <a href="#" class="cta-btn">Start a free trial</a>
-              <p class="text-center small">No credit card required</p>
-              <ul>
-                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-                <li><i class="bi bi-check"></i> <span>Pharetra massa massa ultricies</span></li>
-                <li><i class="bi bi-check"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-                <li><i class="bi bi-check"></i> <span>Voluptate id voluptas qui sed aperiam rerum</span></li>
-                <li class="na"><i class="bi bi-x"></i> <span>Iure nihil dolores recusandae odit voluptatibus</span></li>
-              </ul>
-            </div>
-          </div><!-- End Pricing Item -->
-
-          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="300">
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
             <div class="pricing-item">
-              <h3>Developer Plan</h3>
-              <p class="description">Ullam mollitia quasi nobis soluta in voluptatum et sint palora dex strater</p>
-              <h4><sup>$</sup>49<span> / month</span></h4>
-              <a href="#" class="cta-btn">Start a free trial</a>
-              <p class="text-center small">No credit card required</p>
-              <ul>
-                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-                <li><i class="bi bi-check"></i> <span>Pharetra massa massa ultricies</span></li>
-                <li><i class="bi bi-check"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-                <li><i class="bi bi-check"></i> <span>Voluptate id voluptas qui sed aperiam rerum</span></li>
-                <li><i class="bi bi-check"></i> <span>Iure nihil dolores recusandae odit voluptatibus</span></li>
+              <h3>Kategori 2</h3>
+              <p class="description">Deskripsi Kategori...</p>
+              
+              <h5>Jumlah konten pengetahuan yang dipublish</p>
+              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span></h5><br/>
+			  
+		      <ul>
+                <li><span>Sub Kategori 2.1</span>
+                <li><span>Sub Kategori 2.2</span>
+                <li><span>Sub Kategori 2.3</span>
+                <li><span>Sub Kategori 2.4</span>
+                <li><span>Sub Kategori 2.5</span>
+                <li><span>Sub Kategori 2.6</span>
+                <li><span>Sub Kategori 2.7</span>
+                <li><span>Sub Kategori 2.8</span>				
               </ul>
+
+            </div>
+          </div><!-- End Pricing Item -->
+
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+            <div class="pricing-item">
+              <h3>Kategori 3</h3>
+              <p class="description">Deskripsi Kategori...</p>
+              
+              <h5>Jumlah konten pengetahuan yang dipublish</p>
+              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span></h5><br/>
+			  
+		      <ul>
+                <li><span>Sub Kategori 3.1</span>
+                <li><span>Sub Kategori 3.2</span>
+                <li><span>Sub Kategori 3.3</span>
+                <li><span>Sub Kategori 3.4</span>
+                <li><span>Sub Kategori 3.5</span>
+                <li><span>Sub Kategori 3.6</span>
+                <li><span>Sub Kategori 3.7</span>
+                <li><span>Sub Kategori 3.8</span>				
+              </ul>
+
             </div>
           </div><!-- End Pricing Item -->
 
@@ -937,66 +675,8 @@
 
       </div>
 
-    </section> --}}
+    </section>
     <!-- /Pricing Section -->
-
-    <!-- Faq Section -->
-    <section id="faq" class="faq section light-background">
-
-      <div class="container-fluid">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-7 d-flex flex-column justify-content-center order-2 order-lg-1">
-
-            <div class="content px-xl-5" data-aos="fade-up" data-aos-delay="100">
-              <h3><span>Frequently Asked </span><strong>Questions</strong></h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-              </p>
-            </div>
-
-            <div class="faq-container px-xl-5" data-aos="fade-up" data-aos-delay="200">
-
-              <div class="faq-item faq-active">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Non consectetur a erat nam at lectus urna duis?</h3>
-                <div class="faq-content">
-                  <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-              <div class="faq-item">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</h3>
-                <div class="faq-content">
-                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-              <div class="faq-item">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
-                <div class="faq-content">
-                  <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-            </div>
-
-          </div>
-
-          <div class="col-lg-5 order-1 order-lg-2">
-            <img src="{{ asset('user/assets/img/faq.jpg')}}" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="100">
-          </div>
-        </div>
-
-      </div>
-
-    </section><!-- /Faq Section -->
 
     <!-- Contact Section -->
     <section id="contact" class="contact section">
@@ -1078,4 +758,126 @@
 
   </main>
 
+  @endsection
+  @section('scripts')
+  <script>
+    $(document).ready(function() {
+      let dataKategori = $("#kategori-container").empty();
+      let multimedia = $("#multimedia-kontainer").empty();
+      let kontenPengetahuan = $("#konten-pengetahuan");
+      let searchKonten = $("#search-konten-pengetahuan").empty();
+      let test ="tes";
+      ajaxData(`${baseUrl}/api/v1/getKategori`, 'GET', [] , function(resp) {
+          $.each(resp.data, function(index, data) {
+            let featureItem = `
+              <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="${(index + 1) * 100}">
+                <div class="features-item">
+                  <img src="${data.icon[0].url}" alt="${data.title}" style="width: 35px; height: 35px; padding-right:10px;">
+                  <h3><a href="" class="stretched-link">${data.nama_kategori}</a></h3>
+                </div>
+              </div>
+            `;
+
+            dataKategori.append(featureItem);
+          });
+        },
+        function() {
+            
+        });
+
+        ajaxData(`${baseUrl}/api/v1/getMultimedia`, 'GET', [] , function(resp) {
+          $.each(resp.data, function(index, data) {
+            
+            var description = data.dekskripsi;
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(description, 'text/html');
+
+            var iframe = doc.querySelector('iframe');
+            
+            var textContent = doc.body.innerText || doc.body.textContent;
+            let iframeHtml = iframe ? iframe.outerHTML : '';
+
+            let multimediaItem = 
+            `<div class="col-lg-3 col-md-4">
+                <div class="gallery-item">
+                  <div class="responsive-iframe-container">
+                    ${iframeHtml}
+                  </div>
+                </div>
+              </div>
+            `;
+            
+            multimedia.append(multimediaItem);
+
+              let kontenItem = `
+                 <div class="item">
+                    <div class="blog-entry">
+                      <a href="#" class="block-20 d-flex align-items-start" style="background-image: url('${data.image_thumbnail[0].url}');">
+                      </a>
+                      <div class="text border border-top-0 p-4">
+                        <h3 class="heading"><a href="#">${data.judul}</a></h3>
+                        <p>${textContent}</p>
+                        <div class="d-flex align-items-center mt-4">
+                          <p class="mb-0"><a href="#" class="btn btn-primary">Read More <span class="ion-ios-arrow-round-forward"></span></a></p>
+                          <p class="ml-auto meta2 mb-0">
+                            <a href="#" class="mr-2">Admin</a>
+                            <a href="#" class="meta-chat"><span class="ion-ios-chatboxes"></span> 3</a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`;
+
+            
+            // multimedia.append(multimediaItem);
+            kontenPengetahuan.trigger('add.owl.carousel', [$(kontenItem)]).trigger('refresh.owl.carousel');
+          });
+        },
+        function() {
+            
+        });
+        
+    });
+
+    $("#search-pengetahuan").on('submit', function(e) {
+        e.preventDefault();
+      
+        const data = new FormData(this);
+        const queryString = new URLSearchParams(data).toString();
+        const url = `${baseUrl}/api/v1/search/?${queryString}`;
+        let searchKonten = $("#search-konten-pengetahuan").empty();
+
+        ajaxData(url, 'GET', [], function(resp) {
+          if(resp.message) {
+            let searchItem = `
+              <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="pricing-item">
+                  <h3>${resp.message}</h3>
+                
+                </div>
+              </div>
+            `;
+            searchKonten.append(searchItem);
+          } else {
+            $.each(resp, function(index, data) {
+            let searchItem = `
+              <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="pricing-item">
+                  <h3>${data.nama_kategori ?? null}</h3>
+                  <p class="description">${data.dekskripsi ?? null}</p>
+                  <h5>Jumlah konten pengetahuan yang dipublish</p>
+                  <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter">${data.contributor_count}</span></h5><br/>
+                </div>
+              </div>
+            `;
+            searchKonten.append(searchItem);
+          });
+          }
+          
+            
+        }, function(data) {
+            
+        });
+    });
+  </script>
   @endsection

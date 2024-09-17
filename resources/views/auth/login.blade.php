@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>Login - Penilaian Perpustakaan</title>
+    <title>Login - KMSKBS</title>
+    <link href="{{ asset('img/logo/logo-kemenhub.png') }}" rel="icon">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/vendors/bootstrap-icons/bootstrap-icons.css') }}">
@@ -40,8 +41,8 @@
                             <select class="form-select" id="role" required>
                                 <option value="" disabled readonly selected>--- Select Role ---</option>
                                 <option value="admin">Admin</option>
-                                <option value="pimpinan">Pimpinan</option>
-                                <option value="user">PIC</option>
+                                <option value="operator">Content Manager</option>
+                                <option value="user">Sivitas (staf dan pimpinan)</option>
                             </select>
                         </div>
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">Log in</button>

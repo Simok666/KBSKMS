@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\UserMiddleware;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\CheckRoleMiddleware;
+use App\Http\Middleware\OperatorMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -18,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'type.user' => UserMiddleware::class,
             'type.admin' => AdminMiddleware::class,
+            'type.operator' => OperatorMiddleware::class,
             'checkRole' => CheckRoleMiddleware::class,
         ]);
     })

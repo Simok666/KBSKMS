@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Jobs\SendEmailJob;
 use App\Models\Admin;
+use App\Models\Operator;
 
 class ContributorController extends Controller
 {
@@ -20,17 +21,27 @@ class ContributorController extends Controller
      * 
      * @param Contributor $contributor
      * @param User $user
+     * @param Admin $admin
+     * @param Operator $operator
      */
-    public function contributor(Request $request, Contributor $contributor, User $user, Admin $admin) {
+    public function contributor(Request $request, Contributor $contributor, User $user, Admin $admin, Operator $operator) {
         try {
           DB::beginTransaction();   
-          $data = collect($request->repeater)->map(function ($item) use ($request, $contributor, $admin, $user) {
+          $data = collect($request->repeater)->map(function ($item) use ($request, $contributor, $admin, $user, $operator) {
              $textEditor = $item['dekskripsi'];
-            
+             $contenIframe = false;
+
              if(!empty($textEditor)) {
                 $dom = new \domdocument();
                 @$dom->loadHtml($textEditor, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
                 $images = $dom->getElementsByTagName('img');
+                $iframes = $dom->getElementsByTagName('iframe');
+
+                if($iframes->length > 0) {
+                    $contenIframe = true;
+                } else {
+                    $contenIframe = false;
+                }
                
                 foreach($images as $key => $img) {
                     
@@ -73,6 +84,7 @@ class ContributorController extends Controller
                       'id_user' => ($role == "user") ? $request->user()->id : null,
                       'id_admin' => ($role == "admin") ? $request->user()->id : null,
                       'role' => $role,
+                      'has_video_embed' => (boolean) $contenIframe
                   ]
               );
 
@@ -91,6 +103,7 @@ class ContributorController extends Controller
                 }
 
                 $admin = $admin::first();
+                $operator = $operator::first();
                 $users = $user::with('roles')->whereHas('roles', function ($query) {
                     $query->where('role_id', 2);
                 })->get();
@@ -107,14 +120,14 @@ class ContributorController extends Controller
                         dispatch(new SendEmailJob($postMail));
                     }
                     
-                    $postAdmin = [
-                        'email' => [$admin->email],
-                        'title' => 'Konten Pengetahuan baru sudah di buat mohon di check untuk di publish atau revisi',
-                        'status' => 'verifikator',
-                        'body' => $dataContributor,
-                    ];
+                    // $postAdmin = [
+                    //     'email' => [$admin->email, $operator->email],
+                    //     'title' => 'Konten Pengetahuan baru sudah di buat mohon di check untuk di publish atau revisi',
+                    //     'status' => 'verifikator',
+                    //     'body' => $dataContributor,
+                    // ];
 
-                    dispatch(new SendEmailJob($postAdmin));
+                    // dispatch(new SendEmailJob($postAdmin));
                 }
           });
 
@@ -145,6 +158,24 @@ class ContributorController extends Controller
     }
 
     /**
+     * 
+     * get Contributor
+     * 
+     * @param Contributor $contributor
+     */
+    public function getMultimedia(Contributor $contributor) {
+        return ContributorResource::collection(
+            $contributor::with('kategori', 'user')
+            ->when(request()->filled("id"), function ($query){
+                $query->where('id', request("id"));
+            })
+            ->where('has_video_embed', true)
+            ->where('status', 'publish')
+            ->paginate($request->limit ?? "10")
+        );
+    }
+
+    /**
      * get list kategori
      * 
      * @param Kategori $kategori
@@ -156,9 +187,12 @@ class ContributorController extends Controller
     /**
      * get list user
      * 
+     * @param Request $request
      * @param User $user
      */
-    public function listUser(User $user) {
-        return $user::all();
+    public function listUser(Request $request, User $user) {
+        return $user::where('id' ,'<>', $request->user()->id)
+        ->where('is_verified', 1)
+        ->get();
     }
 }

@@ -39,6 +39,18 @@
                                     <input type="text" name="repeater[0][nama_kategori]" class="form-control">
                                 </td>
                             </tr>
+                            <tr>
+                                <th scope="row">Icon</th>
+                                <td> 
+                                    <input type="file" name="repeater[0][icon][]" class="form-control" accept="image/*" required > 
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Dekskripsi</th>
+                                <td >
+                                    <textarea name="repeater[0][dekskripsi]" class="form-control" rows="3" ></textarea>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </form>
@@ -85,6 +97,14 @@
                             <th>Nama Kategori</th>
                             <td data-bind-nama_kategori></td>
                         </tr>
+                        <tr>
+                            <th>Icon</th>
+                            <td data-bind-icon></td>
+                        </tr>
+                        <tr>
+                            <th>Dekskripsi</th>
+                            <td data-bind-dekskripsi></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -129,7 +149,18 @@
                                     <input type="hidden" name="repeater[0][id]"  class="form-control" data-bind-id value="">
                                     <input type="text" name="repeater[0][nama_kategori]" value="" class="form-control" data-bind-nama_kategori value="">
                                 </td>
-
+                            </tr>
+                            <tr>
+                                <th scope="row">Icon</th>
+                                <td> 
+                                    <input type="file" name="repeater[0][icon][]" class="form-control" accept="image/*" required > 
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Dekskripsi</th>
+                                <td >
+                                    <textarea name="repeater[0][dekskripsi]" value="" class="form-control" data-bind-dekskripsi value=""></textarea>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -162,6 +193,7 @@
             result += `
                 <tr>
                     <td>${data.nama_kategori}</td>
+                    <td>${!empty(data.icon) ? `<a href="#" class="openPopup" link="${data.icon[0].url}">View File</a> `: "-"}</td>
                     <td>
                         <a href="#" class="btn btn-info btn-icon btn-sm btn-detail" title="Detail" data-name="${data.nama_kategori}" data-id="${data.id}"><span class="bi bi-info-circle"> </span></a>
                         <a href="#" class="btn btn-warning btn-icon btn-sm btn-edit" title="Detail" data-id="${data.id}"><span class="bi bi-pencil"> </span></a>
@@ -171,6 +203,10 @@
         });
         return result;
     }
+
+    $(document).on('click', '.openPopup', function() {
+        window.open($(this).attr('link'), 'popup', 'width=800,height=600');
+    })
 
     $(document).on('click', '.btn-verify', function() {
         $('#name').html($(this).data('name'));
@@ -215,6 +251,14 @@
                 if (index == "image") return;
                 $('#detailKategori').find(`[data-bind-${index}]`).html(data);
             });
+
+            if (!empty(result.icon)) {
+                result.icon.forEach(function(image) {
+                    $('#detailKategori').find('[data-bind-icon]').html(`<a href="${image.url}" target="_blank">View Image</a>`);
+                });
+            } else {
+                $('#detailKategori').find('[data-bind-icon]').html(`-`);
+            }
 
         },
         function() {

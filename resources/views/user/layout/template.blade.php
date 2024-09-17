@@ -4,13 +4,13 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - KMSKBS</title>
+  <title>KMSKBS | @yield("title")</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="{{ asset('user/assets/img/favicon.png') }}" rel="icon">
-  <link href="{{ asset('user/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <link href="{{ asset('img/logo/logo-kemenhub.png') }}" rel="icon">
+  {{-- <link href="{{ asset('user/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon"> --}}
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -23,12 +23,15 @@
   <link href="{{ asset('user/assets/vendor/aos/aos.css') }}" rel="stylesheet">
   <link href="{{ asset('user/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
   <link href="{{ asset('user/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
-
+  <link rel="stylesheet" href="{{asset('user/owl-assets/css/owl.carousel.min.css')}}">
+  <link rel="stylesheet" href="{{asset('user/owl-assets/css/owl.theme.default.min.css')}}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
+	<link rel="stylesheet" href="{{asset('user/owl-assets/css/style.css')}}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
   <link href="{{ asset('user/assets/css/main.css') }}" rel="stylesheet">
-
+  @yield('styles')
   <!-- =======================================================
   * Template Name: Bootslander
   * Template URL: https://bootstrapmade.com/bootslander-free-bootstrap-landing-page-template/
@@ -45,22 +48,20 @@
 
       <a href="index.html" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">KMSKBS</h1>
+        <img src="{{asset('img/logo/logo-kemenhub.png')}}" alt=""> 
+        <h1 class="sitename">Trak-Hubs</h1>
       </a>
-
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#hero" class="active">Home</a></li>
-          <li><a href="#about">Tentang Kami</a></li>
-          <li><a href="#features">Kotak Analisis Sentimen</a></li>
-          <li><a href="#gallery">Gambar</a></li>
-          <li><a href="#team">Konten Pengetahuan</a></li>
-          {{-- <li><a href="#pricing">Pricing</a></li> --}}
-          {{-- <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          {{-- <li><a href="{{ url('user-home') }}" class="active">Home</a></li> --}}
+          <li class="dropdown"><a href="{{ url('user-home.html') }}"><span>Home</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <li><a href="#about">Tentang Kami</a></li>
+              <li><a href="#features">Kategori</a></li>
+              <li><a href="#statistik">Statistik</a></li>
+              <li><a href="#gallery">Multimedia</a></li>
+              
+              {{-- <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                   <li><a href="#">Deep Dropdown 1</a></li>
                   <li><a href="#">Deep Dropdown 2</a></li>
@@ -68,13 +69,23 @@
                   <li><a href="#">Deep Dropdown 4</a></li>
                   <li><a href="#">Deep Dropdown 5</a></li>
                 </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
+              </li> --}}
             </ul>
-          </li> --}}
-          <li><a href="#contact">Kontak</a></li>
+          </li>
+            
+            {{-- @if (Request::path() == 'user-home')
+          
+            
+          
+            @endif --}}
+          
+          <li class="active"><a href="{{ url('user-layananTransportasi.html') }}">Layanan Transportasi</a></li>
+          <li><a href="{{ url('user-knowledgeBasedChat.html') }}">Knowledge Based Chat</a></li>
+          <li><a href="{{ url('user-analisisSentimen.html') }}">Analisis Sentimen</a></li>
+          <li><a href="{{ url('auth-login.html') }}">Login</a></li>
+          
+          
+       
           <li>
                     
         </li>
@@ -94,13 +105,13 @@
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
           <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">KMSKBS</span>
+            <span class="sitename">Trak-Hubs</span>
           </a>
           <div class="footer-contact pt-3">
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-            <p><strong>Email:</strong> <span>info@example.com</span></p>
+            <p>Kemenhub</p>
+            <p>Jakarta</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>xxx</span></p>
+            <p><strong>Email:</strong> <span>info-trak-hubs@dephub.go.id</span></p>
           </div>
           <div class="social-links d-flex mt-4">
             <a href=""><i class="bi bi-twitter-x"></i></a>
@@ -113,22 +124,22 @@
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
+            <li><a href="#">link1</a></li>
+            <li><a href="#">link2</a></li>
+            <li><a href="#">link3</a></li>
+            <li><a href="#">link4</a></li>
+            <li><a href="#">link5</a></li>
           </ul>
         </div>
 
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Our Services</h4>
           <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
+            <li><a href="#">Services1</a></li>
+            <li><a href="#">Services2</a></li>
+            <li><a href="#">Services3</a></li>
+            <li><a href="#">Services4</a></li>
+            <li><a href="#">Services5</a></li>
           </ul>
         </div>
 
@@ -147,13 +158,13 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Bootslander</strong> <span>All Rights Reserved</span></p>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Trak-Hubs</strong> <span>All Rights Reserved</span></p>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you've purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        Designed by <a href="#">ResearchGroup</a>
       </div>
     </div>
 
@@ -169,14 +180,20 @@
   <script src="{{ asset('user/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('user/assets/vendor/php-email-form/validate.js') }}"></script>
   <script src="{{ asset('user/assets/vendor/aos/aos.js') }}"></script>
+  <script src="{{ asset('admin/vendors/jquery/jquery.min.js') }}"></script>
+  <script src="{{ asset('user/owl-assets/js/owl.carousel.min.js') }}"></script>
+  <script src="{{ asset('user/owl-assets/js/main.js')}}"></script>
+  <script src="{{ asset('user/owl-assets/js/popper.js')}}"></script>
   <script src="{{ asset('user/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
   <script src="{{ asset('user/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
   <script src="{{ asset('user/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ asset('admin/js/app.js') }}"></script>
+  
 
   <!-- Main JS File -->
   <script src="{{ asset('user/assets/js/main.js') }}"></script>
-
+  @yield('scripts')
 </body>
 
 </html>

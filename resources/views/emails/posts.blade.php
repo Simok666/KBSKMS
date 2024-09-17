@@ -18,7 +18,9 @@
    <?php } else if ($postMail['status'] == 'published') { ?> 
         <p> Konten Anda sudah di publish oleh Admin</p>
     <?php} else if ($postMail['status'] == 'revisi') { ?>
-        <p> Konten Anda sudah di revisi oleh Admin</p>
+        <p> Konten Anda di revisi oleh Admin</p>
+    <?php } else if ($postMail['status'] == 'verifikasi_verifikator') { ?>
+        <p> Check Konten Pengetahuan yang sudah di verifikasi oleh Knowledge Verifikator </p>
     <?php }?>
     
 </body>

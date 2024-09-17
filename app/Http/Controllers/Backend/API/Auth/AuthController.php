@@ -101,10 +101,20 @@ class AuthController extends Controller
     public function login(UserLoginRequest $request) {
         
         $user = User::where('email', $request->email)->first();
-        
-        if (!$user || !Hash::check($request->password, $user->password) || $user->is_verified == 0 ) {
+        if($user == null) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect or Your account has not been verified'],
+                'email' => ['User Email not found'],
+            ]);
+        }
+        if($user->exists() && $user->is_verified == 0) {
+            throw ValidationException::withMessages([
+                'email' => ['Your account has not been verified please check your email is verified'],
+            ]);
+        }
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect'],
             ]);
         }
         $user->role = "user";

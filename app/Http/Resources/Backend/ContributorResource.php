@@ -30,7 +30,8 @@ class ContributorResource extends JsonResource
             'tipe' => $this->tipe,
             'status' => $this->status,
             'status_verifikator' => $this->status_verifikator,
-            'id_user' => $this->id_user
+            'id_user' => $this->id_user,
+            'komentar' => $this->komentar ?? null
         ];
     }
 }

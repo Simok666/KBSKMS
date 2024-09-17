@@ -12,7 +12,7 @@ const menuByRole = {
         "Knowledge Seeker": [],
         "Pimpinan": [],
     },
-    "operator" : ["dashboard", "users", "libraries", "proofOfWork", "komponent", "verifikator", "pleno", "googleform", "settingComponent"],
+    "operator" : ["admin-dashboard", "knowledge-contributor", "knowledge-verificator"],
     "verifikator_desk" : ["dashboard", "libraries", "proofOfWork", "komponent", "verifikator-desk"],
     "verifikator_field" : ["dashboard", "libraries", "proofOfWork", "komponent", "verifikator-field"],
     "pimpinan" : ["dashboard", "pleno-sesban"],

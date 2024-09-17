@@ -33,13 +33,13 @@ class CheckRoleMiddleware
         $path = $request->getPathInfo();
     
         if (in_array($path, $staticRoutes)) {
-            $roleIds = ['type.user' => 'role:user', 'type.admin' => 'role:admin'];
+            $roleIds = ['type.user' => 'role:user', 'type.admin' => 'role:admin', 'type.operator' => 'role:operator'];
         }
 
         foreach ($dynamicRoutes as $route) {
             $pattern = '#^' . preg_replace('/\{[^}]+\}/', '[^/]+', $route) . '$#';
             if (preg_match($pattern, $path)) {
-                $roleIds = ['type.user' => 'role:user', 'type.admin' => 'role:admin'];
+                $roleIds = ['type.user' => 'role:user', 'type.admin' => 'role:admin', 'type.operator' => 'role:operator'];
                 break;
             }
         }

@@ -33,7 +33,9 @@ class Contributor extends Model implements HasMedia
         'status_verifikator',
         'id_user',
         'id_admin',
-        'role'
+        'role',
+        'komentar',
+        'has_video_embed'
     ];
 
     /**

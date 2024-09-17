@@ -20,6 +20,7 @@
             "Image Thumbnail",
             "Lampiran",
             "Tipe Konten",
+            "Komentar Verifikator",
             "Action",
             "Publish / Verifikasi",
             "Revisi / Komentar"
@@ -188,7 +189,7 @@
                 <form action="index.html" id="komentar-konten">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <textarea class="form-control sumernote-komentar" id="summer-note" name="komentar" placeholder="komentar" value="" required></textarea>
+                            <textarea class="form-control sumernote-komentar" id="summer-note-komentar" name="komentar" placeholder="komentar"></textarea>
                         </div>
                     </div>
                     <input type="hidden" name="id" id="id-komentar">
@@ -225,17 +226,19 @@
 
         var result = "";
         $.each(data, function(index, data) {
+            // console.log(data.status);
             result += `
                 <tr>
                     <td>${data.judul}</td>
                     <td>${!empty(data.image_thumbnail) ? `<a href="#" class="openPopup" link="${data.image_thumbnail[0].url}">View File</a> `: "-"}</td>
                     <td>${!empty(data.upload_lampiran) ? `<a href="#" class="openPopup" link="${data.upload_lampiran[0].url}">View File</a> `: "-"}</td>
                     <td>${data.tipe}</td>
+                    <td>${(data.komentar == null) ? "-" : data.komentar}</td>
                     <td>
                         <a href="#" class="btn btn-info btn-icon btn-sm btn-detail" title="Detail" data-id="${data.id}"><span class="bi bi-info-circle"> </span></a>
                     </td>
                     <td>
-                        ${verificator === "ada" ? (data.status_verifikator ? `<span class="badge bg-info">Sudah di verifikasi</span>` :  `<a href="#" data-bs-toggle="modal" data-bs-target="#publish" class="btn btn-warning btn-sm btn-publish mb-1" title="verifikasi konten verifikator" data-id="${data.id}" data-userid="${data.id_user}"><span class="bi bi-cloud-arrow-up-fill"> </span></a>` )  : (data.status_verifikator == true ? (data.status === 'revisi' ? `<span class="badge bg-danger">Revisi</span>` : (data.status === 'publish' ? `<span class="badge bg-info">Published</span>` : `<a href="#" data-bs-toggle="modal" data-bs-target="#publish" class="btn btn-warning btn-sm btn-publish mb-1" title="publish konten" data-id="${data.id}" data-userid="${data.id_user}"><span class="bi bi-cloud-arrow-up-fill"> </span></a>`)) :  `<span class="badge bg-warning">Sedang di verifikasi verifikator</span>`) }
+                        ${verificator === "ada" ? (data.status_verifikator ? `<span class="badge bg-info">Sudah di verifikasi</span>` :  (data.status == "revisi" ?  `<span class="badge bg-danger">masih di revisi</span>` : `<a href="#" data-bs-toggle="modal" data-bs-target="#publish" class="btn btn-warning btn-sm btn-publish mb-1" title="verifikasi konten verifikator" data-id="${data.id}" data-userid="${data.id_user}"><span class="bi bi-cloud-arrow-up-fill"> </span></a>`) )  : (data.status_verifikator == true ? (data.status === 'revisi' ? `<span class="badge bg-danger">Revisi</span>` : (data.status === 'publish' ? `<span class="badge bg-info">Published</span>` : `<a href="#" data-bs-toggle="modal" data-bs-target="#publish" class="btn btn-warning btn-sm btn-publish mb-1" title="publish konten" data-id="${data.id}" data-userid="${data.id_user}"><span class="bi bi-cloud-arrow-up-fill"> </span></a>`)) :  `<span class="badge bg-warning">Sedang di verifikasi verifikator</span>`) }
                     </td>
                     <td>
                         ${verificator === "ada"  ? `<a href="#" data-bs-toggle="modal" data-bs-target="#komentar" class="btn btn-primary btn-sm btn-komentar mb-1" title="komentar konten" data-id="${data.id}" data-userid="${data.id_user}"><span class="bi bi-chat-dots-fill"> </span></a>` : (data.status_verifikator == true ? ( data.status === 'revisi' ? `<span class="badge bg-danger">Revisi</span>` : (data.status === 'publish' ? `<span class="badge bg-info">Published</span>` : `<a href="#" data-bs-toggle="modal" data-bs-target="#revisi" class="btn btn-danger btn-sm btn-revisi mb-1" title="revisi konten" data-id="${data.id}" data-userid="${data.id_user}"><span class="bi bi-x-octagon-fill"> </span></a>`))  : `<span class="badge bg-warning">Sedang di verifikasi verifikator</span>`)  }
@@ -354,15 +357,16 @@
         e.preventDefault();
         let id = $(this).find("#id-komentar").val();
         let userId = $(this).find("#user_id-komentar").val();
-        const data = new FormData(this);
+        let data = $(this).find("#summer-note-komentar").val();
         let url = `${baseUrl}/api/v1/komentar/${id}`;
-        let data = {
-            "user" : user,
+        let dataKomentar = {
+            // "user" : user,
+            "id" : id,
             "id_user" : userId,
-            "data" : data
+            "komentar" : data
         };
         loadingButton($(this))
-        ajaxData(url, 'PUT', data, function(resp) {
+        ajaxData(url, 'PUT', dataKomentar, function(resp) {
             toast(resp.message);
             $('#komentar').modal('hide');
             $('#komentar-konten').trigger('reset');

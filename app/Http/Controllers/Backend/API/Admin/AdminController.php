@@ -260,14 +260,24 @@ class AdminController extends Controller
         try {
           DB::beginTransaction();   
           $data = collect($request->repeater)->map(function ($item) use ($kategori) {
-              $kategori::updateOrCreate(
+            
+              $kategori = $kategori::updateOrCreate(
                   [
                       'id' => $item['id'] ?? null,
                   ],
                   [
                       'nama_kategori' => $item['nama_kategori'],
+                      'dekskripsi' => $item['dekskripsi'],
                   ]
               );
+
+              if($image_icons = $item['icon']) {
+                    foreach ($image_icons as $image_icon) {
+                        $kategori->clearMediaCollection('icon');
+                        $kategori->addMedia($image_icon)->toMediaCollection('icon');
+                    }
+                }
+
           DB::commit();
           });
           return response()->json(['message' => 'Kategori has been created or updated successfully'], 201);

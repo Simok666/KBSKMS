@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title"></h4>
-        <button type="submit" style="float: right" class="btn btn-primary btn-add-pengetahuan">Tambah Konten</button>
+        <button type="submit" style="float: right" id="add-pengetahuan" class="btn btn-primary btn-add-pengetahuan">Tambah Konten</button>
     </div>
     <div class="card-body">
         @include('admin.components.table-pagenation', ['table' => 'contributors' , 'url' => '/api/v1/pengetahuan' , 'headers' => [
@@ -140,13 +140,13 @@
                             <tr>
                                 <th>Image Thumbnail</th>
                                 <td> 
-                                    <input type="file" name="repeater[0][image_thumbnail][]" class="form-control" required>
+                                    <input type="file" name="repeater[0][image_thumbnail][]"  class="form-control"  accept="image/*" required>
                                 </td>
                             </tr>
                             <tr>
                                 <th>Lampiran</th>
                                 <td>
-                                    <input type="file" name="repeater[0][upload_lampiran][]" class="form-control" required> 
+                                    <input type="file" name="repeater[0][upload_lampiran][]" class="form-control" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf" required> 
                                 </td>
                             </tr>
                             <tr>
@@ -304,9 +304,13 @@
 <script src="{{ asset('admin/vendors/summernote/summernote-lite.min.js') }}"></script>
 <script>
     $(document).ready(function() {
+        let role = session("role");
+
         getListKategori()
         getListUsers()
         GetData(req,"contributors", formatcontributors);
+
+        (role == 'admin' || role == 'operator') ? $("#add-pengetahuan").hide() : $("#add-pengetahuan").show();
     });
 
     function formatcontributors(data) {
@@ -356,7 +360,7 @@
                 ['style', ['style']],
                 ['font', ['bold', 'italic', 'underline', 'clear']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['insert', []],
+                ['insert', ['link', 'picture', 'video']],
                 ['misc', ['codeview']],
             ],
             callbacks: {
