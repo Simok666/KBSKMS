@@ -3,12 +3,12 @@ body {
 }
 
 #auth {
-  height: 100vh;
+  height: 100%;
   overflow-x: hidden;
 }
 #auth #auth-right {
   height: 100%;
-  background: url(../../images/bg/4853433.jpg), linear-gradient(90deg, #2d499d, #3f5491);
+  background: url("https://i.ibb.co.com/KjM54YZ/login-bg.webp"), linear-gradient(90deg, #2d499d, #3f5491);
 }
 #auth #auth-left {
   padding: 5rem 8rem;

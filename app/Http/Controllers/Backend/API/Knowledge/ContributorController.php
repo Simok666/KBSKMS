@@ -84,7 +84,8 @@ class ContributorController extends Controller
                       'id_user' => ($role == "user") ? $request->user()->id : null,
                       'id_admin' => ($role == "admin") ? $request->user()->id : null,
                       'role' => $role,
-                      'has_video_embed' => (boolean) $contenIframe
+                      'has_video_embed' => (boolean) $contenIframe,
+                      'slug' => $item['slug']
                   ]
               );
 

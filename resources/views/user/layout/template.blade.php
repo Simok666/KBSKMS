@@ -28,9 +28,13 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
 	<link rel="stylesheet" href="{{asset('user/owl-assets/css/style.css')}}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
   <link href="{{ asset('user/assets/css/main.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('admin/vendors/toastify/toastify.css') }}">
   @yield('styles')
   <!-- =======================================================
   * Template Name: Bootslander
@@ -46,54 +50,59 @@
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="{{asset('img/logo/logo-kemenhub.png')}}" alt=""> 
-        <h1 class="sitename">Trak-Hubs</h1>
-      </a>
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          {{-- <li><a href="{{ url('user-home') }}" class="active">Home</a></li> --}}
-          <li class="dropdown"><a href="{{ url('user-home.html') }}"><span>Home</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#about">Tentang Kami</a></li>
-              <li><a href="#features">Kategori</a></li>
-              <li><a href="#statistik">Statistik</a></li>
-              <li><a href="#gallery">Multimedia</a></li>
-              
-              {{-- <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li> --}}
-            </ul>
-          </li>
-            
-            {{-- @if (Request::path() == 'user-home')
-          
-            
-          
-            @endif --}}
-          
-          <li class="active"><a href="{{ url('user-layananTransportasi.html') }}">Layanan Transportasi</a></li>
-          <li><a href="{{ url('user-knowledgeBasedChat.html') }}">Knowledge Based Chat</a></li>
-          <li><a href="{{ url('user-analisisSentimen.html') }}">Analisis Sentimen</a></li>
-          <li><a href="{{ url('auth-login.html') }}">Login</a></li>
-          
-          
+      <a href="{{ url('user-home.html') }}" class="logo d-flex align-items-center">
+       <!-- Uncomment the line below if you also wish to use an image logo -->
+       <img src="{{asset('img/logo/logo-kemenhub.png')}}" alt=""> 
+       <h1 class="sitename">Trak-Hubs</h1>
+     </a>
+     <nav id="navmenu" class="navmenu">
+       <ul>
+     
+      <li class="active"><a href="{{ url('user-home.html#hero') }}">Home</a></li>
        
-          <li>
-                    
-        </li>
-          
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
+         {{-- <li><a href="{{ url('user-home') }}" class="active">Home</a></li> --}}
+         <li class="dropdown"><a href="{{ url('user-home.html#about') }}"><span>Fitur</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+           <ul>
+             <li class="active"><a href="{{ url('user-layananTransportasi.html') }}">Prediksi Layanan Transportasi</a></li>
+             <li><a href="{{ url('user-knowledgeBasedChat.html') }}">Knowledge-based Chat</a></li>
+             <li><a href="{{ url('user-analisisSentimen.html') }}">Analisis Sentimen Layanan Transportasi</a></li>
+             
+       
 
+             
+             {{-- <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+               <ul>
+                 <li><a href="#">Deep Dropdown 1</a></li>
+                 <li><a href="#">Deep Dropdown 2</a></li>
+                 <li><a href="#">Deep Dropdown 3</a></li>
+                 <li><a href="#">Deep Dropdown 4</a></li>
+                 <li><a href="#">Deep Dropdown 5</a></li>
+               </ul>
+             </li> --}}
+           </ul>
+         </li>
+           
+           {{-- @if (Request::path() == 'user-home')
+         
+           
+         
+           @endif --}}
+                
+     <li class="active"><a href="{{ url('user-home.html#features') }}">Kategori</a></li>
+           <li class="active"><a href="{{ url('user-home.html#statistik') }}">Statistik</a></li>
+           <li class="active"><a href="{{ url('user-home.html#gallery') }}">Multimedia</a></li>
+           <li class="login-home"><a href="{{ url('auth-login.html') }}">Login</a></li>
+          <li class="logout-home"><a href="#" onclick="deleteSessionHome()">Logout</a></li>
+      
+         <li>
+                   
+       </li>
+         
+       </ul>
+       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+     </nav>
+      
+      
     </div>
   </header>
 
@@ -188,11 +197,22 @@
   <script src="{{ asset('user/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
   <script src="{{ asset('user/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ asset('admin/vendors/toastify/toastify.js') }}"></script>
   <script src="{{ asset('admin/js/app.js') }}"></script>
+  <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   
 
   <!-- Main JS File -->
   <script src="{{ asset('user/assets/js/main.js') }}"></script>
+  <script> 
+    checkLoginHome()
+  </script>
   @yield('scripts')
 </body>
 

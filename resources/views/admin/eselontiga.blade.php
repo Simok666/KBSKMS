@@ -119,7 +119,7 @@
 
     $("#form-add-eselon").on('submit', function(e) {
         e.preventDefault();
-        const url = `${baseUrl}/api/v1/admin/eselonTiga/`;
+        const url = `${baseUrl}/api/v1/admin/eselonTiga`;
         const data = new FormData(this);
         loadingButton($(this))
         ajaxDataFile(url, 'POST', data, function(resp) {
@@ -150,7 +150,7 @@
 
     $("#form-eselon-tiga").on('submit', function(e) {
         e.preventDefault();
-        let url = `${baseUrl}/api/v1/admin/eselonTiga/`;
+        let url = `${baseUrl}/api/v1/admin/eselonTiga`;
         const data = $(this).serialize();
         
         loadingButton($(this))

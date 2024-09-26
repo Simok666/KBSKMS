@@ -24,6 +24,7 @@ class Contributor extends Model implements HasMedia
         'judul',
         'dekskripsi',
         'id_kategori',
+        'slug',
         'tag',
         'image_thumbnail[]',
         'upload_lampiran[]',
@@ -35,7 +36,8 @@ class Contributor extends Model implements HasMedia
         'id_admin',
         'role',
         'komentar',
-        'has_video_embed'
+        'has_video_embed',
+        'id_user_verificator'
     ];
 
     /**
@@ -56,8 +58,33 @@ class Contributor extends Model implements HasMedia
         return $this->belongsTo(User::class, 'id_user');
     }
 
+    public function userIdVerificator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_user_verificator');
+    }
+
     public function adminIdKonten(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'id_user');
+    }
+
+    public function ratings() : HasMany
+    {
+        return $this->hasMany(Rating::class, 'contributor_id');
+    }
+
+    public function likes() : HasMany
+    {
+        return $this->hasMany(Like::class, 'contributor_id');
+    }
+
+    public function comments() : HasMany
+    {
+        return $this->hasMany(Comment::class, 'contributor_id');
+    }
+
+    public function shares() : HasMany
+    {
+        return $this->hasMany(Share::class, 'contributor_id');
     }
 }

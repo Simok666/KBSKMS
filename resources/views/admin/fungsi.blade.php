@@ -119,7 +119,7 @@
 
     $("#form-add-fungsi").on('submit', function(e) {
         e.preventDefault();
-        const url = `${baseUrl}/api/v1/admin/fungsi/`;
+        const url = `${baseUrl}/api/v1/admin/fungsi`;
         const data = new FormData(this);
         loadingButton($(this))
         ajaxDataFile(url, 'POST', data, function(resp) {
@@ -150,7 +150,7 @@
 
     $("#form-fungsi").on('submit', function(e) {
         e.preventDefault();
-        let url = `${baseUrl}/api/v1/admin/fungsi/`;
+        let url = `${baseUrl}/api/v1/admin/fungsi`;
         const data = $(this).serialize();
         
         loadingButton($(this))

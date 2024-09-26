@@ -76,6 +76,10 @@
                             <td data-bind-upload_lampiran></td>
                         </tr>
                         <tr>
+                            <th>Slug Konten</th>
+                            <td data-bind-slug></td>
+                        </tr>
+                        <tr>
                             <th>User Contributor</th>
                             <td data-bind-user_contributor></td>
                         </tr>
@@ -150,9 +154,15 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th scope="row">Slug Konten</th>
+                                <td>
+                                    <input type="text" name="repeater[0][slug]" class="form-control" data-bind-slug value="" required>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th scope="row">Kategori</th>
                                 <td>
-                                    <select name="repeater[0][id_kategori]" class="form-control list-kategori"  data-bind-id_kategori value=""required>
+                                    <select name="repeater[0][id_kategori]" class="form-control list-kategori"  data-bind-id_kategori value="" required>
                                         <option value="" selected>Pilih Kategori</option>
                                     </select>
                                 </td>
@@ -248,6 +258,12 @@
                                 <th scope="row">Lampiran</th>
                                 <td> 
                                     <input type="file" name="repeater[0][upload_lampiran][]" class="form-control" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf" required> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Slug Konten</th>
+                                <td>
+                                    <input type="text" name="repeater[0][slug]" class="form-control" required>
                                 </td>
                             </tr>
                             <tr>

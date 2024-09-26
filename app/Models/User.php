@@ -31,6 +31,9 @@ class User extends Authenticatable
         'id_fungsi',
         'email',
         'password',
+        'badge_activity_id',
+        'badge_verificator_id',
+        'badge_contributor_id'
     ];
 
     /**
@@ -80,9 +83,17 @@ class User extends Authenticatable
     /**
      * Get the user that owns the konten.
      */
-    public function userKonten(): BelongsToMany
+    public function userKonten()
     {
         return $this->hasMany(Contributor::class, 'id_user');
+    }
+    
+    /**
+     * Get the user that owns the verifikator.
+     */
+    public function userVerifikator()
+    {
+        return $this->hasMany(Contributor::class, 'id_user_verificator');
     }
 
     /**
@@ -91,5 +102,25 @@ class User extends Authenticatable
     public function contributor(): HasMany
     {
         return $this->hasMany(Contributor::class, 'id_user_contributor');
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'user_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'user_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'user_id');
+    }
+
+    public function shares()
+    {
+        return $this->hasMany(Share::class, 'user_id');
     }
 }

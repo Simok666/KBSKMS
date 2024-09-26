@@ -221,7 +221,7 @@
 
     $("#form-add-kategori").on('submit', function(e) {
         e.preventDefault();
-        const url = `${baseUrl}/api/v1/admin/addOrUpdateKategori/`;
+        const url = `${baseUrl}/api/v1/admin/addOrUpdateKategori`;
         const data = new FormData(this);
         loadingButton($(this))
         ajaxDataFile(url, 'POST', data, function(resp) {
@@ -298,7 +298,7 @@
 
     $("#form-edit-kategori").on('submit', function(e) {
         e.preventDefault();
-        const url = `${baseUrl}/api/v1/admin/addOrUpdateKategori/`;
+        const url = `${baseUrl}/api/v1/admin/addOrUpdateKategori`;
         const data = new FormData(this);
         loadingButton($(this))
         ajaxDataFile(url, 'POST', data, function(resp) {

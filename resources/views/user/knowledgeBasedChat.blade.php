@@ -1,3 +1,6 @@
+New! Keyboard shortcuts … 
+Drive keyboard shortcuts have been updated to give you first-letters navigation
+
 @extends('user.layout.template')
 
 @section('title', 'layanan-transportasi')
@@ -115,62 +118,40 @@
             </div>
 
             <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-in">
-                <h1>Empower your system with all-in-one<span> Knowledge Hub</span></h1>
-                <p>Selamat Datang di Knowledge Management System Kementerian Perhubungan bernama<br/> <b>Transportation Knowledge-Hub System (Trak-Hubs)</b></p>
-                <div class="d-flex">
+                <h1>Fitur Knowledge-based Chat <span>Bidang Transportasi</span></h1>
+                <p>Fitur ini untuk mempermudah sivitas Kemenhub dalam menelusur informasi dan pengetahuan berbasis chat dengan pengetahuan spesifik</p>
+                <p>Powered by:<br/>
+                <img src="{{ asset('img/logo/logo-baketrans.png') }}" alt="Baketrans Kemenhub" width="70%"><br/>
+                <img src="{{ asset('img/logo/jdih.png') }}" alt="Strategi Pusdatin Kemenhub" width="40px">
+                <img src="{{ asset('img/logo/logo-kemenhub.png') }}" alt="JDIH Kemenhub" width="40px">JDIH Kemenhub</p>
+    
+    
+    
+    			<!--<div class="d-flex">
                     <a href="#about" class="btn-get-started">Get Started</a>
                     <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center">
                         <i class="bi bi-play-circle"></i><span>Watch Video</span>
                     </a>
-                </div>
+                </div>-->
+    
+    
             </div>
         </div>
     </div>
 </section>
-
-<div class="container mt-4">
-    <!-- Header -->
-    <div class="header-data d-flex align-items-center justify-content-center">
-        <img src="{{ asset('img/logo/logo-kemenhub.png') }}" alt="Logo">
-        <span>Trak-Hubs | Transportation Knowledge-Hub System | Knowledge-based Chat 
-        </span>
-    </div>
-
-    <!-- Title Section -->
-    <div class="title-container">
-        <h1>Knowledge Based Chat</h1>
-    </div>
-
-    <!-- Iframe Section -->
-    <div class="iframe-container">
-        <iframe
-            src="https://kms2024-poc-llm-rag.hf.space"
-            frameborder="0"
-            width="auto"
-            height="300"
-        ></iframe>
-    </div>
-
-    <!-- Footer Section -->
-    <div class="footer-iframe">
-        <div class="powered-by">
-            Powered by
-        </div>
-        <div class="row">
-            <div class="col-6 col-md-3 d-flex justify-content-center">
-                <img src="{{ asset('img/logo/strategi.png') }}" alt="Strategi Pusdatin Kemenhub">
-            </div>
-            <div class="col-6 col-md-3 d-flex justify-content-center">
-                <img src="{{ asset('img/logo/logo-kemenhub.png') }}" alt="Strategi Pusdatin Kemenhub">
-            </div>
-        </div>
-        <div class="powered-by">
-            Strategi Pusdatin Kemenhub
-        </div>
-        <div>
-            <img src="{{ asset('img/logo/logo-baketrans.png') }}" alt="Baketrans Kemenhub">
-        </div>
-    </div>
+<div class="container">
+<p>
+Silahkan akses panduan Knowledge-based chat berbasis data JDIH Kemenhub di <a href="https://docs.google.com/document/d/14F_Q9RKv94QpgOtIHWSOmrUyPsBxTBZO/edit?usp=sharing&ouid=106443721771904639749&rtpof=true&sd=true" target="_blank">link ini</a>               
+</p>
 </div>
+<section>
+<iframe
+	src="https://kms2024-rag-openai-gr.hf.space"
+	frameborder="0"
+	width="100%"
+	height="450"
+></iframe>
+    </section>
+    
 </main>
 @endsection

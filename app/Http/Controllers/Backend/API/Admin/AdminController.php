@@ -13,11 +13,17 @@ use App\Models\EselonDua;
 use App\Models\EselonTiga;
 use App\Models\Fungsi;
 use App\Jobs\SendEmailJob;
+use App\Models\Contributor;
 use App\Http\Resources\Backend\Admin\DataEselonFungsiResource;
 use DB;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use App\Models\Kategori;
 use App\Http\Resources\Backend\Admin\KategoriResources;
+use App\Models\BadgeActivity;
+use App\Models\BadgeContributor;
+use App\Models\BadgeVerificator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -289,5 +295,140 @@ class AdminController extends Controller
             return response()->json(['error' => 'An error occurred while creating data: ' . $e->getMessage()], 400);
         }
     }
+
+    /**
+     * function check badge kontributor per user
+     * 
+     * @param User $user
+     */
+    public function checkBadgeContributor(User $user) {
+        try {
+            $dataUser = $user::withCount(['userKonten' => function (Builder $query) {
+                $query->where('status', 'publish');
+            }])->get();
+
+            $badgeContributor = 1;
+            $data = collect($dataUser)->map(function ($item) {
+                $publishContenCount = $item['user_konten_count'];
+                    
+                    DB::beginTransaction(); 
+
+                if($publishContenCount >= 1 && $publishContenCount <= 5) {
+                    $badgeContributor = 1;
+                } elseif ($publishContenCount >= 6 && $publishContenCount <= 10) {
+                    $badgeContributor = 2;
+                } elseif ($publishContenCount >= 11 && $publishContenCount <= 20) {
+                    $badgeContributor = 3;
+                } elseif ($publishContenCount >= 21) {
+                    $badgeContributor = 4;
+                }
+                    
+                $updataData = User::where('id', $item['id'])->update([
+                    'badge_contributor_id' => $badgeContributor,  
+                ]);
+
+                DB::commit();
+            });
+            Log::info('Success update BadgeContributor');
+        } catch(\Illuminate\Database\QueryException $ex) {
+            DB::rollBack();
+            Log::info('Error when update BadgeContributor '. $ex->getMessage());
+        } catch(\Exception $e) {
+            DB::rollBack();
+            Log::info('Error when update BadgeContributor '. $e->getMessage());
+        }
+    }
+
+    /**
+     * function check badge verificator per user
+     * 
+     * @param User $user
+     */
+    public function checkBadgeVerificator(User $user) {
+        try {
+            $dataUser = $user::withCount(['userVerifikator' => function (Builder $query) {
+            }])->get();
+
+            $badgeVerificator = 1;
+            $data = collect($dataUser)->map(function ($item) {
+                $publishContenCount = $item['user_verifikator_count'];
+                    
+                DB::beginTransaction(); 
+
+                if($publishContenCount >= 1 && $publishContenCount <= 5) {
+                    $badgeVerificator = 1;
+                } elseif ($publishContenCount >= 6 && $publishContenCount <= 10) {
+                    $badgeVerificator = 2;
+                } elseif ($publishContenCount >= 11 && $publishContenCount <= 20) {
+                    $badgeVerificator = 3;
+                } elseif ($publishContenCount >= 21) {
+                    $badgeVerificator = 4;
+                }
+                    
+                $updataData = User::where('id', $item['id'])->update([
+                    'badge_verificator_id' => $badgeContributor,  
+                ]);
+
+                DB::commit();
+            });
+            Log::info('Success update BadgeVerificator');
+        } catch(\Illuminate\Database\QueryException $ex) {
+            DB::rollBack();
+            Log::info('Error when update BadgeVerificator '. $ex->getMessage());
+        } catch(\Exception $e) {
+            DB::rollBack();
+            Log::info('Error when update BadgeVerificator '. $e->getMessage());
+        }
+    }
+
+    /**
+     * function check badge verificator per user
+     * 
+     * @param User $user
+     */
+    public function checkBadgeActivity(User $user) {
+        try {
+            $dataUser = User::with(['ratings', 'likes', 'comments', 'shares'])->get();
+            $badgeActivity = 1;
+            $data = collect($dataUser)->map(function ($item) {
+                
+                $contributorIds = collect([
+                    $item['ratings']->pluck('contributor_id'),
+                    $item['likes']->pluck('contributor_id'),
+                    $item['comments']->pluck('contributor_id'),
+                    $item['shares']->pluck('contributor_id')
+                ])->flatten()->unique(); 
+
+                $uniqueContributorCount = $contributorIds->count();
+                    
+                DB::beginTransaction(); 
+
+                if($uniqueContributorCount >= 1 && $uniqueContributorCount <= 5) {
+                    $badgeActivity = 1;
+                } elseif ($uniqueContributorCount >= 6 && $uniqueContributorCount <= 10) {
+                    $badgeActivity = 2;
+                } elseif ($uniqueContributorCount >= 11 && $uniqueContributorCount <= 20) {
+                    $badgeActivity = 3;
+                } elseif ($uniqueContributorCount >= 21) {
+                    $badgeActivity = 4;
+                }
+                    
+                $updataData = User::where('id', $item['id'])->update([
+                    'badge_activity_id' => $badgeActivity,  
+                ]);
+
+                DB::commit();
+            });
+            Log::info('Success update BadgeActivity');
+        } catch(\Illuminate\Database\QueryException $ex) {
+            DB::rollBack();
+            Log::info('Error when update BadgeActivity '. $ex->getMessage());
+        } catch(\Exception $e) {
+            DB::rollBack();
+            Log::info('Error when update BadgeActivity '. $e->getMessage());
+        }
+    }
+
+
 
 }

@@ -22,7 +22,7 @@
                 <div id="auth-left">
                     <div class="auth-logo">
                         {{-- <a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo"></a> --}}
-                        <h3>KMS KBS </h3>
+                        <h3>Knowledge Base System Kemenhub</h3>
                     </div>
                     <h1 class="auth-title">Pendaftaran</h1>
                     <form action="index.html">

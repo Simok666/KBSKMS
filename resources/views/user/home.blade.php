@@ -69,6 +69,32 @@
 
     </section><!-- /Hero Section -->
 
+ <!-- Slogan Section -->
+    <section id="testimonials" class="testimonials" style="height: 390px; --background-color: #ffffff70;" >
+
+      <img src="{{asset('user/assets/img/slider-pimpinan.png')}}" class="testimonials-bg" alt="" >
+
+      
+
+
+          
+         <div>
+              <div class="testimonial-item">
+                           
+               
+                <p>
+                  <h3><i class="bi bi-quote quote-icon-left"></i>
+                  Knowledge Driven Policies for Sustainable Transportation
+                  <i class="bi bi-quote quote-icon-right"></i></h3>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+                
+  
+
+    </section><!-- /Testimonials Section -->          
+          
+          
     <!-- About Section -->
     <section id="about" class="about section">
 
@@ -79,7 +105,7 @@
             <h3>About Us</h3>
             <h2>Trak-Hubs</h2>
             <p>Trak-Hubs adalah KMS Kementerian Perhubuangan yang dikembangkan pada tahun 2024 hasil kerjasama Kementerian Perhubungan dengan BRIN.</p>
-            <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+            <a href="{{ url('user-home.html#details') }}" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
           </div>
 
           <div class="col-xl-7">
@@ -87,32 +113,32 @@
 
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="icon-box">
-                  <i class="bi bi-buildings"></i>
-                  <h3>Fitur Knowledge Base dan Best Practices Database</h3>
+                  <a href="{{ url('auth-login.html') }}" class="read-more"><i class="bi bi-buildings"></i>
+                  <h3>Fitur Knowledge Base dan Best Practices Database</h3></a>
                   <p>Fitur ini adalah wadah pengetahuan dan pengalaman yang dikelola di Kementerian Perhubungan</p>
                 </div>
               </div> <!-- End Icon Box -->
 
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="icon-box">
-                  <i class="bi bi-clipboard-pulse"></i>
-                  <h3>Fitur Prediksi sarana transportasi</h3>
+                  <a href="{{ url('user-layananTransportasi.html') }}" class="read-more"><i class="bi bi-clipboard-pulse"></i>
+                  <h3>Fitur Prediksi sarana transportasi</h3></a>
                   <p>Fitur ini untuk memprediksi traffic kendaraan dan pergerakan penumpang di sarana transportasi untuk menunjang kebijakan</p>
                 </div>
               </div> <!-- End Icon Box -->
 
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
                 <div class="icon-box">
-                  <i class="bi bi-command"></i>
-                  <h3>Fitur Knowledge-based Chat berbasis LLM</h3>
+                  <a href="{{ url('user-knowledgeBasedChat.html') }}" class="read-more"><i class="bi bi-command"></i>
+                  <h3>Fitur Knowledge-based Chat berbasis LLM</h3></a>
                   <p>Fitur ini untuk mempermudah sivitas Kemenhub dalam menelusur informasi dan pengetahuan berbasis chat dengan pengetahuan spesifik</p>
                 </div>
               </div> <!-- End Icon Box -->
 
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
                 <div class="icon-box">
-                  <i class="bi bi-graph-up-arrow"></i>
-                  <h3>Fitur Analisis Sentimen</h3>
+                  <a href="{{ url('user-analisisSentimen.html') }}" class="read-more"><i class="bi bi-graph-up-arrow"></i>
+                  <h3>Fitur Analisis Sentimen</h3></a>
                   <p>Fitur ini digunakan untuk mengetahui sentimen masyarakat terkait sarana transportasi berdasarkan titik simpul sarana sebagai pendukung rekomendasi kebijakan</p>
                 </div>
               </div> <!-- End Icon Box -->
@@ -368,7 +394,13 @@
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials section dark-background">
-
+                  
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Testimonials</h2>
+        <div><span>Apa Kata</span> <span class="description-title">Mereka tentang KMS?</span></div>
+      </div><!-- End Section Title -->
+                  
       <img src="{{asset('user/assets/img/testimonials-bg.jpg')}}" class="testimonials-bg" alt="">
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -678,78 +710,63 @@
     </section>
     <!-- /Pricing Section -->
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
+<!-- Faq Section -->
+    <section id="faq" class="faq section light-background">
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <div><span>Check Our</span> <span class="description-title">Contact</span></div>
-      </div><!-- End Section Title -->
+      <div class="container-fluid">
 
-      <div class="container" data-aos="fade" data-aos-delay="100">
 
         <div class="row gy-4">
+          <div class="col-lg-7 d-flex flex-column justify-content-center order-2 order-lg-1">
 
-          <div class="col-lg-4">
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
-              <i class="bi bi-geo-alt flex-shrink-0"></i>
-              <div>
-                <h3>Address</h3>
-                <p>A108 Adam Street, New York, NY 535022</p>
-              </div>
-            </div><!-- End Info Item -->
+            <div class="content px-xl-5" data-aos="fade-up" data-aos-delay="100">
+              <h3><span>Frequently Asked </span><strong>Questions</strong></h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
+              </p>
+            </div>
 
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
-              <i class="bi bi-telephone flex-shrink-0"></i>
-              <div>
-                <h3>Call Us</h3>
-                <p>+1 5589 55488 55</p>
-              </div>
-            </div><!-- End Info Item -->
+            <div class="faq-container px-xl-5" data-aos="fade-up" data-aos-delay="200">
 
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
-              <i class="bi bi-envelope flex-shrink-0"></i>
-              <div>
-                <h3>Email Us</h3>
-                <p>info@example.com</p>
-              </div>
-            </div><!-- End Info Item -->
+              <div class="faq-item faq-active">
+                <i class="faq-icon bi bi-question-circle"></i>
+                <h3>Non consectetur a erat nam at lectus urna duis?</h3>
+                <div class="faq-content">
+                  <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <i class="faq-icon bi bi-question-circle"></i>
+                <h3>Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</h3>
+                <div class="faq-content">
+                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <i class="faq-icon bi bi-question-circle"></i>
+                <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
+                <div class="faq-content">
+                  <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+            </div>
 
           </div>
 
-          <div class="col-lg-8">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
+          <div class="col-lg-5 order-1 order-lg-2">
+            <img src="user/assets/img/faq.jpg" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="100">
+          </div>
+        </div>
 
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
-                </div>
+      </div>
 
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
-                </div>
-
-              </div>
-            </form>
-          </div><!-- End Contact Form -->
-
+    </section><!-- /Faq Section -->
         </div>
 
       </div>
@@ -815,7 +832,7 @@
                       <a href="#" class="block-20 d-flex align-items-start" style="background-image: url('${data.image_thumbnail[0].url}');">
                       </a>
                       <div class="text border border-top-0 p-4">
-                        <h3 class="heading"><a href="#">${data.judul}</a></h3>
+                        <h3 class="heading"><a href="">${data.judul}</a></h3>
                         <p>${textContent}</p>
                         <div class="d-flex align-items-center mt-4">
                           <p class="mb-0"><a href="#" class="btn btn-primary">Read More <span class="ion-ios-arrow-round-forward"></span></a></p>
@@ -863,7 +880,7 @@
             let searchItem = `
               <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
                 <div class="pricing-item">
-                  <h3>${data.nama_kategori ?? null}</h3>
+                  <h3><a href="${baseUrl}/user-kategori.html/?category=${data.nama_kategori}" >${data.nama_kategori ?? null}</a></h3>
                   <p class="description">${data.dekskripsi ?? null}</p>
                   <h5>Jumlah konten pengetahuan yang dipublish</p>
                   <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter">${data.contributor_count}</span></h5><br/>

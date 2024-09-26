@@ -2,14 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\Api\Auth\AuthController;
-use App\Http\Controllers\Backend\Api\Auth\AdminAuthController;
-use App\Http\Controllers\Backend\Api\Auth\OperatorAuthController;
-use App\Http\Controllers\Backend\Api\Admin\AdminController;
-use App\Http\Controllers\Backend\Api\Knowledge\ContributorController;
+use App\Http\Controllers\Backend\API\Auth\AuthController;
+use App\Http\Controllers\Backend\API\Auth\AdminAuthController;
+use App\Http\Controllers\Backend\API\Auth\OperatorAuthController;
+use App\Http\Controllers\Backend\API\Admin\AdminController;
+use App\Http\Controllers\Backend\API\Knowledge\ContributorController;
 use App\Http\Middleware\UserMiddleware;
-use App\Http\Controllers\Backend\Api\Knowledge\VerificatorController;
-use App\Http\Controllers\Backend\Api\HomeController;
+use App\Http\Controllers\Backend\API\Knowledge\VerificatorController;
+use App\Http\Controllers\Backend\API\HomeController;
 
 
 Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
@@ -45,6 +45,15 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('search', [HomeController::class, 'search']);
     Route::post('admin/login', [AdminAuthController::class, 'login']);
     Route::post('operator/login', [OperatorAuthController::class, 'login']);
+    Route::get('getContent/{category}', [HomeController::class, 'getContent']);
+    Route::get('getBlog/{slug}', [HomeController::class, 'getBlog']);
+    
+    // conten Action
+    Route::post('share', [HomeController::class, 'share'])->middleware('auth:sanctum');
+    Route::put('like', [HomeController::class, 'like'])->middleware('auth:sanctum');
+    Route::put('rating', [HomeController::class, 'rating'])->middleware('auth:sanctum');
+    Route::post('comment', [HomeController::class, 'comment'])->middleware('auth:sanctum');
+    
 });
 
 Route::middleware(['auth:sanctum', 'type.admin'])->group(function () {

@@ -1,5 +1,7 @@
 var laravelCsrf = $('meta[name="csrf-token"]').attr('content');
+// var baseUrl = window.location.origin + "/kms/public";
 var baseUrl = window.location.origin;
+
 var req = {
     page:1
 };
@@ -263,10 +265,46 @@ function checkLogin() {
     }
 }
 
+function checkLoginHome() {
+    $(".logout-home").hide();
+    if(empty(session("isLogin"))) {
+        $(".logout-home").hide();
+    } else {
+        ajaxData(baseUrl + '/api/v1/user', 'POST', {}, function (resp) {
+        
+            $(".login-home").hide();
+            $(".logout-home").show();
+            let role = (resp.data.role == "user" ? "user" : resp.data.role); ;
+            
+            setSession("role", resp.data.role);
+            setSession("userId", resp.data.id);
+
+            if (role == "user") {
+                let isVerificator = resp.data.dataRole.find((element) => element.nama_role == "Knowledge Verificator");
+                setSession("id", resp.data.id);
+                if (Object.keys(isVerificator).length === 0) {
+                    setSession("data-role-seeker", "tidak");
+                } else {
+                    setSession("data-role-seeker", "ada");
+
+                }
+            } else {
+                setSession("data-role-seeker", "tidak");
+            }
+
+            checkSpecialAction(resp.data)
+        }, function(data) {
+            toast(data.responseJSON.message ?? data.responseJSON.error, 'warning');
+            setTimeout(deleteSession, 300);
+        });
+    }
+}
+
 function checkUserAccess(){
     const role = session("role");
     let accessMenu = [];
-    if(role == 'user') {
+    
+    if(role === "user") {
         ajaxData(baseUrl + '/api/v1/getRoles', 'POST', {}, function (resp) {
             const userRoles = resp.data;
             
@@ -277,6 +315,7 @@ function checkUserAccess(){
 
             accessMenu = accessMenu.filter(item => {
                 let pathname = window.location.pathname.replace(/\.html$/, '').replace(/[/]/g, '');
+                pathname = pathname.replace(/^kmspublic/, '');
                 let menuUrl = item.replace(/_/g, '-');
                 if (item == "*") return true;
                 return pathname == menuUrl
@@ -297,6 +336,7 @@ function checkUserAccess(){
     } else {
         accessMenu = menuByRole[`${role}`].filter(item => {
             let pathname = window.location.pathname.replace(/\.html$/, '').replace(/[/]/g, '');
+            pathname = pathname.replace(/^kmspublic/, '');
             let menuUrl = item.replace(/_/g, '-');
             if (item == "*") return true;
             return pathname == menuUrl
@@ -311,6 +351,21 @@ function checkUserAccess(){
         }
     }
     
+}
+
+function fetchKategoriData(id) {
+    const url = baseUrl + `/api/v1/getContent/${id}`;
+    
+    $.ajax({
+        url: url, 
+        type: 'GET',
+        success: function(response) {
+            console.log(response);
+        },
+        error: function(xhr) {
+            console.log('Error:', xhr.responseText);
+        }
+    });
 }
 
 function setMenuByRole(){
@@ -343,6 +398,7 @@ function setMenuByRole(){
                 
                 $(".sidebar-menu .menu .sidebar-item").each(function(index, menu){
                     let pathname = window.location.pathname.replace(/[/-]/g, '');
+                    pathname = pathname.replace(/^kmspublic/, '');
                     let urlSidebar = $(this).find("a").attr("href").replace(/[/-]/g, '');
                     const hrefRegex = new RegExp(`^${urlSidebar.replace(/\//g, '')}$`);
                     if(hrefRegex.test(pathname)){
@@ -392,6 +448,7 @@ function setMenuByRole(){
         // active menu
         $(".sidebar-menu .menu .sidebar-item").each(function(index, menu){
             let pathname = window.location.pathname.replace(/[/-]/g, '');
+            pathname = pathname.replace(/^kmspublic/, '');
             let urlSidebar = $(this).find("a").attr("href").replace(/[/-]/g, '');
             const hrefRegex = new RegExp(`^${urlSidebar.replace(/\//g, '')}$`);
             if(hrefRegex.test(pathname)){
@@ -454,7 +511,16 @@ function checkSpecialAction(resp) {
 function deleteSession() {
     localStorage.removeItem("isLogin");
     localStorage.removeItem("token");
-    window.location = '/auth-login.html';
+    window.location = baseUrl + '/auth-login.html';
+}
+
+function deleteSessionHome() {
+    localStorage.removeItem("isLogin");
+    localStorage.removeItem("role");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("data-role-seeker");
+    localStorage.removeItem("token");
+    window.location = baseUrl + '/user-home.html';
 }
 
 
@@ -600,6 +666,8 @@ function loadingButton (formSubmit, isLoading = true) {
         btnSubmit.html(btnSubmit.attr("title"));
     }
 }
+
+// function 
 
 function  CustomloadingButton (selector, isLoading = true) {
     let btnSubmit = selector;

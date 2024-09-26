@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\API\HomeController;
 
 Route::group(['suffix' => '.html'], function () {
    
@@ -19,6 +20,21 @@ Route::group(['suffix' => '.html'], function () {
             abort(404);
         }
 
+        // if ($view === 'user.blogs') {
+        //     $shareComponent = \Share::page(
+        //         'https://www.positronx.io/create-autocomplete-search-in-laravel-with-typeahead-js/',
+        //         'Your share text comes here'
+        //     )
+        //     ->facebook()
+        //     ->twitter()
+        //     ->linkedin()
+        //     ->telegram()
+        //     ->whatsapp();
+
+        //     return view($view, compact('shareComponent'));
+        // }
+
         return view($view);
     });
 });
+

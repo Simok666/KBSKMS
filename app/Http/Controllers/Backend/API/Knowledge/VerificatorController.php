@@ -28,7 +28,10 @@ class VerificatorController extends Controller
             $dataContributor = $contributor->find($request->id);
 
             if(request('user') == 'verifikator') {
-                $contributor = $contributor->find($request->id)->update(['status_verifikator' => (boolean) request('status')]);
+                $contributor = $contributor->find($request->id)->update([
+                    'status_verifikator' => (boolean) request('status'),
+                    'id_user_verificator' => $request->user()->id
+                ]);
 
                 $admin = $admin::first();
                 if($user) {

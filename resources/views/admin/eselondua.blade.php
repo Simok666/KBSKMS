@@ -118,7 +118,7 @@
 
     $("#form-add-eselon").on('submit', function(e) {
         e.preventDefault();
-        const url = `${baseUrl}/api/v1/admin/eselonDua/`;
+        const url = `${baseUrl}/api/v1/admin/eselonDua`;
         const data = new FormData(this);
         loadingButton($(this))
         ajaxDataFile(url, 'POST', data, function(resp) {
@@ -149,7 +149,7 @@
 
     $("#form-eselon-dua").on('submit', function(e) {
         e.preventDefault();
-        let url = `${baseUrl}/api/v1/admin/eselonDua/`;
+        let url = `${baseUrl}/api/v1/admin/eselonDua`;
         const data = $(this).serialize();
     
         loadingButton($(this))

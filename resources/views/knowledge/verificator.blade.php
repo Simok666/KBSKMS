@@ -233,7 +233,7 @@
                     <td>${!empty(data.image_thumbnail) ? `<a href="#" class="openPopup" link="${data.image_thumbnail[0].url}">View File</a> `: "-"}</td>
                     <td>${!empty(data.upload_lampiran) ? `<a href="#" class="openPopup" link="${data.upload_lampiran[0].url}">View File</a> `: "-"}</td>
                     <td>${data.tipe}</td>
-                    <td>${(data.komentar == null) ? "-" : data.komentar}</td>
+                    <td>${(data.komentar_verificator == null) ? "-" : data.komentar_verificator}</td>
                     <td>
                         <a href="#" class="btn btn-info btn-icon btn-sm btn-detail" title="Detail" data-id="${data.id}"><span class="bi bi-info-circle"> </span></a>
                     </td>

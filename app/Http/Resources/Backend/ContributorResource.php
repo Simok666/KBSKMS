@@ -31,7 +31,12 @@ class ContributorResource extends JsonResource
             'status' => $this->status,
             'status_verifikator' => $this->status_verifikator,
             'id_user' => $this->id_user,
-            'komentar' => $this->komentar ?? null
+            'komentar_verificator' => $this->komentar,
+            'komentar' => $this->comments ?? null,
+            'kategori' => $this->kategori ?? null,
+            'slug' => $this->slug ?? null,
+            'likes' => $this->likes ?? null,
+            'ratings' => $this->ratings ?? null
         ];
     }
 }
