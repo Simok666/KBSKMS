@@ -10,10 +10,12 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +35,10 @@ class User extends Authenticatable
         'password',
         'badge_activity_id',
         'badge_verificator_id',
-        'badge_contributor_id'
+        'badge_contributor_id',
+        'bidang_keahlian',
+        'bidang_pendidikan',
+        'image_profile[]'
     ];
 
     /**
@@ -122,5 +127,21 @@ class User extends Authenticatable
     public function shares()
     {
         return $this->hasMany(Share::class, 'user_id');
+    }
+
+    /**
+     * Get the badge contributor.
+     */
+    public function badgeContributor(): BelongsTo
+    {
+        return $this->belongsTo(BadgeContributor::class, 'badge_contributor_id');
+    }
+
+    /**
+     * Get the badge verificator.
+     */
+    public function badgeVerificator(): BelongsTo
+    {
+        return $this->belongsTo(BadgeVerificator::class, 'badge_verificator_id');
     }
 }

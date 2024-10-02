@@ -17,4 +17,12 @@ class BadgeVerificator extends Model
     protected $fillable = [
         'badge_name', 
     ];
+
+    /**
+     * Get the verificator for the user.
+     */
+    public function badgeVerificator(): HasMany
+    {
+        return $this->hasMany(User::class, 'badge_verificator_id');
+    }
 }

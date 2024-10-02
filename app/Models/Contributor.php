@@ -24,6 +24,7 @@ class Contributor extends Model implements HasMedia
         'judul',
         'dekskripsi',
         'id_kategori',
+        'id_sub_kategori',
         'slug',
         'tag',
         'image_thumbnail[]',
@@ -48,6 +49,14 @@ class Contributor extends Model implements HasMedia
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
 
+    /**
+     * get the contributor that owns kategori
+     */
+    public function subKategori(): BelongsTo
+    {
+        return $this->belongsTo(SubKategori::class, 'id_sub_kategori');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id_user_contributor');
@@ -68,22 +77,22 @@ class Contributor extends Model implements HasMedia
         return $this->belongsTo(Admin::class, 'id_user');
     }
 
-    public function ratings() : HasMany
+    public function ratings()
     {
         return $this->hasMany(Rating::class, 'contributor_id');
     }
 
-    public function likes() : HasMany
+    public function likes()
     {
         return $this->hasMany(Like::class, 'contributor_id');
     }
 
-    public function comments() : HasMany
+    public function comments()
     {
         return $this->hasMany(Comment::class, 'contributor_id');
     }
 
-    public function shares() : HasMany
+    public function shares()
     {
         return $this->hasMany(Share::class, 'contributor_id');
     }

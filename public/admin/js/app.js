@@ -7,7 +7,7 @@ var req = {
 };
 
 const menuByRole = {
-    "admin" : ["admin-dashboard", "admin-eselon", ,"admin-eselondua", "admin-eselontiga", "admin-fungsi", "admin-userlist", "knowledge-contributor", "admin-kategori", "knowledge-verificator"],
+    "admin" : ["admin-dashboard", "admin-eselon", ,"admin-eselondua", "admin-eselontiga", "admin-fungsi", "admin-userlist", "knowledge-contributor", "admin-kategori", "admin-subkategori" ,"knowledge-verificator"],
     "user" : {
         "Knowledge Contributor" : ["admin-dashboard","knowledge-contributor"],
         "Knowledge Verificator" : ["knowledge-verificator"],
@@ -58,6 +58,11 @@ const sidebarItems = [
       label: "Kategori"
     },
     {
+      url: "admin-subkategori",
+      icon: "bi bi-pencil-square",
+      label: "Sub Kategori"
+    },
+    {
       url: "knowledge-contributor",
       icon: "bi bi-journal",
       label: "Konten Pengetahuan"
@@ -66,16 +71,6 @@ const sidebarItems = [
       url: "knowledge-verificator",
       icon: "bi bi-journal-check",
       label: "Verifikasi Konten"
-    },
-    {
-      url: "libraries",
-      icon: "bi bi-book",
-      label: "Libraries"
-    },
-    {
-      url: "proofOfWork",
-      icon: "bi bi-lock",
-      label: "Bukti Fisik"
     },
     {
       url: "komponent",
@@ -96,31 +91,6 @@ const sidebarItems = [
       url: "verifikator-field",
       icon: "bi bi-book",
       label: "Verifikator Field"
-    },
-    {
-      url: "pleno",
-      icon: "bi bi-people-fill",
-      label: "Pleno"
-    },
-    {
-      url: "pleno-sesban",
-      icon: "bi bi-person-lines-fill",
-      label: "Pleno Sesban"
-    },
-    {
-      url: "pleno-kaban",
-      icon: "bi bi-person-lines-fill",
-      label: "Pleno Kaban"
-    },
-    {
-        url: "googleform",
-        icon: "bi bi-google",
-        label: "Google Form"
-    },
-    {
-        url: "settingComponent",
-        icon: "bi bi-gear",
-        label: "Contoh Komponen"
     },
 
 ///// PIC Menu
@@ -244,15 +214,33 @@ function checkLogin() {
             setSession("role", resp.data.role);
             if (role == "user") {
                 let isVerificator = resp.data.dataRole.find((element) => element.nama_role == "Knowledge Verificator");
+                let isContributor = resp.data.dataRole.find((element) => element.nama_role == "Knowledge Contributor");
                 setSession("id", resp.data.id);
-                if (Object.keys(isVerificator).length === 0) {
-                    setSession("data-role-verificator", "tidak");
-                } else {
-                    setSession("data-role-verificator", "ada");
 
+                if (typeof isVerificator === 'object') {
+                    if (Object.keys(isVerificator).length === 0) {
+                        setSession("data-role-verificator", "tidak");
+                    } else {
+                        setSession("data-role-verificator", "ada");
+                    }
+                } else {
+                 setSession("data-role-verificator", "tidak");
                 }
+                
+                if (typeof isContributor === 'object') {
+                    if (Object.keys(isContributor).length === 0) {
+                        setSession("data-role-contributor", "tidak");
+                    } else {
+                        setSession("data-role-contributor", "ada");
+                    }
+                } else {
+                setSession("data-role-contributor", "tidak");
+ 
+                }
+
             } else {
                 setSession("data-role-verificator", "tidak");
+                setSession("data-role-contributor", "tidak");
             }
             setSession("is_upload_google_form", resp.data.is_upload_google_form);
             checkUserAccess()
@@ -282,11 +270,14 @@ function checkLoginHome() {
             if (role == "user") {
                 let isVerificator = resp.data.dataRole.find((element) => element.nama_role == "Knowledge Verificator");
                 setSession("id", resp.data.id);
-                if (Object.keys(isVerificator).length === 0) {
-                    setSession("data-role-seeker", "tidak");
+                if (typeof isVerificator === 'object') {
+                    if (Object.keys(isVerificator).length === 0) {
+                        setSession("data-role-seeker", "tidak");
+                    } else {
+                        setSession("data-role-seeker", "ada");
+                    }
                 } else {
-                    setSession("data-role-seeker", "ada");
-
+                 setSession("data-role-verificator", "tidak");
                 }
             } else {
                 setSession("data-role-seeker", "tidak");
@@ -509,6 +500,9 @@ function checkSpecialAction(resp) {
 }
 
 function deleteSession() {
+    localStorage.removeItem("data-role-contributor");
+    localStorage.removeItem("data-role-verificator");
+    localStorage.removeItem("role");
     localStorage.removeItem("isLogin");
     localStorage.removeItem("token");
     window.location = baseUrl + '/auth-login.html';

@@ -21,7 +21,10 @@ class CheckRoleMiddleware
             '/api/v1/pengetahuan',
             '/api/v1/addOrUpdatePengetahuan',
             '/api/v1/listKategori',
-            '/api/v1/listUser'
+            '/api/v1/listSubKategori',
+            '/api/v1/listUser',
+            '/api/v1/dashboard',
+            '/api/v1/dashboardVerifikator'
         ];
 
         $dynamicRoutes = [

@@ -425,7 +425,7 @@
 
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                {{-- <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt=""> --}}
                 <h3>Saul Goodman</h3>
                 <h4>Ceo &amp; Founder</h4>
                 <div class="stars">
@@ -441,7 +441,7 @@
 
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+                {{-- <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt=""> --}}
                 <h3>Sara Wilsson</h3>
                 <h4>Designer</h4>
                 <div class="stars">
@@ -457,7 +457,7 @@
 
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+                {{-- <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt=""> --}}
                 <h3>Jena Karlis</h3>
                 <h4>Store Owner</h4>
                 <div class="stars">
@@ -473,7 +473,7 @@
 
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
+                {{-- <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt=""> --}}
                 <h3>Matt Brandon</h3>
                 <h4>Freelancer</h4>
                 <div class="stars">
@@ -489,7 +489,7 @@
 
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
+                {{-- <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt=""> --}}
                 <h3>John Larson</h3>
                 <h4>Entrepreneur</h4>
                 <div class="stars">
@@ -790,7 +790,7 @@
               <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="${(index + 1) * 100}">
                 <div class="features-item">
                   <img src="${data.icon[0].url}" alt="${data.title}" style="width: 35px; height: 35px; padding-right:10px;">
-                  <h3><a href="" class="stretched-link">${data.nama_kategori}</a></h3>
+                  <h3><a href="${baseUrl}/user-kategori.html/?category=${data.nama_kategori}" class="stretched-link">${data.nama_kategori}</a></h3>
                 </div>
               </div>
             `;
@@ -877,6 +877,13 @@
             searchKonten.append(searchItem);
           } else {
             $.each(resp, function(index, data) {
+            let subKategori = data.sub_kategoris;
+            let subKategoriList = "";
+
+            $.each(subKategori, function(subIndex, subData) {
+              subKategoriList += `<li><span>${subData.nama_sub_kategori}</span></li>`;
+            });
+
             let searchItem = `
               <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
                 <div class="pricing-item">
@@ -884,6 +891,9 @@
                   <p class="description">${data.dekskripsi ?? null}</p>
                   <h5>Jumlah konten pengetahuan yang dipublish</p>
                   <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter">${data.contributor_count}</span></h5><br/>
+                  <ul>
+                    ${subKategoriList}				
+                  </ul>
                 </div>
               </div>
             `;

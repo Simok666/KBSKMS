@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('nip');
-            $table->unsignedBigInteger('id_satuan_kerja_eselon_3');
-            $table->unsignedBigInteger('id_satuan_kerja_eselon_2');
-            $table->unsignedBigInteger('id_satuan_kerja_eselon_1');
+            $table->unsignedBigInteger('id_satuan_kerja_eselon_3')->nullable();
+            $table->unsignedBigInteger('id_satuan_kerja_eselon_2')->nullable();
+            $table->unsignedBigInteger('id_satuan_kerja_eselon_1')->nullable();
             $table->string('email')->unique();
             $table->text('nama_jabatan');
-            $table->unsignedBigInteger('id_fungsi');
+            $table->unsignedBigInteger('id_fungsi')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_verified')->default(false);

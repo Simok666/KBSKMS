@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Contributor;
 use App\Http\Resources\Backend\ContributorResource;
+use App\Http\Resources\Backend\Admin\SubKategoriResources;
 use DB;
 use App\Models\Kategori;
+use App\Models\SubKategori;
 use App\Models\User;
 use App\Models\Role;
 use App\Jobs\SendEmailJob;
@@ -76,6 +78,7 @@ class ContributorController extends Controller
                       'judul' => $item['judul'],
                       'dekskripsi' => $detail,
                       'id_kategori' => $item['id_kategori'],
+                      'id_sub_kategori' => $item['id_sub_kategori'],
                       'tag' => $item['tag'],
                       'id_user_contributor' => $item['id_user_contributor'] ?? null,
                       'tipe' => $item['tipe'],
@@ -150,11 +153,28 @@ class ContributorController extends Controller
      * @param Contributor $contributor
      */
     public function getContributor(Contributor $contributor) {
+        // dd($contributor::with('kategori.subKategoris', 'user')
+        // ->when(request()->filled("id"), function ($query){
+        //     $query->where('id', request("id"));
+        // })->paginate($request->limit ?? "10"));
         return ContributorResource::collection(
-            $contributor::with('kategori', 'user')
+            $contributor::with('kategori.subKategoris', 'user')
             ->when(request()->filled("id"), function ($query){
                 $query->where('id', request("id"));
             })->paginate($request->limit ?? "10")
+        );
+    }
+
+    /**
+     * 
+     * get Contributor
+     * 
+     * @param Kategori $kategori
+     * @param SubKategori $subKategori
+     */
+    public function getSubKategoriByKategori(Request $request,Kategori $kategori, SubKategori $subKategori) {
+        return SubKategoriResources::collection(
+            SubKategori::where('id_kategori', $request->id)->get()
         );
     }
 

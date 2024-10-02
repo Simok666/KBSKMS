@@ -31,4 +31,10 @@ class Kategori extends Model implements HasMedia
     {
         return $this->hasMany(Contributor::class, 'id_kategori');
     }
+
+    // Relasi One-to-Many (Kategori memiliki banyak SubKategori)
+    public function subKategoris()
+    {
+        return $this->hasMany(SubKategori::class, 'id_kategori');
+    }
 }

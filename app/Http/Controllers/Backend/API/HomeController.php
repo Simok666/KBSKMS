@@ -25,12 +25,12 @@ class HomeController extends Controller
     public function search (Request $request, Contributor $contributor) {
         $searchTerm = $request->input('nama_kategori');
         $categories = Kategori::where('nama_kategori', 'like', '%' . $searchTerm . '%')
-            ->with('contributor')  
+            ->with('contributor', 'subKategoris')  
             ->withCount(['contributor' => function (Builder $query) {
                 $query->where('status', 'publish');
             }])
             ->get();
-        
+      
         if(count($categories) == 0) {
             $categories = [
                 'message' => 'Kategori Tidak Ditemukan',

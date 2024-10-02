@@ -24,16 +24,19 @@ class UserRegisterRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:3', 'max:250'],
             'nip' => ['required', 'numeric', 'min:3'],
-            'id_satuan_kerja_eselon_1' => ['required', 'numeric'],
-            'id_satuan_kerja_eselon_2' => ['required', 'numeric'],
-            'id_satuan_kerja_eselon_3' => ['required', 'numeric'],
+            'id_satuan_kerja_eselon_1' => ['numeric'],
+            'id_satuan_kerja_eselon_2' => ['numeric'],
+            'id_satuan_kerja_eselon_3' => ['numeric'],
             'roles' => ['required', 'array'],
             'roles.*' => ['exists:roles,id'],
             'nama_jabatan' => ['required', 'string', 'min:3', 'max:250'],
-            'id_fungsi' => ['required', 'numeric'],
+            'id_fungsi' => ['numeric'],
             'email' => ['required','email', 'min:3', 'max:250'],
             'password' => ['required'],
-            
+            'bidang_keahlian' => ['required', 'string', 'min:3', 'max:250'],
+            'bidang_pendidikan' => ['required', 'string', 'min:3', 'max:250'],
+            'image_profile' => ['required','array'],
+            'image_profile.*' => ['mimes:jpg,png,jpeg,gif,svg,pdf','max:2048'],
         ];
     }
 }

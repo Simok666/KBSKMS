@@ -21,6 +21,7 @@ class ContributorResource extends JsonResource
             'judul' => $this->judul,
             'dekskripsi' => $this->dekskripsi,
             'nama_kategori' => $this->kategori->nama_kategori,
+            'nama_sub_kategori' => $this->kategori->subKategoris[0]->nama_sub_kategori ?? null,
             'image_thumbnail' => ImageResource::collection($this->getMedia('image_thumbnail')), 
             'upload_lampiran' => ImageResource::collection($this->getMedia('upload_lampiran')),
             'tag' => $this->tag,

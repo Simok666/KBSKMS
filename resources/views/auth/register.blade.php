@@ -51,7 +51,13 @@
                             </div>
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <select name="id_satuan_kerja_eselon_1" id="eselon-satu" class="form-control form-control-xl list-eselon-satu" required>
+                            <input type="text" name="nama_jabatan" class="form-control form-control-xl" placeholder="Nama Jabatan" required>
+                            <div class="form-control-icon">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                        </div>
+                        <div class="form-group position-relative has-icon-left mb-4">
+                            <select name="id_satuan_kerja_eselon_1" id="eselon-satu" class="form-control form-control-xl list-eselon-satu" >
                                 <option value="Pilih Eselon"selected>Pilih Eselon 1</option>
                             </select>
                             <div class="form-control-icon">
@@ -59,7 +65,7 @@
                             </div>
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <select name="id_satuan_kerja_eselon_2" id="eselon-dua" class="form-control form-control-xl list-eselon-dua" required>
+                            <select name="id_satuan_kerja_eselon_2" id="eselon-dua" class="form-control form-control-xl list-eselon-dua" >
                                 <option value="Pilih Eselon"selected>Pilih Eselon 2</option>
                             </select>
                             <div class="form-control-icon">
@@ -67,7 +73,7 @@
                             </div>
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <select name="id_satuan_kerja_eselon_3"  id="eselon-tiga" class="form-control  form-control-xl list-eselon-tiga" required>
+                            <select name="id_satuan_kerja_eselon_3"  id="eselon-tiga" class="form-control  form-control-xl list-eselon-tiga" >
                                 <option value="Pilih Eselon"selected>Pilih Eselon 3</option>
                             </select>
                             <div class="form-control-icon">
@@ -123,12 +129,23 @@
                                 </li> --}}
                             </ul>
                         </div>
+                        <div class="mb-4 position-relative has-icon-left">
+                            <label for="sk_image">Upload Profile</label>
+                            <input type="file" name="image_profile[]" class="form-control form-control-xl" accept="image/*" required > 
+                        </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" name="nama_jabatan" class="form-control form-control-xl" placeholder="Nama Jabatan" required>
+                            <input type="text" name="bidang_keahlian" class="form-control form-control-xl" placeholder="Bidang Keahlian" required>
                             <div class="form-control-icon">
-                                <i class="bi bi-person-circle"></i>
+                                <i class="bi bi-gear"></i>
                             </div>
                         </div>
+                        <div class="form-group position-relative has-icon-left mb-4">
+                            <input type="text" name="bidang_pendidikan" class="form-control form-control-xl" placeholder="Bidang Pendidikan" required>
+                            <div class="form-control-icon">
+                                <i class="bi bi-book"></i>
+                            </div>
+                        </div>
+                        
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">Simpan</button>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
@@ -277,6 +294,7 @@
                 
             });
         }
+
 
     </script>
 

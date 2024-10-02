@@ -18,7 +18,10 @@ use App\Http\Resources\Backend\Admin\DataEselonFungsiResource;
 use DB;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use App\Models\Kategori;
+use App\Models\SubKategori;
 use App\Http\Resources\Backend\Admin\KategoriResources;
+use App\Http\Resources\Backend\Admin\SubKategoriResources;
+use App\Http\Resources\Backend\DahsboardUserResource;
 use App\Models\BadgeActivity;
 use App\Models\BadgeContributor;
 use App\Models\BadgeVerificator;
@@ -257,6 +260,26 @@ class AdminController extends Controller
     }
 
     /**
+     * get all data from kategori
+     * 
+     * @param Kategori $kategori
+     * @param SubKategori $subKategori
+     */
+    public function getSubKategori(Kategori $kategori, SubKategori $subKategori) {
+        return SubKategoriResources::collection(
+            SubKategori::with('kategori')
+            ->when(request()->filled("id"), function ($query){
+                $query->where('id', request("id"));
+            })
+            ->orderBy(
+                Kategori::select('nama_kategori')
+                ->whereColumn('kategoris.id', 'sub_kategoris.id_kategori')
+            )
+            ->paginate($request->limit ?? "10")
+        );
+    }
+
+    /**
      * add or update data kategori
      * 
      * @param KategoriRequest $request
@@ -297,13 +320,47 @@ class AdminController extends Controller
     }
 
     /**
+     * add or update data kategori
+     * 
+     * @param KategoriRequest $request
+     * @param Kategori $kategori
+     * @param SubKategori $subKategori
+     */
+    public function subKategori(Request $request, Kategori $kategori, SubKategori $subKategori) {
+        try {
+          DB::beginTransaction();   
+          $data = collect($request->repeater)->map(function ($item) use ($subKategori) {
+
+              $subKategori = $subKategori::updateOrCreate(
+                  [
+                      'id' => $item['id'] ?? null,
+                  ],
+                  [
+                      'id_kategori' => $item['id_kategori'],
+                      'nama_sub_kategori' => $item['nama_sub_kategori'],
+                  ]
+              );
+
+          DB::commit();
+          });
+          return response()->json(['message' => 'Sub Kategori has been created or updated successfully'], 201);
+        } catch(\Illuminate\Database\QueryException $ex) {
+            DB::rollBack();
+            return response()->json(['error' => 'An error occurred creating data: ' . $ex->getMessage()], 400);
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'An error occurred while creating data: ' . $e->getMessage()], 400);
+        }
+    }
+
+    /**
      * function check badge kontributor per user
      * 
      * @param User $user
      */
-    public function checkBadgeContributor(User $user) {
+    public function checkBadgeContributor() {
         try {
-            $dataUser = $user::withCount(['userKonten' => function (Builder $query) {
+            $dataUser = User::withCount(['userKonten' => function (Builder $query) {
                 $query->where('status', 'publish');
             }])->get();
 
@@ -311,7 +368,7 @@ class AdminController extends Controller
             $data = collect($dataUser)->map(function ($item) {
                 $publishContenCount = $item['user_konten_count'];
                     
-                    DB::beginTransaction(); 
+                DB::beginTransaction(); 
 
                 if($publishContenCount >= 1 && $publishContenCount <= 5) {
                     $badgeContributor = 1;
@@ -344,9 +401,9 @@ class AdminController extends Controller
      * 
      * @param User $user
      */
-    public function checkBadgeVerificator(User $user) {
+    public function checkBadgeVerificator() {
         try {
-            $dataUser = $user::withCount(['userVerifikator' => function (Builder $query) {
+            $dataUser = User::withCount(['userVerifikator' => function (Builder $query) {
             }])->get();
 
             $badgeVerificator = 1;
@@ -386,7 +443,7 @@ class AdminController extends Controller
      * 
      * @param User $user
      */
-    public function checkBadgeActivity(User $user) {
+    public function checkBadgeActivity() {
         try {
             $dataUser = User::with(['ratings', 'likes', 'comments', 'shares'])->get();
             $badgeActivity = 1;
@@ -427,6 +484,114 @@ class AdminController extends Controller
             DB::rollBack();
             Log::info('Error when update BadgeActivity '. $e->getMessage());
         }
+    }
+
+    /**
+     * public count data dashboard
+     * 
+     * @param Request $request
+     * @param Contributor $contributor 
+     * @param User $user
+     */
+    public function dashboard(Contributor $contributor, User $user, Request $request) {
+        $jumlahKonten = 0; 
+        $jumlahKontenPublish = 0; 
+        $jumlahKontenVerifikasi = 0; 
+        $jumlahKontenAktifitas = 0;
+        $dataUser = [];
+        
+        $role = $request->user()->currentAccessToken()->abilities;
+        $role = explode(':', $role[0])[1] ?? "";
+
+        if ($role == 'user') {
+            $dataUser =  $user::with('roles', 'badgeContributor')->whereHas('roles', function ($query) {
+                $query->where('role_id', 1);
+            })->where('id', $request->user()->id)->first();
+            $dataUser = new DahsboardUserResource($dataUser);
+        } else {
+            $dataUser = [];
+        }
+        
+        $jumlahKonten = $contributor::count();
+
+        $jumlahKontenPublish = $contributor::where('status', 'publish')
+        ->where('status_verifikator', 1)
+        ->count();
+
+        $jumlahKontenVerifikasi = $contributor::where('status', 'verifikasi')
+        ->where('status_verifikator', 0)
+        ->ORwhere('status_verifikator', 1)
+        ->count();
+
+        $dataContributor = $contributor::with(['ratings', 'likes', 'comments', 'shares'])->get();
+        $allContributorsWhoInteracted = collect();
+        foreach ($dataContributor as $item) {
+            
+            $contributorIds = collect([
+                $item->ratings->pluck('contributor_id'),
+                $item->likes->pluck('contributor_id'),
+                $item->comments->pluck('contributor_id'),
+                $item->shares->pluck('contributor_id')
+            ])->flatten()->unique(); 
+        
+            $allContributorsWhoInteracted = $allContributorsWhoInteracted->merge($contributorIds);
+        }
+        
+        $jumlahKontenAktifitas = $allContributorsWhoInteracted->unique()->count();
+        
+        return response()->json([
+            'jumlah_konten' => $jumlahKonten,
+            'jumlah_konten_publish' => $jumlahKontenPublish,
+            'jumlah_konten_verifikasi' => $jumlahKontenVerifikasi,
+            'jumlah_konten_aktifitas' => $jumlahKontenAktifitas,
+            'data_user' => $dataUser
+        ]);
+    }
+
+    /**
+     * Show the admin dashboard verificator. 
+     *
+     * @param  Contributor  $contributor
+     * @param  Request  $request
+     * @param  User  $user
+     * 
+     */
+    public function dashboardVerifikator(Contributor $contributor, User $user, Request  $request) {
+      $jumlahKontenBelumVerifikasi = 0;
+      $jumlahKontenSedangDiverifikasi = 0;
+      $jumlahKontenSudahDipublishDanDiverifikasi = 0;
+      $dataUser = [];
+
+      $role = $request->user()->currentAccessToken()->abilities;
+        $role = explode(':', $role[0])[1] ?? "";
+
+        if ($role == 'user') {
+            $dataUser =  $user::with('roles', 'badgeVerificator')->whereHas('roles', function ($query) {
+                $query->where('role_id', 2);
+            })->where('id', $request->user()->id)->first();
+            $dataUser = new DahsboardUserResource($dataUser);
+        } else {
+            $dataUser = [];
+        }
+
+      $jumlahKontenBelumVerifikasi = $contributor::where('status', 'verifikasi')
+        ->where('status_verifikator', 0)
+        ->count();
+
+      $jumlahKontenSedangDiverifikasi =  $contributor::where('status', 'verifikasi')
+      ->where('status_verifikator', 1)
+      ->count(); 
+
+      $jumlahKontenSudahDipublishDanDiverifikasi =  $contributor::where('status', 'publish')
+      ->where('status_verifikator', 1)
+      ->count(); 
+
+      return response()->json([
+        'jumlah_konten_belum_verifikasi' => $jumlahKontenBelumVerifikasi,
+        'jumlah_konten_sedang_diverifikasi' => $jumlahKontenSedangDiverifikasi,
+        'jumlah_konten_sudah_dipublish' => $jumlahKontenSudahDipublishDanDiverifikasi,
+        'data_user' => $dataUser 
+    ]);
     }
 
 

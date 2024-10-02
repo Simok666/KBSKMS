@@ -4,9 +4,8 @@ namespace App\Http\Resources\Backend\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Backend\ImageResource;
 
-class KategoriResources extends JsonResource
+class SubKategoriResources extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +14,11 @@ class KategoriResources extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        
         return [
             'id' => $this->id,
-            'nama_kategori' => $this->nama_kategori,
-            'icon' => ImageResource::collection($this->getMedia('icon')),
-            'dekskripsi' => $this->dekskripsi,
+            'id_kategori' => $this->id_kategori,
+            'nama_sub_kategori' => $this->nama_sub_kategori,
+            'kategori' => $this->kategori->nama_kategori ?? null, 
         ];
     }
 }

@@ -17,4 +17,12 @@ class BadgeContributor extends Model
     protected $fillable = [
         'badge_name', 
     ];
+
+    /**
+     * Get the contrbutor for the user.
+     */
+    public function badgeContributor(): HasMany
+    {
+        return $this->hasMany(User::class, 'badge_contributor_id');
+    }
 }

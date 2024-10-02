@@ -17,7 +17,9 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('user/register', [AuthController::class, 'register']);
     Route::get('eselon', [AuthController::class, 'getEselon']);
     Route::get('eselonDua', [AuthController::class, 'getEselonDua']);
+    Route::get('eselonDuaAll', [AuthController::class, 'getEselonDuaAll']);
     Route::get('eselonTiga', [AuthController::class, 'getEselonTiga']);
+    Route::get('eselonTigaAll', [AuthController::class, 'getEselonTigaAll']);
     Route::get('fungsi', [AuthController::class, 'getFungsi']);
 
     Route::get('roles', [AuthController::class, 'getRoles']);
@@ -31,11 +33,15 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::Post('addOrUpdatePengetahuan', [ContributorController::class, 'contributor'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin,type.operator']);
     Route::get('listKategori', [ContributorController::class, 'listKategori'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin,type.operator']);
     Route::get('listUser', [ContributorController::class, 'listUser'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin,type.operator']);
+    Route::get('listSubKategori', [ContributorController::class, 'getSubKategoriByKategori'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin,type.operator']);
     
     Route::put('publish/{id}', [VerificatorController::class, 'publish'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin,type.operator']);
     Route::put('revisi/{id}', [VerificatorController::class, 'revisi'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin,type.operator']);
     Route::put('komentar/{id}', [VerificatorController::class, 'komentar'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin,type.operator']);
 
+    //dahsboard admin
+    Route::get('dashboard', [AdminController::class, 'dashboard'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin']);
+    Route::get('dashboardVerifikator', [AdminController::class, 'dashboardVerifikator'])->middleware(['auth:sanctum', 'checkRole:type.user,type.admin']);
     
 
 
@@ -68,7 +74,11 @@ Route::middleware(['auth:sanctum', 'type.admin'])->group(function () {
         //Kategori
         Route::get('admin/kategori', [AdminController::class, 'getKategori']);
         Route::Post('admin/addOrUpdateKategori', [AdminController::class, 'kategori']);
-    
+
+        //subKategori
+        Route::get('admin/subKategori', [AdminController::class, 'getSubKategori']);
+        Route::Post('admin/addOrUpdateSubKategori', [AdminController::class, 'subKategori']);
+        
         //User
         Route::get('admin/users', [AdminController::class, 'getUser']);
         Route::put('admin/verified/{id}', [AdminController::class, 'verified']);

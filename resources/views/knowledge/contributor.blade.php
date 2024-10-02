@@ -68,6 +68,10 @@
                             <td data-bind-nama_kategori></td>
                         </tr>
                         <tr>
+                            <th>Nama Sub Kategori</th>
+                            <td data-bind-nama_sub_kategori></td>
+                        </tr>
+                        <tr>
                             <th>Image Thumbnail</th>
                             <td data-bind-image_thumbnail></td>
                         </tr>
@@ -162,7 +166,15 @@
                             <tr>
                                 <th scope="row">Kategori</th>
                                 <td>
-                                    <select name="repeater[0][id_kategori]" class="form-control list-kategori"  data-bind-id_kategori value="" required>
+                                    <select name="repeater[0][id_kategori]" id="kategori-list" class="form-control list-kategori"  data-bind-id_kategori value="" required>
+                                        <option value="" selected>Pilih Kategori</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Sub Kategori</th>
+                                <td>
+                                    <select name="repeater[0][id_sub_kategori]" id="sub-kategori-list" class="form-control list-sub-kategori"  data-bind-id_sub_kategori value="" required>
                                         <option value="" selected>Pilih Kategori</option>
                                     </select>
                                 </td>
@@ -269,8 +281,16 @@
                             <tr>
                                 <th scope="row">Kategori</th>
                                 <td>
-                                    <select name="repeater[0][id_kategori]" class="form-control list-kategori" required>
+                                    <select name="repeater[0][id_kategori]" id="kategori-list" class="form-control list-kategori" required>
                                         <option value="" selected>Pilih Kategori</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Sub Kategori</th>
+                                <td>
+                                    <select name="repeater[0][id_sub_kategori]" id="sub-kategori-list" class="form-control list-sub-kategori">
+                                        <option value="" selected>Pilih Sub Kategori</option>
                                     </select>
                                 </td>
                             </tr>
@@ -423,6 +443,27 @@
             
         });
     }
+
+    $('#kategori-list').on('change', function() { 
+        let kategori_list_id = $(this).val();
+
+        $('#sub-kategori-list').empty();
+        $('#sub-kategori-list').append('<option value="">Pilih Sub Kategori</option>');
+
+        const urlSubKategori = `${baseUrl}/api/v1/listSubKategori`;
+            ajaxData(urlSubKategori, 'GET', {
+                    id : kategori_list_id
+            }, function(resp) { 
+                    let data = resp.data;
+                    let option2 = ``;
+
+                    data.forEach(element => {
+                        option2 += `<option value="${element.id}">${element.nama_sub_kategori}</option>`;
+                    });
+                    $(".list-sub-kategori").append(option2);
+                });
+
+            });
     
     $("#form-perpustakaan").on('submit', function(e) {
         e.preventDefault();
@@ -460,7 +501,6 @@
             
             let result = resp.data[0];
             $.each(result, function(index, data) {
-                console.log(index);
                 if (index == "image_thumbnail" || index == "upload_lampiran") return;
                 $('#detailPengetahuan').find(`[data-bind-${index}]`).html(data);
             });
@@ -497,7 +537,9 @@
       
         $('#modal-edit-pengetahuan').modal('show');
         loading($("#modal-edit-pengetahuan") , true);
-    
+        $('#sub-kategori-list').empty();
+        $('#sub-kategori-list').append('<option value="">Pilih Sub Kategori</option>');
+
         ajaxData(`${baseUrl}/api/v1/pengetahuan`, 'GET', {
             "id" : $(this).data('id')
         }, function(resp) {
@@ -513,11 +555,26 @@
             loading($("#modal-edit-pengetahuan") , false);
         
             $.each(result, function(index, data) {
-               
                 if (index == "image_thumbnail" || index == "upload_lampiran" ) return;
                 $('#modal-edit-pengetahuan').find(`[data-bind-${index}]`).val(data).attr('value', data);
             });
-                
+
+            let kategoriId = result.id_kategori; 
+            let subKategoriId = result.id_sub_kategori;
+    
+            if (kategoriId) {
+                const urlSubKategori = `${baseUrl}/api/v1/listSubKategori`;
+                ajaxData(urlSubKategori, 'GET', { id: kategoriId }, function(resp) {
+                    let dataSubKategori = resp.data;
+                    let subKategoriOptions = '';
+                    
+                    dataSubKategori.forEach(element => {
+                        subKategoriOptions += `<option value="${element.id}" ${element.id == subKategoriId ? 'selected' : ''}>${element.nama_sub_kategori}</option>`;
+                    });
+                    $('#sub-kategori-list').html(subKategoriOptions);
+                });
+            }            
+            
             if (!empty(result.data_perpustakaan_image)) {
                 result.data_perpustakaan_image.forEach(function(image) {
                     $('#modal-edit-pengetahuan').find('[data-bind-data_perpustakaan_image]').html(`<a href="${image.url}" target="_blank">View Image</a>`);

@@ -36,7 +36,18 @@ class AuthController extends Controller
     
         try {
             DB::beginTransaction();
+            if (empty($request->id_satuan_kerja_eselon_1) && empty($request->id_satuan_kerja_eselon_2) && empty($request->id_satuan_kerja_eselon_3)) {
+                return response()->json(['error' => 'An error occurred creating account: ' . $ex->getMessage() ], 400);
+            }
+
             $user = $user->create($request->validated());
+            
+            if($image_profiles = $request->image_profile) {
+                foreach ($image_profiles as $image_profile) {
+                    $user->clearMediaCollection('image_profile');
+                    $user->addMedia($image_profile)->toMediaCollection('image_profile');
+                }
+            }
 
             if(isset($request->roles)) {
                 $user->roles()->attach($request->roles);
