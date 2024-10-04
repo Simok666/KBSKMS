@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_satuan_kerja_eselon_2')->nullable();
             $table->unsignedBigInteger('id_satuan_kerja_eselon_1')->nullable();
             $table->string('email')->unique();
-            $table->text('nama_jabatan');
             $table->unsignedBigInteger('id_fungsi')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

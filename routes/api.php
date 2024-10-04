@@ -21,6 +21,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('eselonTiga', [AuthController::class, 'getEselonTiga']);
     Route::get('eselonTigaAll', [AuthController::class, 'getEselonTigaAll']);
     Route::get('fungsi', [AuthController::class, 'getFungsi']);
+    Route::get('jabatan', [AdminController::class, 'getJabatan']);
+
 
     Route::get('roles', [AuthController::class, 'getRoles']);
 
@@ -89,6 +91,10 @@ Route::middleware(['auth:sanctum', 'type.admin'])->group(function () {
         Route::get('admin/listKategori', [ContributorController::class, 'listKategori']);
         Route::get('admin/listUser', [ContributorController::class, 'listUser']);
 
+        //jabatan struktural
+        Route::get('admin/jabatan', [AdminController::class, 'getJabatan']);
+        Route::post('admin/addOrUpdateJabatan', [AdminController::class, 'jabatan']);
+        
 
         //logout
         Route::post('admin/logout', [AdminAuthController::class, 'destroy']);

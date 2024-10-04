@@ -38,7 +38,9 @@ class User extends Authenticatable implements HasMedia
         'badge_contributor_id',
         'bidang_keahlian',
         'bidang_pendidikan',
-        'image_profile[]'
+        'image_profile[]',
+        'nama_jabatan_fungsional',
+        'id_nama_jabatan_struktural'
     ];
 
     /**
@@ -68,6 +70,7 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(EselonSatu::class, 'id_satuan_kerja_eselon_1');
     }
     
+
     public function eselon_dua(): BelongsTo {
         return $this->belongsTo(EselonDua::class, 'id_satuan_kerja_eselon_2');
     }
@@ -78,6 +81,31 @@ class User extends Authenticatable implements HasMedia
 
     public function fungsi(): BelongsTo {
         return $this->belongsTo(Fungsi::class, 'id_fungsi');
+    }
+
+    // User 1 dapat melihat semua user bawahan dari eselon 2 dan 3
+    public function bawahanEselon2()
+    {
+        return User::where('id_satuan_kerja_eselon_1', $this->id_satuan_kerja_eselon_1)
+            ->whereNotNull('id_satuan_kerja_eselon_2')
+            ->whereNull('id_satuan_kerja_eselon_3')
+            ->get();
+    }
+  
+    public function bawahanEselon3()
+    {
+        return User::where('id_satuan_kerja_eselon_1', $this->id_satuan_kerja_eselon_1)
+            ->whereNotNull('id_satuan_kerja_eselon_2')
+            ->whereNotNull('id_satuan_kerja_eselon_3')
+            ->get();
+    }
+    
+    // User eselon 2 dapat melihat user di eselon 3
+    public function bawahanLangsung()
+    {
+        return User::where('id_satuan_kerja_eselon_2', $this->id_satuan_kerja_eselon_2)
+            ->whereNotNull('id_satuan_kerja_eselon_3')
+            ->get();
     }
 
     public function roles(): BelongsToMany
@@ -104,7 +132,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * Get the contributor that owns the kategori.
      */
-    public function contributor(): HasMany
+    public function contributor()
     {
         return $this->hasMany(Contributor::class, 'id_user_contributor');
     }
@@ -143,5 +171,9 @@ class User extends Authenticatable implements HasMedia
     public function badgeVerificator(): BelongsTo
     {
         return $this->belongsTo(BadgeVerificator::class, 'badge_verificator_id');
+    }
+
+    public function jabatan_struktural(): BelongsTo {
+        return $this->belongsTo(JabatanStruktural::class, 'id_nama_jabatan_struktural');
     }
 }

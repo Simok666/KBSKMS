@@ -4,6 +4,15 @@
 @section('title_page', 'Dashboard')
 @section('desc_page', '')
 @section('content')
+@section('styles')
+    <style>
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 10px;
+        }
+    </style>
+@endsection
 <div class="card pleno d-none">
     <div class="card-body">
 
@@ -389,6 +398,9 @@
             let url = `${baseUrl}/api/v1/dashboard`;
 
             ajaxData(url, 'GET', [], function(resp) {
+                let isEselon1 = resp.isEselon1;
+                let isEselon2 = resp.isEselon2;
+                
                 
                 let contributorItem = 
                 `
@@ -638,6 +650,236 @@
                 </div>
                         `;
                         contributorDashboard.append(contributorProfileItem);
+                }
+                if(isEselon1 && isEselon2 == false){
+                    let eselon2 = resp.bawahan_eselon.eselon_2;
+                    let eselon3 = resp.bawahan_eselon.eselon_3;
+                    let eselon2Item = ``;
+                    let eselon3Item = ``;
+                    eselon2.forEach(item => {
+                        eselon2Item += `
+                         <div class="col-12 col-lg-6">
+                             <div class="card">
+                                 <div class="card-body py-4 px-4">
+                                     <div class="d-flex align-items-center">
+                                         <div class="ms-3 name">
+                                             <h5 class="font-bold">Eselon 2</h5>
+                                             <h6 class="text-muted mb-0">Name: </h6><p>${item.nama}</p>
+                                             <h6 class="text-muted mb-0">Nip: </h6><p>${item.nip}</p>
+                                         </div>
+                                         <div class="ms-3 icon">
+                                            <div class="icon-grid">
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon blue mb-2">
+                                                        <i class="bi bi-cloud-upload" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Jumlah konten publish</h6>
+                                                    <h6 class="font-extrabold mb-0">${item.konten_publish_count}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon red mb-2">
+                                                        <i class="bi bi-clipboard-minus" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Poin yang di hasilkan</h6>
+                                                    <h6 class="font-extrabold mb-0">183.000</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon green mb-2">
+                                                        <i class="bi bi-file-check" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Jumlah Konten verifikasi</h6>
+                                                    <h6 class="font-extrabold mb-0">${item.konten_verifikasi_count}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon purple mb-2">
+                                                        <i class="bi bi-star" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Jumlah Konten aktifitas</h6>
+                                                    <h6 class="font-extrabold mb-0">${item.konten_count_aktifitas}</h6>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+ 
+                     `;
+                    });
+                    contributorDashboard.append(eselon2Item);
+                    
+                    eselon3.forEach(item => {
+                        eselon3Item += `
+                         <div class="col-12 col-lg-6">
+                             <div class="card">
+                                 <div class="card-body py-4 px-4">
+                                     <div class="d-flex align-items-center">
+                                         <div class="ms-3 name">
+                                             <h5 class="font-bold">Eselon 3</h5>
+                                             <h6 class="text-muted mb-0">Name: </h6><p>${item.nama}</p>
+                                             <h6 class="text-muted mb-0">Nip: </h6><p>${item.nip}</p>
+                                         </div>
+                                         <div class="ms-3 icon">
+                                            <div class="icon-grid">
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon blue mb-2">
+                                                        <i class="bi bi-cloud-upload" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Jumlah konten publish</h6>
+                                                    <h6 class="font-extrabold mb-0">${item.konten_publish_count}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon red mb-2">
+                                                        <i class="bi bi-clipboard-minus" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Poin yang di hasilkan</h6>
+                                                    <h6 class="font-extrabold mb-0">183.000</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon green mb-2">
+                                                        <i class="bi bi-file-check" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Jumlah Konten verifikasi</h6>
+                                                    <h6 class="font-extrabold mb-0">${item.konten_verifikasi_count}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon purple mb-2">
+                                                        <i class="bi bi-star" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Jumlah Konten aktifitas</h6>
+                                                    <h6 class="font-extrabold mb-0">${item.konten_count_aktifitas}</h6>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+ 
+                     `;
+                    });
+                    // <div class="col-12 col-lg-6">
+                    //         <div class="card">
+                    //             <div class="card-body py-4 px-4">
+                    //                 <div class="d-flex align-items-center">
+                    //                     <div class="ms-3 name">
+                    //                         <h5 class="font-bold">Jancok 1</h5>
+                    //                         <h6 class="text-muted mb-0">Nip: </h6><p>123</p>
+                    //                         <h6 class="text-muted mb-0">Bidang Keahlian: </h6><p>123123</p>
+                    //                         <h6 class="text-muted mb-0">Background Bidang Pendidikan: </h6><p>124123</p>
+                    //                     </div>
+                    //                 </div>
+                    //             </div>
+                    //         </div>
+                    //     </div>
+                    contributorDashboard.append(eselon3Item);
+                } else {
+                    let eselonBawahan = resp.bawahan_eselon;
+                    let eselonBawahanItem = '';
+                    eselonBawahan.forEach(item => {
+                        
+                        eselonBawahanItem += `
+                         <div class="col-12 col-lg-6">
+                             <div class="card">
+                                 <div class="card-body py-4 px-4">
+                                     <div class="d-flex align-items-center">
+                                         <div class="ms-3 name">
+                                             <h5 class="font-bold">Eselon 3</h5>
+                                             <h6 class="text-muted mb-0">Name: </h6><p>${item.nama}</p>
+                                             <h6 class="text-muted mb-0">Nip: </h6><p>${item.nip}</p>
+                                         </div>
+                                         <div class="ms-3 icon">
+                                            <div class="icon-grid">
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon blue mb-2">
+                                                        <i class="bi bi-cloud-upload" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Jumlah konten publish</h6>
+                                                    <h6 class="font-extrabold mb-0">${item.konten_publish_count}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon red mb-2">
+                                                        <i class="bi bi-clipboard-minus" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Poin yang di hasilkan</h6>
+                                                    <h6 class="font-extrabold mb-0">183.000</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon green mb-2">
+                                                        <i class="bi bi-file-check" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Jumlah Konten verifikasi</h6>
+                                                    <h6 class="font-extrabold mb-0">${item.konten_verifikasi_count}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                                    <div class="stats-icon purple mb-2">
+                                                        <i class="bi bi-star" style="width: 25px; height: 30px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                                    <h6 class="text-muted font-semibold">Jumlah Konten aktifitas</h6>
+                                                    <h6 class="font-extrabold mb-0">${item.konten_count_aktifitas}</h6>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+ 
+                     `;
+                    contributorDashboard.append(eselonBawahanItem);
+
+                    });
                 }
                 
             });

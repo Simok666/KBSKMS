@@ -18,11 +18,11 @@ class UserResources extends JsonResource
             'id' => $this->id,
             'nama' => $this->name,
             'nip' => $this->nip,
-            'satuan_kerja_eselon_3' => $this->eselon_tiga->nama_satuan_kerja_eselon_3,
-            'satuan_kerja_eselon_2' => $this->eselon_dua->nama_satuan_kerja_eselon_2,
-            'satuan_kerja_eselon_1' => $this->eselon_satu->nama_satuan_kerja_eselon_1,
+            'satuan_kerja_eselon_3' => $this->eselon_tiga->nama_satuan_kerja_eselon_3 ?? null,
+            'satuan_kerja_eselon_2' => $this->eselon_dua->nama_satuan_kerja_eselon_2 ?? null,
+            'satuan_kerja_eselon_1' => $this->eselon_satu->nama_satuan_kerja_eselon_1 ?? null,
             'nama_jabatan' => $this->nama_jabatan,
-            'fungsi' => $this->fungsi->nama_fungsi,
+            'fungsi' => $this->fungsi->nama_fungsi ?? null,
             'email' => $this->email,
             'is_verified' => $this->is_verified
        ];

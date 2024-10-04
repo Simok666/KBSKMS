@@ -1,13 +1,13 @@
 var laravelCsrf = $('meta[name="csrf-token"]').attr('content');
-// var baseUrl = window.location.origin + "/kms/public";
-var baseUrl = window.location.origin;
+var baseUrl = window.location.origin + "/kms/public";
+// var baseUrl = window.location.origin;
 
 var req = {
     page:1
 };
 
 const menuByRole = {
-    "admin" : ["admin-dashboard", "admin-eselon", ,"admin-eselondua", "admin-eselontiga", "admin-fungsi", "admin-userlist", "knowledge-contributor", "admin-kategori", "admin-subkategori" ,"knowledge-verificator"],
+    "admin" : ["admin-dashboard", "admin-eselon", ,"admin-eselondua", "admin-eselontiga", "admin-fungsi", "admin-userlist", "knowledge-contributor", "admin-kategori", "admin-subkategori" ,"knowledge-verificator", "admin-jabatanstruktural"],
     "user" : {
         "Knowledge Contributor" : ["admin-dashboard","knowledge-contributor"],
         "Knowledge Verificator" : ["knowledge-verificator"],
@@ -15,10 +15,6 @@ const menuByRole = {
         "Pimpinan": [],
     },
     "operator" : ["admin-dashboard", "knowledge-contributor", "knowledge-verificator"],
-    "verifikator_desk" : ["dashboard", "libraries", "proofOfWork", "komponent", "verifikator-desk"],
-    "verifikator_field" : ["dashboard", "libraries", "proofOfWork", "komponent", "verifikator-field"],
-    "pimpinan" : ["dashboard", "pleno-sesban"],
-    "pimpinankaban" : ["dashboard", "pleno-kaban"]
 }
 
 const sidebarItems = [
@@ -61,6 +57,11 @@ const sidebarItems = [
       url: "admin-subkategori",
       icon: "bi bi-pencil-square",
       label: "Sub Kategori"
+    },
+    {
+      url: "admin-jabatanstruktural",
+      icon: "bi bi-person-badge",
+      label: "Jabatan Struktural"
     },
     {
       url: "knowledge-contributor",

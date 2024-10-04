@@ -281,7 +281,7 @@
                             <tr>
                                 <th scope="row">Kategori</th>
                                 <td>
-                                    <select name="repeater[0][id_kategori]" id="kategori-list" class="form-control list-kategori" required>
+                                    <select name="repeater[0][id_kategori]" id="kategori-list-add" class="form-control list-kategori" required>
                                         <option value="" selected>Pilih Kategori</option>
                                     </select>
                                 </td>
@@ -289,7 +289,7 @@
                             <tr>
                                 <th scope="row">Sub Kategori</th>
                                 <td>
-                                    <select name="repeater[0][id_sub_kategori]" id="sub-kategori-list" class="form-control list-sub-kategori">
+                                    <select name="repeater[0][id_sub_kategori]" id="sub-kategori-list-add" class="form-control list-sub-kategori-add">
                                         <option value="" selected>Pilih Sub Kategori</option>
                                     </select>
                                 </td>
@@ -444,9 +444,30 @@
         });
     }
 
+    $('#kategori-list-add').on('change', function() { 
+        let kategori_list_id = $(this).val();
+        
+        $('#sub-kategori-list-add').empty();
+        $('#sub-kategori-list-add').append('<option value="">Pilih Sub Kategori</option>');
+
+        const urlSubKategori = `${baseUrl}/api/v1/listSubKategori`;
+            ajaxData(urlSubKategori, 'GET', {
+                    id : kategori_list_id
+            }, function(resp) { 
+                    let data = resp.data;
+                    let option2 = ``;
+
+                    data.forEach(element => {
+                        option2 += `<option value="${element.id}">${element.nama_sub_kategori}</option>`;
+                    });
+                    $(".list-sub-kategori-add").append(option2);
+                });
+
+    });
+
     $('#kategori-list').on('change', function() { 
         let kategori_list_id = $(this).val();
-
+        
         $('#sub-kategori-list').empty();
         $('#sub-kategori-list').append('<option value="">Pilih Sub Kategori</option>');
 
@@ -463,7 +484,7 @@
                     $(".list-sub-kategori").append(option2);
                 });
 
-            });
+    });
     
     $("#form-perpustakaan").on('submit', function(e) {
         e.preventDefault();

@@ -28,19 +28,47 @@ class AuthController extends Controller
     /**
      * function register user
      * 
-     * @param UserRegisterRequest $request
+     * @param Request $request
      * @param User $user
      * 
      *  */    
-    public function register(UserRegisterRequest $request, User $user) {
+    public function register(Request $request, User $user) {
     
         try {
             DB::beginTransaction();
             if (empty($request->id_satuan_kerja_eselon_1) && empty($request->id_satuan_kerja_eselon_2) && empty($request->id_satuan_kerja_eselon_3)) {
                 return response()->json(['error' => 'An error occurred creating account: ' . $ex->getMessage() ], 400);
             }
+            
+            $request->validate([
+                'name' => ['required', 'string', 'min:3', 'max:250'],
+                'nip' => ['required', 'numeric', 'min:3'],
+                'password' => ['required'],
+                'email' => ['required','email', 'min:3', 'max:250'],
+                'bidang_keahlian' => ['required', 'string', 'min:3', 'max:250'],
+                'bidang_pendidikan' => ['required', 'string', 'min:3', 'max:250'],
+                'id_nama_jabatan_struktural' => ['required', 'numeric'],
+                // 'nama_jabatan_fungsional' => ['required', 'string', 'min:3', 'max:250'],
+                'image_profile' => ['required','array'],
+                'image_profile.*' => ['mimes:jpg,png,jpeg,gif,svg,pdf','max:2048'],
+            ]);
 
-            $user = $user->create($request->validated());
+            $dataCreate = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'nip' => $request->nip,
+                'id_satuan_kerja_eselon_1' => $request->id_satuan_kerja_eselon_1 == 'null' ? null : $request->id_satuan_kerja_eselon_1,
+                'id_satuan_kerja_eselon_2' => $request->id_satuan_kerja_eselon_2 == 'null' ? null : $request->id_satuan_kerja_eselon_2,
+                'id_satuan_kerja_eselon_3' => $request->id_satuan_kerja_eselon_3 == 'null' ? null : $request->id_satuan_kerja_eselon_3,
+                'id_fungsi' => $request->id_fungsi == 'null' ? null : $request->id_fungsi,
+                'bidang_keahlian' => $request->bidang_keahlian,
+                'bidang_pendidikan' => $request->bidang_pendidikan,
+                'id_nama_jabatan_struktural' => $request->id_nama_jabatan_struktural,
+                'nama_jabatan_fungsional' => $request->nama_jabatan_fungsional ?? null
+            ];
+        
+            $user = $user->create($dataCreate);
             
             if($image_profiles = $request->image_profile) {
                 foreach ($image_profiles as $image_profile) {

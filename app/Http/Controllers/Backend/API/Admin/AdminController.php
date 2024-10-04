@@ -12,6 +12,7 @@ use App\Models\EselonSatu;
 use App\Models\EselonDua;
 use App\Models\EselonTiga;
 use App\Models\Fungsi;
+use App\Models\JabatanStruktural;
 use App\Jobs\SendEmailJob;
 use App\Models\Contributor;
 use App\Http\Resources\Backend\Admin\DataEselonFungsiResource;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use App\Models\Kategori;
 use App\Models\SubKategori;
 use App\Http\Resources\Backend\Admin\KategoriResources;
+use App\Http\Resources\Backend\Admin\JabatanResources;
 use App\Http\Resources\Backend\Admin\SubKategoriResources;
 use App\Http\Resources\Backend\DahsboardUserResource;
 use App\Models\BadgeActivity;
@@ -499,10 +501,174 @@ class AdminController extends Controller
         $jumlahKontenVerifikasi = 0; 
         $jumlahKontenAktifitas = 0;
         $dataUser = [];
-        
+        $bawahanEselon = [];
+        $isEselon1 = false;
+        $isEselon2 = false;
+
         $role = $request->user()->currentAccessToken()->abilities;
         $role = explode(':', $role[0])[1] ?? "";
 
+        $userSelected = User::find($request->user()->id);
+        if ($userSelected !== null) {
+            if( $userSelected->eselon_satu  && $userSelected->eselon_dua == null && $userSelected->eselon_tiga == null && $role == 'user' ) {
+                $dataEselon2 = User::with([
+                    'userKonten' => function ($query) {
+                        $query->with(['ratings', 'likes', 'comments', 'shares']);
+                }
+                ])
+                ->withCount([
+                    'userKonten as konten_publish_count' => function ($query) {
+                        $query->where('status', 'publish')
+                            ->where('status_verifikator', 1);
+                    },
+                    'userKonten as konten_verifikasi_count' => function ($query) {
+                        $query->where('status', 'verifikasi')
+                            ->where(function ($query) {
+                                $query->where('status_verifikator', 0)
+                                        ->orWhere('status_verifikator', 1);
+                            });
+                    }
+                ])
+                ->where('id_satuan_kerja_eselon_1', $userSelected->id_satuan_kerja_eselon_1)
+                ->whereNotNull('id_satuan_kerja_eselon_2')
+                ->whereNull('id_satuan_kerja_eselon_3')
+                ->get();
+    
+            
+                $usersDataEselon2 = collect();
+    
+                foreach ($dataEselon2 as $user) {
+                    $allContributorsWhoInteracted = collect();
+    
+                    foreach ($user->userKonten as $item) {
+                        $contributorIds = collect([
+                            $item->ratings->pluck('contributor_id'),
+                            $item->likes->pluck('contributor_id'),
+                            $item->comments->pluck('contributor_id'),
+                            $item->shares->pluck('contributor_id')
+                        ])->flatten()->unique();
+                        
+                        $allContributorsWhoInteracted = $allContributorsWhoInteracted->merge($contributorIds);
+                    }
+                    
+                    $usersDataEselon2->push([
+                        'nama' => $user->name,
+                        'nip' => $user->nip,
+                        'konten_publish_count' => $user->konten_publish_count,
+                        'konten_verifikasi_count' => $user->konten_verifikasi_count,
+                        'konten_count_aktifitas' => $allContributorsWhoInteracted->unique()->count()
+                    ]);
+                }
+    
+                $dataEselon3 =  User::with([
+                    'userKonten' => function ($query) {
+                        $query->with(['ratings', 'likes', 'comments', 'shares']);
+                }
+                ])
+                ->withCount([
+                    'userKonten as konten_publish_count' => function ($query) {
+                        $query->where('status', 'publish')
+                            ->where('status_verifikator', 1);
+                    },
+                    'userKonten as konten_verifikasi_count' => function ($query) {
+                        $query->where('status', 'verifikasi')
+                            ->where(function ($query) {
+                                $query->where('status_verifikator', 0)
+                                        ->orWhere('status_verifikator', 1);
+                            });
+                    }
+                ])
+                ->where('id_satuan_kerja_eselon_1', $userSelected->id_satuan_kerja_eselon_1)
+                ->whereNotNull('id_satuan_kerja_eselon_2')
+                ->whereNotNull('id_satuan_kerja_eselon_3')
+                ->get();
+    
+                $usersDataEselon3 = collect();
+    
+                foreach ($dataEselon3 as $user) {
+                    $allContributorsWhoInteracted = collect();
+    
+                    foreach ($user->userKonten as $item) {
+                        $contributorIds = collect([
+                            $item->ratings->pluck('contributor_id'),
+                            $item->likes->pluck('contributor_id'),
+                            $item->comments->pluck('contributor_id'),
+                            $item->shares->pluck('contributor_id')
+                        ])->flatten()->unique();
+                        
+                        $allContributorsWhoInteracted = $allContributorsWhoInteracted->merge($contributorIds);
+                    }
+                    
+                    $usersDataEselon3->push([
+                        'nama' => $user->name,
+                        'nip' => $user->nip,
+                        'konten_publish_count' => $user->konten_publish_count,
+                        'konten_verifikasi_count' => $user->konten_verifikasi_count,
+                        'konten_count_aktifitas' => $allContributorsWhoInteracted->unique()->count()
+                    ]);
+                }
+                
+                $bawahanEselon = [
+                    'eselon_2' => $usersDataEselon2,
+                    'eselon_3' => $usersDataEselon3
+                ];
+    
+                $isEselon1 = true;
+                $isEselon2 = false;
+            } elseif ( $userSelected->eselon_dua  && $userSelected->eselon_tiga == null && $role == 'user') {
+                $dataBawahan =  User::with([
+                    'userKonten' => function ($query) {
+                        $query->with(['ratings', 'likes', 'comments', 'shares']);
+                }
+                ])
+                ->withCount([
+                    'userKonten as konten_publish_count' => function ($query) {
+                        $query->where('status', 'publish')
+                            ->where('status_verifikator', 1);
+                    },
+                    'userKonten as konten_verifikasi_count' => function ($query) {
+                        $query->where('status', 'verifikasi')
+                            ->where(function ($query) {
+                                $query->where('status_verifikator', 0)
+                                        ->orWhere('status_verifikator', 1);
+                            });
+                    }
+                ])
+                ->where('id_satuan_kerja_eselon_2', $userSelected->id_satuan_kerja_eselon_2)
+                ->whereNotNull('id_satuan_kerja_eselon_3')
+                ->get();
+    
+                $usersDataBawahan = collect();
+    
+                foreach ($dataBawahan as $user) {
+                    $allContributorsWhoInteracted = collect();
+    
+                    foreach ($user->userKonten as $item) {
+                        $contributorIds = collect([
+                            $item->ratings->pluck('contributor_id'),
+                            $item->likes->pluck('contributor_id'),
+                            $item->comments->pluck('contributor_id'),
+                            $item->shares->pluck('contributor_id')
+                        ])->flatten()->unique();
+                        
+                        $allContributorsWhoInteracted = $allContributorsWhoInteracted->merge($contributorIds);
+                    }
+                    
+                    $usersDataBawahan->push([
+                        'nama' => $user->name,
+                        'nip' => $user->nip,
+                        'konten_publish_count' => $user->konten_publish_count,
+                        'konten_verifikasi_count' => $user->konten_verifikasi_count,
+                        'konten_count_aktifitas' => $allContributorsWhoInteracted->unique()->count()
+                    ]);
+                }
+                
+                $bawahanEselon = $usersDataBawahan;
+                $isEselon1 = false;
+                $isEselon2 = true;
+            }
+        }
+      
         if ($role == 'user') {
             $dataUser =  $user::with('roles', 'badgeContributor')->whereHas('roles', function ($query) {
                 $query->where('role_id', 1);
@@ -544,7 +710,10 @@ class AdminController extends Controller
             'jumlah_konten_publish' => $jumlahKontenPublish,
             'jumlah_konten_verifikasi' => $jumlahKontenVerifikasi,
             'jumlah_konten_aktifitas' => $jumlahKontenAktifitas,
-            'data_user' => $dataUser
+            'data_user' => $dataUser,
+            'isEselon1' => $isEselon1,
+            'isEselon2' => $isEselon2,
+            'bawahan_eselon' => $bawahanEselon,
         ]);
     }
 
@@ -592,6 +761,52 @@ class AdminController extends Controller
         'jumlah_konten_sudah_dipublish' => $jumlahKontenSudahDipublishDanDiverifikasi,
         'data_user' => $dataUser 
     ]);
+    }
+
+     /**
+     * get all data from jabatan
+     * 
+     * @param JabatanStruktural $jabatan
+     */
+    public function getJabatan(JabatanStruktural $jabatan) {
+        return JabatanResources::collection(
+            $jabatan::when(request()->filled("id"), function ($query){
+                $query->where('id', request("id"));
+            })->paginate($request->limit ?? "10")
+        );
+    }
+
+    /**
+     * add or update data jabatan
+     * 
+     * @param KategoriRequest $request
+     * @param JabatanStruktural $jabatan
+     */
+    public function jabatan(Request $request, JabatanStruktural $jabatan) {
+        try {
+          DB::beginTransaction();   
+          $data = collect($request->repeater)->map(function ($item) use ($jabatan) {
+            
+              $jabatan = $jabatan::updateOrCreate(
+                  [
+                      'id' => $item['id'] ?? null,
+                  ],
+                  [
+                      'jenis_jabatan' => $item['jenis_jabatan'],
+                      'nama_jabatan' => $item['nama_jabatan'],
+                  ]
+              );
+
+          DB::commit();
+          });
+          return response()->json(['message' => 'Jabatan has been created or updated successfully'], 201);
+        } catch(\Illuminate\Database\QueryException $ex) {
+            DB::rollBack();
+            return response()->json(['error' => 'An error occurred creating data: ' . $ex->getMessage()], 400);
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'An error occurred while creating data: ' . $e->getMessage()], 400);
+        }
     }
 
 

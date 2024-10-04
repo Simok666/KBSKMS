@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             BadgeActivitySeeder::class,
             BadgeContributorSeeder::class,
             BadgeVerificatorSeeder::class,
+            JabatanStrukturalSeeder::class,
         ]);
     }
 }

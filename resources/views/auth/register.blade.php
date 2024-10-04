@@ -50,39 +50,74 @@
                                 <i class="bi bi-building"></i>
                             </div>
                         </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" name="nama_jabatan" class="form-control form-control-xl" placeholder="Nama Jabatan" required>
-                            <div class="form-control-icon">
-                                <i class="bi bi-person-circle"></i>
-                            </div>
+                        <div class="form-group position-relative has-icon-left mb-4" id="select-kepala-eslon">
+                            <span class="input-group-text mb-4" id="basic-addon1" >Pilih Jabatan</span>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-inline-block me-2 mb-1">
+                                    <div class="form-check">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="radio" name="nama_jabatan" class="form-check-input form-check-primary" 
+                                                name="customCheck" id="customColorCheck1" onclick="showSelectOptions(1)" required>
+                                            <label class="form-check-label" for="customColorCheck1">Kepala Eselon 1</label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="d-inline-block me-2 mb-1">
+                                    <div class="form-check">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="radio" name="nama_jabatan" class="form-check-input form-check-secondary" 
+                                                name="customCheck" id="customColorCheck2" onclick="showSelectOptions(2)">
+                                            <label class="form-check-label" for="customColorCheck2">Kepala Eselon 2</label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="d-inline-block me-2 mb-1">
+                                    <div class="form-check">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="radio" name="nama_jabatan" class="form-check-input form-check-success" 
+                                                name="customCheck" id="customColorCheck3" onclick="showSelectOptions(3)">
+                                            <label class="form-check-label" for="customColorCheck3">Kepala Eselon 3</label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="d-inline-block me-2 mb-1">
+                                    <div class="form-check">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="radio" name="nama_jabatan" class="form-check-input form-check-danger" 
+                                                name="customCheck" id="customColorCheck4" onclick="showSelectOptions(4)">
+                                            <label class="form-check-label" for="customColorCheck4">Staf pelaksana/ jabatan fungsional</label>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <select name="id_satuan_kerja_eselon_1" id="eselon-satu" class="form-control form-control-xl list-eselon-satu" >
-                                <option value="Pilih Eselon"selected>Pilih Eselon 1</option>
+                        <div class="form-group position-relative has-icon-left mb-4" id="eselon-satu-container" style="display:none;">
+                            <select name="id_satuan_kerja_eselon_1" id="eselon-satu" class="form-control form-control-xl list-eselon-satu"  >
+                                <option value="null"selected>Pilih Eselon 1</option>
                             </select>
                             <div class="form-control-icon">
                                 <i class="bi bi-archive"></i>
                             </div>
                         </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
+                        <div class="form-group position-relative has-icon-left mb-4" id="eselon-dua-container" style="display:none;">
                             <select name="id_satuan_kerja_eselon_2" id="eselon-dua" class="form-control form-control-xl list-eselon-dua" >
-                                <option value="Pilih Eselon"selected>Pilih Eselon 2</option>
+                                <option value="null"selected>Pilih Eselon 2</option>
                             </select>
                             <div class="form-control-icon">
                                 <i class="bi bi-archive"></i>
                             </div>
                         </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
+                        <div class="form-group position-relative has-icon-left mb-4" id="eselon-tiga-container" style="display:none;">
                             <select name="id_satuan_kerja_eselon_3"  id="eselon-tiga" class="form-control  form-control-xl list-eselon-tiga" >
-                                <option value="Pilih Eselon"selected>Pilih Eselon 3</option>
+                                <option value="null"selected>Pilih Eselon 3</option>
                             </select>
                             <div class="form-control-icon">
                                 <i class="bi bi-archive"></i>
                             </div>
                         </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <select name="id_fungsi" id="eselon-fungsi" class="form-control form-control-xl list-fungsi" required>
-                                <option value="Pilih Eselon"selected>Pilih Fungsi</option>
+                        <div class="form-group position-relative has-icon-left mb-4" id="eselon-fungsi-container" style="display:none;">
+                            <select name="id_fungsi" id="eselon-fungsi" class="form-control form-control-xl list-fungsi" >
+                                <option value="null"selected>Pilih Fungsi</option>
                             </select>
                             <div class="form-control-icon">
                                 <i class="bi bi-archive"></i>
@@ -133,6 +168,20 @@
                             <label for="sk_image">Upload Profile</label>
                             <input type="file" name="image_profile[]" class="form-control form-control-xl" accept="image/*" required > 
                         </div>
+                        <div class="form-group position-relative has-icon-left mb-4" id="jabatan-struktural-container" >
+                            <select name="id_nama_jabatan_struktural" id="jabatan-struktural" class="form-control form-control-xl list-jabatan-struktural" required>
+                                <option value="null"selected>Pilih Jabatan Sturktural</option>
+                            </select>
+                            <div class="form-control-icon">
+                                <i class="bi bi-archive"></i>
+                            </div>
+                        </div>
+                        <div class="form-group position-relative has-icon-left mb-4" id="container-jabatan-fungsional" style="display: none"> 
+                            <input type="text" name="nama_jabatan_fungsional" class="form-control form-control-xl" placeholder="nama lengkap jabatan fungsional/ pelaksana" >
+                            <div class="form-control-icon">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                        </div>
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="text" name="bidang_keahlian" class="form-control form-control-xl" placeholder="Bidang Keahlian" required>
                             <div class="form-control-icon">
@@ -168,6 +217,7 @@
         // jquery on submit
         $(document).ready(function() {
             getListEselon();
+            getJabatanStruktural();
 
             $('form').submit(function(e) {
                 e.preventDefault();
@@ -205,7 +255,7 @@
                 let eselon_satu_id = $(this).val();
 
                 $('#eselon-dua').empty();
-                $('#eselon-dua').append('<option value="">Pilih Eselon 2</option>');
+                $('#eselon-dua').append('<option value="null">Pilih Eselon 2</option>');
 
                 const urlEselonDua = `${baseUrl}/api/v1/eselonDua/?id_eselon_satu=${eselon_satu_id}`;
                 ajaxData(urlEselonDua, 'GET', [], function(resp) { 
@@ -224,7 +274,7 @@
                 let eselon_dua_id = $(this).val();
 
                 $('#eselon-tiga').empty();
-                $('#eselon-tiga').append('<option value="">Pilih Eselon 3</option>');
+                $('#eselon-tiga').append('<option value="null">Pilih Eselon 3</option>');
 
                 const urlEselonTiga = `${baseUrl}/api/v1/eselonTiga/?id_eselon_dua=${eselon_dua_id}`;
                 ajaxData(urlEselonTiga, 'GET', [], function(resp) { 
@@ -242,7 +292,7 @@
                 let eselon_tiga_id = $(this).val();
 
                 $('#eselon-fungsi').empty();
-                $('#eselon-fungsi').append('<option value="">Pilih Fungsi</option>');
+                $('#eselon-fungsi').append('<option value="null">Pilih Fungsi</option>');
 
                 const urlFungsi = `${baseUrl}/api/v1/fungsi/?id_eselon_tiga=${eselon_tiga_id}`;
                 ajaxData(urlFungsi, 'GET', [], function(resp) { 
@@ -294,6 +344,47 @@
                 
             });
         }
+        
+        let getJabatanStruktural = () => {
+            const url = `${baseUrl}/api/v1/jabatan/`;
+            ajaxData(url, 'GET', [], function(resp) {
+                let data = resp.data;
+                let option = ``;
+
+                data.forEach(element => {
+                    option += `<option value="${element.id}">${element.nama_jabatan}</option>`;
+                });
+                $(".list-jabatan-struktural").append(option);
+            }, function(data) {
+                
+            });
+        }
+
+        function showSelectOptions(level) {
+
+        document.getElementById('eselon-satu-container').style.display = 'none';
+        document.getElementById('eselon-dua-container').style.display = 'none';
+        document.getElementById('eselon-tiga-container').style.display = 'none';
+        document.getElementById('eselon-fungsi-container').style.display = 'none';
+        document.getElementById('container-jabatan-fungsional').style.display = 'none';
+    
+        if (level === 1) {
+            document.getElementById('eselon-satu-container').style.display = 'block';
+        } else if (level === 2) {
+            document.getElementById('eselon-satu-container').style.display = 'block';
+            document.getElementById('eselon-dua-container').style.display = 'block';
+        } else if (level === 3) {
+            document.getElementById('eselon-satu-container').style.display = 'block';
+            document.getElementById('eselon-dua-container').style.display = 'block';
+            document.getElementById('eselon-tiga-container').style.display = 'block';
+        } else if (level === 4) {
+            document.getElementById('eselon-satu-container').style.display = 'block';
+            document.getElementById('eselon-dua-container').style.display = 'block';
+            document.getElementById('eselon-tiga-container').style.display = 'block';
+            document.getElementById('eselon-fungsi-container').style.display = 'block';
+            document.getElementById('container-jabatan-fungsional').style.display = 'block';
+        }
+    }
 
 
     </script>
